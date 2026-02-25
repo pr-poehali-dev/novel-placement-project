@@ -15,32 +15,32 @@ export function WorkSection() {
           }`}
         >
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
-            Проекты
+            Конфигурации
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Избранные работы</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Популярные сборки</p>
         </div>
 
         <div className="space-y-6 md:space-y-8">
           {[
             {
               number: "01",
-              title: "ТехноСтарт",
-              category: "Корпоративный портал",
-              year: "2024",
+              title: "Домашний офис",
+              category: "Intel Core i5 · 16 GB RAM · SSD 512 GB",
+              year: "от 45 000 ₽",
               direction: "left",
             },
             {
               number: "02",
-              title: "АльфаТрейд",
-              category: "Финтех платформа",
-              year: "2024",
+              title: "Игровой зверь",
+              category: "Ryzen 7 · RTX 4070 · 32 GB RAM · SSD 1 TB",
+              year: "от 120 000 ₽",
               direction: "right",
             },
             {
               number: "03",
-              title: "МедиаПульс",
-              category: "Медиа сервис",
-              year: "2023",
+              title: "Рабочая станция",
+              category: "Intel Core i9 · RTX 4090 · 64 GB RAM · NVMe 2 TB",
+              year: "от 250 000 ₽",
               direction: "left",
             },
           ].map((project, i) => (

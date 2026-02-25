@@ -17,29 +17,29 @@ export function ServicesSection() {
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Услуги
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Наши компетенции</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Что мы делаем</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
           {[
             {
-              title: "Веб-разработка",
-              description: "Создание современных веб-приложений любой сложности",
+              title: "Подбор комплектующих",
+              description: "Составим оптимальную конфигурацию под ваши задачи и бюджет — игры, работа, монтаж или сервер",
               direction: "top",
             },
             {
-              title: "UI/UX Дизайн",
-              description: "Проектирование удобных и красивых интерфейсов",
+              title: "Профессиональная сборка",
+              description: "Аккуратная сборка с укладкой кабелей, термопастой и проверкой совместимости всех компонентов",
               direction: "right",
             },
             {
-              title: "Мобильные приложения",
-              description: "Кроссплатформенная разработка для iOS и Android",
+              title: "Тестирование и настройка",
+              description: "Стресс-тест, установка ОС и драйверов, разгон процессора и памяти при необходимости",
               direction: "left",
             },
             {
-              title: "Консалтинг",
-              description: "Техническая экспертиза и стратегическое планирование",
+              title: "Гарантия и поддержка",
+              description: "Гарантия на сборку 1 год. Помогаем с апгрейдом и решением любых технических вопросов",
               direction: "bottom",
             },
           ].map((service, i) => (
