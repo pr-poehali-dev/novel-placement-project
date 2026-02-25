@@ -34,10 +34,10 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
               style={{ transitionDelay: "200ms" }}
             >
               <p className="max-w-md text-sm leading-relaxed text-foreground/90 md:text-lg">
-                Мы помогаем клиентам по всей России получить ПК мечты — от бюджетного домашнего компьютера до мощной рабочей станции.
+                Мы работаем в Чите и по всему Забайкальскому краю — собираем компьютеры на заказ для дома, офиса и работы.
               </p>
               <p className="max-w-md text-sm leading-relaxed text-foreground/90 md:text-lg">
-                Только проверенные комплектующие, честные цены и живая поддержка после покупки.
+                Только проверенные комплектующие, честные цены и живая поддержка после покупки. Доставляем по Забайкальскому краю.
               </p>
             </div>
           </div>
