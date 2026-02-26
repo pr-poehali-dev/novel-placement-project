@@ -46,7 +46,7 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
           <div className="flex flex-col justify-center space-y-6 md:space-y-12">
             {[
               { value: "500+", label: "Сборок", sublabel: "Выполнено за всё время", direction: "right" },
-              { value: "5", label: "Лет", sublabel: "На рынке комплектующих", direction: "left" },
+              { value: "5+", label: "Лет", sublabel: "Опыт в сборке и комплектующих", direction: "left" },
               { value: "98%", label: "Довольных", sublabel: "Клиентов возвращаются снова", direction: "right" },
             ].map((stat, i) => {
               const getRevealClass = () => {
@@ -83,7 +83,7 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
           }`}
           style={{ transitionDelay: "750ms" }}
         >
-          <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection?.(4)}>
+          <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection?.(6)}>
             Собрать ПК
           </MagneticButton>
           <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection?.(1)}>
