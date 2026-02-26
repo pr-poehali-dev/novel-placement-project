@@ -1,12 +1,100 @@
 import { useReveal } from "@/hooks/use-reveal"
 import { useState } from "react"
 
+const socketOptions = ["AM4", "AM5", "LGA1200", "LGA1700", "LGA1851"]
+
 const cpuOptions = [
   { value: "", label: "Выберите процессор", price: 0, socket: "" },
-  { value: "i5", label: "Intel Core i5-13400F", price: 18000, socket: "LGA1700" },
-  { value: "i7", label: "Intel Core i7-13700F", price: 28000, socket: "LGA1700" },
-  { value: "r5", label: "AMD Ryzen 5 7600X", price: 22000, socket: "AM5" },
-  { value: "r7", label: "AMD Ryzen 7 7700X", price: 32000, socket: "AM5" },
+  // AM4
+  { value: "r3-3100",    label: "AMD Ryzen 3 3100",         price: 7000,  socket: "AM4" },
+  { value: "r5-3600",    label: "AMD Ryzen 5 3600",         price: 9500,  socket: "AM4" },
+  { value: "r5-5600",    label: "AMD Ryzen 5 5600",         price: 12000, socket: "AM4" },
+  { value: "r5-5600x",   label: "AMD Ryzen 5 5600X",        price: 14000, socket: "AM4" },
+  { value: "r7-5700x",   label: "AMD Ryzen 7 5700X",        price: 18000, socket: "AM4" },
+  { value: "r7-5800x",   label: "AMD Ryzen 7 5800X",        price: 22000, socket: "AM4" },
+  { value: "r9-5900x",   label: "AMD Ryzen 9 5900X",        price: 28000, socket: "AM4" },
+  { value: "r9-5950x",   label: "AMD Ryzen 9 5950X",        price: 38000, socket: "AM4" },
+  // AM5
+  { value: "r5-7600",    label: "AMD Ryzen 5 7600",         price: 18000, socket: "AM5" },
+  { value: "r5-7600x",   label: "AMD Ryzen 5 7600X",        price: 22000, socket: "AM5" },
+  { value: "r7-7700",    label: "AMD Ryzen 7 7700",         price: 25000, socket: "AM5" },
+  { value: "r7-7700x",   label: "AMD Ryzen 7 7700X",        price: 30000, socket: "AM5" },
+  { value: "r7-7800x3d", label: "AMD Ryzen 7 7800X3D",      price: 38000, socket: "AM5" },
+  { value: "r9-7900x",   label: "AMD Ryzen 9 7900X",        price: 42000, socket: "AM5" },
+  { value: "r9-7950x",   label: "AMD Ryzen 9 7950X",        price: 68000, socket: "AM5" },
+  { value: "r9-9900x",   label: "AMD Ryzen 9 9900X",        price: 55000, socket: "AM5" },
+  { value: "r9-9950x",   label: "AMD Ryzen 9 9950X",        price: 80000, socket: "AM5" },
+  // LGA1200
+  { value: "i3-10100f",  label: "Intel Core i3-10100F",     price: 6000,  socket: "LGA1200" },
+  { value: "i5-10400f",  label: "Intel Core i5-10400F",     price: 9000,  socket: "LGA1200" },
+  { value: "i5-10600k",  label: "Intel Core i5-10600K",     price: 12000, socket: "LGA1200" },
+  { value: "i7-10700f",  label: "Intel Core i7-10700F",     price: 15000, socket: "LGA1200" },
+  { value: "i7-10700k",  label: "Intel Core i7-10700K",     price: 18000, socket: "LGA1200" },
+  { value: "i9-10900k",  label: "Intel Core i9-10900K",     price: 24000, socket: "LGA1200" },
+  { value: "i3-11100",   label: "Intel Core i3-11100",      price: 7000,  socket: "LGA1200" },
+  { value: "i5-11400f",  label: "Intel Core i5-11400F",     price: 10000, socket: "LGA1200" },
+  { value: "i7-11700f",  label: "Intel Core i7-11700F",     price: 16000, socket: "LGA1200" },
+  // LGA1700
+  { value: "i3-12100f",  label: "Intel Core i3-12100F",     price: 9000,  socket: "LGA1700" },
+  { value: "i5-12400f",  label: "Intel Core i5-12400F",     price: 13000, socket: "LGA1700" },
+  { value: "i5-12600k",  label: "Intel Core i5-12600K",     price: 16000, socket: "LGA1700" },
+  { value: "i5-13400f",  label: "Intel Core i5-13400F",     price: 18000, socket: "LGA1700" },
+  { value: "i5-13600k",  label: "Intel Core i5-13600K",     price: 22000, socket: "LGA1700" },
+  { value: "i7-12700f",  label: "Intel Core i7-12700F",     price: 20000, socket: "LGA1700" },
+  { value: "i7-13700f",  label: "Intel Core i7-13700F",     price: 28000, socket: "LGA1700" },
+  { value: "i7-13700k",  label: "Intel Core i7-13700K",     price: 34000, socket: "LGA1700" },
+  { value: "i9-12900k",  label: "Intel Core i9-12900K",     price: 38000, socket: "LGA1700" },
+  { value: "i9-13900k",  label: "Intel Core i9-13900K",     price: 50000, socket: "LGA1700" },
+  // LGA1851
+  { value: "i5-14400f",  label: "Intel Core i5-14400F",     price: 20000, socket: "LGA1851" },
+  { value: "i5-14600k",  label: "Intel Core i5-14600K",     price: 26000, socket: "LGA1851" },
+  { value: "i7-14700f",  label: "Intel Core i7-14700F",     price: 32000, socket: "LGA1851" },
+  { value: "i7-14700k",  label: "Intel Core i7-14700K",     price: 40000, socket: "LGA1851" },
+  { value: "i9-14900k",  label: "Intel Core i9-14900K",     price: 56000, socket: "LGA1851" },
+  { value: "i5-arrow",   label: "Intel Core Ultra 5 245K",  price: 30000, socket: "LGA1851" },
+  { value: "i7-arrow",   label: "Intel Core Ultra 7 265K",  price: 42000, socket: "LGA1851" },
+  { value: "i9-arrow",   label: "Intel Core Ultra 9 285K",  price: 62000, socket: "LGA1851" },
+]
+
+const mbOptions = [
+  { value: "", label: "Выберите материнскую плату", price: 0, socket: "" },
+  // AM4
+  { value: "b450m-ds3h",  label: "Gigabyte B450M DS3H",           price: 7500,  socket: "AM4" },
+  { value: "b450m-pro",   label: "ASUS PRIME B450M-A II",         price: 8500,  socket: "AM4" },
+  { value: "b550m-pro",   label: "MSI PRO B550M-P GEN3",          price: 9500,  socket: "AM4" },
+  { value: "b550-tomahawk",label: "MSI MAG B550 TOMAHAWK",        price: 14000, socket: "AM4" },
+  { value: "x570-pro",    label: "ASUS PRIME X570-PRO",           price: 18000, socket: "AM4" },
+  { value: "x570-gaming", label: "Gigabyte X570 AORUS ELITE",     price: 22000, socket: "AM4" },
+  // AM5
+  { value: "b650m-k",     label: "ASUS PRIME B650M-K",            price: 12000, socket: "AM5" },
+  { value: "b650m-plus",  label: "MSI PRO B650M-A WiFi",          price: 14000, socket: "AM5" },
+  { value: "b650-gaming", label: "Gigabyte B650 GAMING X AX",     price: 16500, socket: "AM5" },
+  { value: "b650e-aorus", label: "Gigabyte B650E AORUS PRO AX",   price: 22000, socket: "AM5" },
+  { value: "x670-pro",    label: "ASUS ROG STRIX X670E-F GAMING", price: 36000, socket: "AM5" },
+  { value: "x670e-aorus", label: "Gigabyte X670E AORUS MASTER",   price: 45000, socket: "AM5" },
+  { value: "x870e-rog",   label: "ASUS ROG MAXIMUS Z890 APEX",    price: 60000, socket: "AM5" },
+  // LGA1200
+  { value: "h410m-dgs",   label: "Gigabyte H410M DS2V",           price: 6000,  socket: "LGA1200" },
+  { value: "b460m-ds3h",  label: "Gigabyte B460M DS3H",           price: 7500,  socket: "LGA1200" },
+  { value: "b560m-pro",   label: "MSI PRO B560M-P",               price: 9000,  socket: "LGA1200" },
+  { value: "h510m-asus",  label: "ASUS PRIME H510M-K",            price: 7000,  socket: "LGA1200" },
+  { value: "z490-asus",   label: "ASUS TUF GAMING Z490-PLUS",     price: 14000, socket: "LGA1200" },
+  { value: "z590-aorus",  label: "Gigabyte Z590 AORUS ELITE",     price: 18000, socket: "LGA1200" },
+  // LGA1700
+  { value: "b660m-pro",   label: "MSI PRO B660M-A DDR4",          price: 9500,  socket: "LGA1700" },
+  { value: "b760m-pro",   label: "MSI PRO B760M-P",               price: 11500, socket: "LGA1700" },
+  { value: "b760m-asus",  label: "ASUS PRIME B760M-A DDR5",       price: 13000, socket: "LGA1700" },
+  { value: "b760-gaming", label: "MSI MAG B760 TOMAHAWK WiFi",    price: 17000, socket: "LGA1700" },
+  { value: "z690-aorus",  label: "Gigabyte Z690 AORUS PRO",       price: 24000, socket: "LGA1700" },
+  { value: "z790-tomahawk",label: "MSI MAG Z790 TOMAHAWK WiFi",   price: 28000, socket: "LGA1700" },
+  { value: "z790-rog",    label: "ASUS ROG STRIX Z790-F GAMING",  price: 38000, socket: "LGA1700" },
+  // LGA1851
+  { value: "z890m-pro",   label: "MSI PRO Z890-P WiFi",           price: 20000, socket: "LGA1851" },
+  { value: "z890-tomahawk",label: "MSI MAG Z890 TOMAHAWK WiFi",   price: 28000, socket: "LGA1851" },
+  { value: "z890-asus",   label: "ASUS PRIME Z890-P WiFi",        price: 24000, socket: "LGA1851" },
+  { value: "z890-tuf",    label: "ASUS TUF GAMING Z890-PLUS WiFi",price: 32000, socket: "LGA1851" },
+  { value: "z890-aorus",  label: "Gigabyte Z890 AORUS MASTER",    price: 45000, socket: "LGA1851" },
+  { value: "z890-rog",    label: "ASUS ROG STRIX Z890-F GAMING",  price: 50000, socket: "LGA1851" },
 ]
 
 const gpuOptions = [
@@ -29,14 +117,6 @@ const storageOptions = [
   { value: "ssd500", label: "SSD 500 ГБ NVMe", price: 4500 },
   { value: "ssd1t", label: "SSD 1 ТБ NVMe", price: 7500 },
   { value: "ssd2t", label: "SSD 2 ТБ NVMe", price: 13000 },
-]
-
-const mbOptions = [
-  { value: "", label: "Выберите материнскую плату", price: 0, socket: "" },
-  { value: "b650m", label: "ASUS PRIME B650M-K (AM5)", price: 12000, socket: "AM5" },
-  { value: "b760m", label: "MSI PRO B760M-P (LGA1700)", price: 11500, socket: "LGA1700" },
-  { value: "b650", label: "Gigabyte B650 GAMING X AX (AM5)", price: 16500, socket: "AM5" },
-  { value: "z790", label: "MSI MAG Z790 TOMAHAWK (LGA1700)", price: 22000, socket: "LGA1700" },
 ]
 
 const psuOptions = [
@@ -66,6 +146,7 @@ const coolerOptions = [
 
 export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: number) => void }) {
   const { ref, isVisible } = useReveal(0.2)
+  const [socket, setSocket] = useState("")
   const [cpu, setCpu] = useState("")
   const [gpu, setGpu] = useState("")
   const [ram, setRam] = useState("")
@@ -76,6 +157,14 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
   const [cooler, setCooler] = useState("")
 
   const assemblyPrice = 5000
+
+  const filteredCpuOptions = socket
+    ? cpuOptions.filter((o) => !o.socket || o.socket === socket)
+    : cpuOptions
+
+  const filteredMbOptions = socket
+    ? mbOptions.filter((o) => !o.socket || o.socket === socket)
+    : mbOptions
 
   const selectedCpu = cpuOptions.find((o) => o.value === cpu)
   const selectedMb = mbOptions.find((o) => o.value === mb)
@@ -137,9 +226,28 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
           style={{ transitionDelay: "150ms" }}
         >
           <div className="flex flex-col gap-2 overflow-y-auto max-h-[55vh] pr-1 scrollbar-thin">
+            {/* Сокет */}
+            <div className="flex flex-col gap-1">
+              <label className="font-mono text-xs text-foreground/50">Сокет</label>
+              <select
+                className={selectClass}
+                value={socket}
+                onChange={(e) => {
+                  setSocket(e.target.value)
+                  setCpu("")
+                  setMb("")
+                }}
+              >
+                <option value="" style={{ background: "#1a1a2e", color: "#fff" }}>Все сокеты</option>
+                {socketOptions.map((s) => (
+                  <option key={s} value={s} style={{ background: "#1a1a2e", color: "#fff" }}>{s}</option>
+                ))}
+              </select>
+            </div>
+
             {[
-              { label: "Процессор", options: cpuOptions, val: cpu, set: setCpu },
-              { label: "Материнская плата", options: mbOptions, val: mb, set: setMb },
+              { label: "Процессор", options: filteredCpuOptions, val: cpu, set: setCpu },
+              { label: "Материнская плата", options: filteredMbOptions, val: mb, set: setMb },
               { label: "Видеокарта", options: gpuOptions, val: gpu, set: setGpu },
               { label: "Оперативная память", options: ramOptions, val: ram, set: setRam },
               { label: "Накопитель", options: storageOptions, val: storage, set: setStorage },
