@@ -2,11 +2,11 @@ import { useReveal } from "@/hooks/use-reveal"
 import { useState } from "react"
 
 const cpuOptions = [
-  { value: "", label: "Выберите процессор", price: 0 },
-  { value: "i5", label: "Intel Core i5-13400F", price: 18000 },
-  { value: "i7", label: "Intel Core i7-13700F", price: 28000 },
-  { value: "r5", label: "AMD Ryzen 5 7600X", price: 22000 },
-  { value: "r7", label: "AMD Ryzen 7 7700X", price: 32000 },
+  { value: "", label: "Выберите процессор", price: 0, socket: "" },
+  { value: "i5", label: "Intel Core i5-13400F", price: 18000, socket: "LGA1700" },
+  { value: "i7", label: "Intel Core i7-13700F", price: 28000, socket: "LGA1700" },
+  { value: "r5", label: "AMD Ryzen 5 7600X", price: 22000, socket: "AM5" },
+  { value: "r7", label: "AMD Ryzen 7 7700X", price: 32000, socket: "AM5" },
 ]
 
 const gpuOptions = [
@@ -32,11 +32,11 @@ const storageOptions = [
 ]
 
 const mbOptions = [
-  { value: "", label: "Выберите материнскую плату", price: 0 },
-  { value: "b650m", label: "ASUS PRIME B650M-K (AM5)", price: 12000 },
-  { value: "b760m", label: "MSI PRO B760M-P (LGA1700)", price: 11500 },
-  { value: "b650", label: "Gigabyte B650 GAMING X AX (AM5)", price: 16500 },
-  { value: "z790", label: "MSI MAG Z790 TOMAHAWK (LGA1700)", price: 22000 },
+  { value: "", label: "Выберите материнскую плату", price: 0, socket: "" },
+  { value: "b650m", label: "ASUS PRIME B650M-K (AM5)", price: 12000, socket: "AM5" },
+  { value: "b760m", label: "MSI PRO B760M-P (LGA1700)", price: 11500, socket: "LGA1700" },
+  { value: "b650", label: "Gigabyte B650 GAMING X AX (AM5)", price: 16500, socket: "AM5" },
+  { value: "z790", label: "MSI MAG Z790 TOMAHAWK (LGA1700)", price: 22000, socket: "LGA1700" },
 ]
 
 const psuOptions = [
@@ -76,6 +76,12 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
   const [cooler, setCooler] = useState("")
 
   const assemblyPrice = 5000
+
+  const selectedCpu = cpuOptions.find((o) => o.value === cpu)
+  const selectedMb = mbOptions.find((o) => o.value === mb)
+  const socketMismatch =
+    selectedCpu?.socket && selectedMb?.socket &&
+    selectedCpu.socket !== selectedMb.socket
 
   const total =
     assemblyPrice +
@@ -181,10 +187,19 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
               </div>
             </div>
 
+            {socketMismatch && (
+              <div className="flex items-start gap-2 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3">
+                <span className="mt-0.5 text-red-400 shrink-0">⚠</span>
+                <p className="font-mono text-xs text-red-400">
+                  Несовместимые сокеты: процессор {selectedCpu?.socket} не подходит к плате {selectedMb?.socket}
+                </p>
+              </div>
+            )}
+
             <button
               onClick={() => scrollToSection(6)}
               className="w-full rounded-lg border border-foreground/30 bg-foreground/10 px-6 py-3 font-sans text-sm font-medium text-foreground backdrop-blur-sm transition-all duration-200 hover:bg-foreground/20 hover:border-foreground/50 disabled:opacity-40"
-              disabled={!hasSelection}
+              disabled={!hasSelection || !!socketMismatch}
             >
               Оформить заказ →
             </button>
