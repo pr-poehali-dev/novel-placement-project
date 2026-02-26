@@ -167,7 +167,7 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
             </button>
 
             <p className="font-mono text-xs text-foreground/40 text-center">
-              Финальная цена уточняется при заказе
+              Комплектующие заказываем с DNS или маркетплейсов. Финальная цена уточняется при заказе.
             </p>
           </div>
         </div>

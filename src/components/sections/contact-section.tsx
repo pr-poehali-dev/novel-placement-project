@@ -1,4 +1,4 @@
-import { Mail, MapPin } from "lucide-react"
+import { Mail, MapPin, Phone } from "lucide-react"
 import { useReveal } from "@/hooks/use-reveal"
 import { useState, type FormEvent } from "react"
 import { MagneticButton } from "@/components/magnetic-button"
@@ -82,6 +82,26 @@ export function ContactSection() {
               </div>
 
               <div
+                className={`transition-all duration-700 ${
+                  isVisible ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
+                }`}
+                style={{ transitionDelay: "420ms" }}
+              >
+                <div className="mb-1 flex items-center gap-2">
+                  <Phone className="h-3 w-3 text-foreground/60" />
+                  <span className="font-mono text-xs text-foreground/60">Телефон</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+79143560063" className="text-base text-foreground transition-colors hover:text-foreground/70 md:text-xl">
+                    +7 914 356-00-63
+                  </a>
+                  <a href="tel:+79294859285" className="text-base text-foreground transition-colors hover:text-foreground/70 md:text-xl">
+                    +7 929 485-92-85
+                  </a>
+                </div>
+              </div>
+
+              <div
                 className={`flex gap-2 pt-2 transition-all duration-700 md:pt-4 ${
                   isVisible ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
                 }`}
@@ -89,9 +109,8 @@ export function ContactSection() {
               >
                 {[
                   { label: "Telegram", href: "https://t.me/SborkaPCChita" },
-                  { label: "ВКонтакте", href: "#" },
-                  { label: "YouTube", href: "#" },
-                  { label: "Авито", href: "#" },
+                  { label: "ВКонтакте", href: "https://vk.com/id866328516" },
+                  { label: "Авито", href: "https://www.avito.ru/user/199802176/profile" },
                 ].map((social) => (
                   <a
                     key={social.label}
