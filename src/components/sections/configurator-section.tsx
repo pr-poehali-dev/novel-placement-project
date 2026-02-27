@@ -18,6 +18,7 @@ interface Part {
   watt?: number
   ramType?: "DDR4" | "DDR5"
   tdp?: number
+  url?: string
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -27,53 +28,53 @@ const socketOptions = ["AM4", "AM5", "LGA1200", "LGA1700", "LGA1851"]
 
 const cpuOptionsDefault: Part[] = [
   // AM4
-  { value: "r3-3100",    label: "AMD Ryzen 3 3100",         price: 6500,  socket: "AM4", brand: "AMD",   tdp: 65 },
-  { value: "r5-3600",    label: "AMD Ryzen 5 3600",         price: 8500,  socket: "AM4", brand: "AMD",   tdp: 65 },
-  { value: "r5-5600",    label: "AMD Ryzen 5 5600",         price: 11500, socket: "AM4", brand: "AMD",   tdp: 65 },
-  { value: "r5-5600x",   label: "AMD Ryzen 5 5600X",        price: 13500, socket: "AM4", brand: "AMD",   tdp: 95 },
-  { value: "r7-5700x",   label: "AMD Ryzen 7 5700X",        price: 16500, socket: "AM4", brand: "AMD",   tdp: 105 },
-  { value: "r7-5800x",   label: "AMD Ryzen 7 5800X",        price: 21000, socket: "AM4", brand: "AMD",   tdp: 105 },
-  { value: "r9-5900x",   label: "AMD Ryzen 9 5900X",        price: 25500, socket: "AM4", brand: "AMD",   tdp: 105 },
-  { value: "r9-5950x",   label: "AMD Ryzen 9 5950X",        price: 36000, socket: "AM4", brand: "AMD",   tdp: 105 },
+  { value: "r3-3100",    label: "AMD Ryzen 3 3100",         price: 6500,  socket: "AM4", brand: "AMD",   tdp: 65,  url: "https://www.amd.com/ru/products/processors/desktops/ryzen/3000-series/amd-ryzen-3-3100.html" },
+  { value: "r5-3600",    label: "AMD Ryzen 5 3600",         price: 8500,  socket: "AM4", brand: "AMD",   tdp: 65,  url: "https://www.amd.com/ru/products/processors/desktops/ryzen/3000-series/amd-ryzen-5-3600.html" },
+  { value: "r5-5600",    label: "AMD Ryzen 5 5600",         price: 11500, socket: "AM4", brand: "AMD",   tdp: 65,  url: "https://www.amd.com/ru/products/processors/desktops/ryzen/5000-series/amd-ryzen-5-5600.html" },
+  { value: "r5-5600x",   label: "AMD Ryzen 5 5600X",        price: 13500, socket: "AM4", brand: "AMD",   tdp: 95,  url: "https://www.amd.com/ru/products/processors/desktops/ryzen/5000-series/amd-ryzen-5-5600x.html" },
+  { value: "r7-5700x",   label: "AMD Ryzen 7 5700X",        price: 16500, socket: "AM4", brand: "AMD",   tdp: 105, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5700x.html" },
+  { value: "r7-5800x",   label: "AMD Ryzen 7 5800X",        price: 21000, socket: "AM4", brand: "AMD",   tdp: 105, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/5000-series/amd-ryzen-7-5800x.html" },
+  { value: "r9-5900x",   label: "AMD Ryzen 9 5900X",        price: 25500, socket: "AM4", brand: "AMD",   tdp: 105, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/5000-series/amd-ryzen-9-5900x.html" },
+  { value: "r9-5950x",   label: "AMD Ryzen 9 5950X",        price: 36000, socket: "AM4", brand: "AMD",   tdp: 105, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/5000-series/amd-ryzen-9-5950x.html" },
   // AM5
-  { value: "r5-7600",    label: "AMD Ryzen 5 7600",         price: 16500, socket: "AM5", brand: "AMD",   tdp: 65 },
-  { value: "r5-7600x",   label: "AMD Ryzen 5 7600X",        price: 20000, socket: "AM5", brand: "AMD",   tdp: 105 },
-  { value: "r7-7700",    label: "AMD Ryzen 7 7700",         price: 23500, socket: "AM5", brand: "AMD",   tdp: 65 },
-  { value: "r7-7700x",   label: "AMD Ryzen 7 7700X",        price: 28000, socket: "AM5", brand: "AMD",   tdp: 105 },
-  { value: "r7-7800x3d", label: "AMD Ryzen 7 7800X3D",      price: 36500, socket: "AM5", brand: "AMD",   tdp: 120 },
-  { value: "r9-7900x",   label: "AMD Ryzen 9 7900X",        price: 40000, socket: "AM5", brand: "AMD",   tdp: 170 },
-  { value: "r9-7950x",   label: "AMD Ryzen 9 7950X",        price: 65000, socket: "AM5", brand: "AMD",   tdp: 170 },
-  { value: "r9-9900x",   label: "AMD Ryzen 9 9900X",        price: 52000, socket: "AM5", brand: "AMD",   tdp: 120 },
-  { value: "r9-9950x",   label: "AMD Ryzen 9 9950X",        price: 76000, socket: "AM5", brand: "AMD",   tdp: 170 },
+  { value: "r5-7600",    label: "AMD Ryzen 5 7600",         price: 16500, socket: "AM5", brand: "AMD",   tdp: 65,  url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600.html" },
+  { value: "r5-7600x",   label: "AMD Ryzen 5 7600X",        price: 20000, socket: "AM5", brand: "AMD",   tdp: 105, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-5-7600x.html" },
+  { value: "r7-7700",    label: "AMD Ryzen 7 7700",         price: 23500, socket: "AM5", brand: "AMD",   tdp: 65,  url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700.html" },
+  { value: "r7-7700x",   label: "AMD Ryzen 7 7700X",        price: 28000, socket: "AM5", brand: "AMD",   tdp: 105, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700x.html" },
+  { value: "r7-7800x3d", label: "AMD Ryzen 7 7800X3D",      price: 36500, socket: "AM5", brand: "AMD",   tdp: 120, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7800x3d.html" },
+  { value: "r9-7900x",   label: "AMD Ryzen 9 7900X",        price: 40000, socket: "AM5", brand: "AMD",   tdp: 170, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7900x.html" },
+  { value: "r9-7950x",   label: "AMD Ryzen 9 7950X",        price: 65000, socket: "AM5", brand: "AMD",   tdp: 170, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/7000-series/amd-ryzen-9-7950x.html" },
+  { value: "r9-9900x",   label: "AMD Ryzen 9 9900X",        price: 52000, socket: "AM5", brand: "AMD",   tdp: 120, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9900x.html" },
+  { value: "r9-9950x",   label: "AMD Ryzen 9 9950X",        price: 76000, socket: "AM5", brand: "AMD",   tdp: 170, url: "https://www.amd.com/ru/products/processors/desktops/ryzen/9000-series/amd-ryzen-9-9950x.html" },
   // LGA1200
-  { value: "i3-10100f",  label: "Intel Core i3-10100F",     price: 5500,  socket: "LGA1200", brand: "Intel", tdp: 65 },
-  { value: "i5-10400f",  label: "Intel Core i5-10400F",     price: 8500,  socket: "LGA1200", brand: "Intel", tdp: 65 },
-  { value: "i5-10600k",  label: "Intel Core i5-10600K",     price: 11500, socket: "LGA1200", brand: "Intel", tdp: 125 },
-  { value: "i7-10700f",  label: "Intel Core i7-10700F",     price: 14000, socket: "LGA1200", brand: "Intel", tdp: 65 },
-  { value: "i7-10700k",  label: "Intel Core i7-10700K",     price: 17500, socket: "LGA1200", brand: "Intel", tdp: 125 },
-  { value: "i9-10900k",  label: "Intel Core i9-10900K",     price: 23000, socket: "LGA1200", brand: "Intel", tdp: 125 },
-  { value: "i5-11400f",  label: "Intel Core i5-11400F",     price: 9500,  socket: "LGA1200", brand: "Intel", tdp: 65 },
-  { value: "i7-11700f",  label: "Intel Core i7-11700F",     price: 15500, socket: "LGA1200", brand: "Intel", tdp: 65 },
+  { value: "i3-10100f",  label: "Intel Core i3-10100F",     price: 5500,  socket: "LGA1200", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/212071/intel-core-i3-10100f-processor-6m-cache-up-to-4-30-ghz.html" },
+  { value: "i5-10400f",  label: "Intel Core i5-10400F",     price: 8500,  socket: "LGA1200", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/212068/intel-core-i5-10400f-processor-12m-cache-up-to-4-30-ghz.html" },
+  { value: "i5-10600k",  label: "Intel Core i5-10600K",     price: 11500, socket: "LGA1200", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/199311/intel-core-i5-10600k-processor-12m-cache-up-to-4-80-ghz.html" },
+  { value: "i7-10700f",  label: "Intel Core i7-10700F",     price: 14000, socket: "LGA1200", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/212065/intel-core-i7-10700f-processor-16m-cache-up-to-4-80-ghz.html" },
+  { value: "i7-10700k",  label: "Intel Core i7-10700K",     price: 17500, socket: "LGA1200", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/199325/intel-core-i7-10700k-processor-16m-cache-up-to-5-10-ghz.html" },
+  { value: "i9-10900k",  label: "Intel Core i9-10900K",     price: 23000, socket: "LGA1200", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/199332/intel-core-i9-10900k-processor-20m-cache-up-to-5-30-ghz.html" },
+  { value: "i5-11400f",  label: "Intel Core i5-11400F",     price: 9500,  socket: "LGA1200", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/212060/intel-core-i5-11400f-processor-12m-cache-up-to-4-40-ghz.html" },
+  { value: "i7-11700f",  label: "Intel Core i7-11700F",     price: 15500, socket: "LGA1200", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/212047/intel-core-i7-11700f-processor-16m-cache-up-to-4-90-ghz.html" },
   // LGA1700
-  { value: "i3-12100f",  label: "Intel Core i3-12100F",     price: 8500,  socket: "LGA1700", brand: "Intel", tdp: 65 },
-  { value: "i5-12400f",  label: "Intel Core i5-12400F",     price: 12500, socket: "LGA1700", brand: "Intel", tdp: 65 },
-  { value: "i5-12600k",  label: "Intel Core i5-12600K",     price: 15500, socket: "LGA1700", brand: "Intel", tdp: 125 },
-  { value: "i5-13400f",  label: "Intel Core i5-13400F",     price: 17500, socket: "LGA1700", brand: "Intel", tdp: 65 },
-  { value: "i5-13600k",  label: "Intel Core i5-13600K",     price: 21500, socket: "LGA1700", brand: "Intel", tdp: 125 },
-  { value: "i7-12700f",  label: "Intel Core i7-12700F",     price: 19500, socket: "LGA1700", brand: "Intel", tdp: 65 },
-  { value: "i7-13700f",  label: "Intel Core i7-13700F",     price: 26500, socket: "LGA1700", brand: "Intel", tdp: 65 },
-  { value: "i7-13700k",  label: "Intel Core i7-13700K",     price: 33000, socket: "LGA1700", brand: "Intel", tdp: 125 },
-  { value: "i9-12900k",  label: "Intel Core i9-12900K",     price: 37000, socket: "LGA1700", brand: "Intel", tdp: 125 },
-  { value: "i9-13900k",  label: "Intel Core i9-13900K",     price: 48000, socket: "LGA1700", brand: "Intel", tdp: 125 },
+  { value: "i3-12100f",  label: "Intel Core i3-12100F",     price: 8500,  socket: "LGA1700", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/223374/intel-core-i3-12100f-processor-12m-cache-up-to-4-30-ghz.html" },
+  { value: "i5-12400f",  label: "Intel Core i5-12400F",     price: 12500, socket: "LGA1700", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/134591/intel-core-i5-12400f-processor-18m-cache-up-to-4-40-ghz.html" },
+  { value: "i5-12600k",  label: "Intel Core i5-12600K",     price: 15500, socket: "LGA1700", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/134589/intel-core-i5-12600k-processor-20m-cache-up-to-4-90-ghz.html" },
+  { value: "i5-13400f",  label: "Intel Core i5-13400F",     price: 17500, socket: "LGA1700", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/230491/intel-core-i5-13400f-processor-20m-cache-up-to-4-60-ghz.html" },
+  { value: "i5-13600k",  label: "Intel Core i5-13600K",     price: 21500, socket: "LGA1700", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/230493/intel-core-i5-13600k-processor-24m-cache-up-to-5-10-ghz.html" },
+  { value: "i7-12700f",  label: "Intel Core i7-12700F",     price: 19500, socket: "LGA1700", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/134591/intel-core-i7-12700f-processor-25m-cache-up-to-4-90-ghz.html" },
+  { value: "i7-13700f",  label: "Intel Core i7-13700F",     price: 26500, socket: "LGA1700", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/230495/intel-core-i7-13700f-processor-30m-cache-up-to-5-20-ghz.html" },
+  { value: "i7-13700k",  label: "Intel Core i7-13700K",     price: 33000, socket: "LGA1700", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/230500/intel-core-i7-13700k-processor-30m-cache-up-to-5-40-ghz.html" },
+  { value: "i9-12900k",  label: "Intel Core i9-12900K",     price: 37000, socket: "LGA1700", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/134599/intel-core-i9-12900k-processor-30m-cache-up-to-5-20-ghz.html" },
+  { value: "i9-13900k",  label: "Intel Core i9-13900K",     price: 48000, socket: "LGA1700", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/230496/intel-core-i9-13900k-processor-36m-cache-up-to-5-80-ghz.html" },
   // LGA1851
-  { value: "i5-14400f",  label: "Intel Core i5-14400F",     price: 19500, socket: "LGA1851", brand: "Intel", tdp: 65 },
-  { value: "i5-14600k",  label: "Intel Core i5-14600K",     price: 25000, socket: "LGA1851", brand: "Intel", tdp: 125 },
-  { value: "i7-14700f",  label: "Intel Core i7-14700F",     price: 31000, socket: "LGA1851", brand: "Intel", tdp: 65 },
-  { value: "i7-14700k",  label: "Intel Core i7-14700K",     price: 38500, socket: "LGA1851", brand: "Intel", tdp: 125 },
-  { value: "i9-14900k",  label: "Intel Core i9-14900K",     price: 54000, socket: "LGA1851", brand: "Intel", tdp: 125 },
-  { value: "i5-arrow",   label: "Intel Core Ultra 5 245K",  price: 29000, socket: "LGA1851", brand: "Intel", tdp: 125 },
-  { value: "i7-arrow",   label: "Intel Core Ultra 7 265K",  price: 40000, socket: "LGA1851", brand: "Intel", tdp: 125 },
-  { value: "i9-arrow",   label: "Intel Core Ultra 9 285K",  price: 60000, socket: "LGA1851", brand: "Intel", tdp: 125 },
+  { value: "i5-14400f",  label: "Intel Core i5-14400F",     price: 19500, socket: "LGA1851", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/236789/intel-core-i5-14400f-processor-20m-cache-up-to-4-70-ghz.html" },
+  { value: "i5-14600k",  label: "Intel Core i5-14600K",     price: 25000, socket: "LGA1851", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/236787/intel-core-i5-14600k-processor-24m-cache-up-to-5-30-ghz.html" },
+  { value: "i7-14700f",  label: "Intel Core i7-14700F",     price: 31000, socket: "LGA1851", brand: "Intel", tdp: 65,  url: "https://ark.intel.com/content/www/ru/ru/ark/products/236790/intel-core-i7-14700f-processor-33m-cache-up-to-5-30-ghz.html" },
+  { value: "i7-14700k",  label: "Intel Core i7-14700K",     price: 38500, socket: "LGA1851", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/236784/intel-core-i7-14700k-processor-33m-cache-up-to-5-60-ghz.html" },
+  { value: "i9-14900k",  label: "Intel Core i9-14900K",     price: 54000, socket: "LGA1851", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/236773/intel-core-i9-14900k-processor-36m-cache-up-to-6-00-ghz.html" },
+  { value: "i5-arrow",   label: "Intel Core Ultra 5 245K",  price: 29000, socket: "LGA1851", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/241894/intel-core-ultra-5-245k-processor-24m-cache-up-to-5-20-ghz.html" },
+  { value: "i7-arrow",   label: "Intel Core Ultra 7 265K",  price: 40000, socket: "LGA1851", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/241888/intel-core-ultra-7-265k-processor-30m-cache-up-to-5-50-ghz.html" },
+  { value: "i9-arrow",   label: "Intel Core Ultra 9 285K",  price: 60000, socket: "LGA1851", brand: "Intel", tdp: 125, url: "https://ark.intel.com/content/www/ru/ru/ark/products/241875/intel-core-ultra-9-285k-processor-36m-cache-up-to-5-70-ghz.html" },
 ]
 
 const mbOptionsDefault: Part[] = [
@@ -328,157 +329,204 @@ const mbOptionsDefault: Part[] = [
 
 const gpuOptionsDefault: Part[] = [
   // RTX 30 серия
-  { value: "rtx3050",      label: "NVIDIA RTX 3050 8GB",             price: 19500,  brand: "NVIDIA", memory: 8,  tdp: 130 },
-  { value: "rtx3060",      label: "NVIDIA RTX 3060 12GB",            price: 26000,  brand: "NVIDIA", memory: 12, tdp: 170 },
-  { value: "rtx3060ti",    label: "NVIDIA RTX 3060 Ti 8GB",          price: 30000,  brand: "NVIDIA", memory: 8,  tdp: 200 },
-  { value: "rtx3070",      label: "NVIDIA RTX 3070 8GB",             price: 36000,  brand: "NVIDIA", memory: 8,  tdp: 220 },
-  { value: "rtx3070ti",    label: "NVIDIA RTX 3070 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8,  tdp: 290 },
-  { value: "rtx3080",      label: "NVIDIA RTX 3080 10GB",            price: 52000,  brand: "NVIDIA", memory: 10, tdp: 320 },
-  { value: "rtx3090",      label: "NVIDIA RTX 3090 24GB",            price: 72000,  brand: "NVIDIA", memory: 24, tdp: 350 },
+  { value: "rtx3050",      label: "NVIDIA RTX 3050 8GB",             price: 19500,  brand: "NVIDIA", memory: 8,  tdp: 130, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3050/" },
+  { value: "rtx3060",      label: "NVIDIA RTX 3060 12GB",            price: 26000,  brand: "NVIDIA", memory: 12, tdp: 170, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3060-3060ti/" },
+  { value: "rtx3060ti",    label: "NVIDIA RTX 3060 Ti 8GB",          price: 30000,  brand: "NVIDIA", memory: 8,  tdp: 200, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3060-3060ti/" },
+  { value: "rtx3070",      label: "NVIDIA RTX 3070 8GB",             price: 36000,  brand: "NVIDIA", memory: 8,  tdp: 220, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3070-3070ti/" },
+  { value: "rtx3070ti",    label: "NVIDIA RTX 3070 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8,  tdp: 290, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3070-3070ti/" },
+  { value: "rtx3080",      label: "NVIDIA RTX 3080 10GB",            price: 52000,  brand: "NVIDIA", memory: 10, tdp: 320, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3080-3080ti/" },
+  { value: "rtx3090",      label: "NVIDIA RTX 3090 24GB",            price: 72000,  brand: "NVIDIA", memory: 24, tdp: 350, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/30-series/rtx-3090-3090ti/" },
   // RTX 40 серия
-  { value: "rtx4060",      label: "NVIDIA RTX 4060 8GB",             price: 34000,  brand: "NVIDIA", memory: 8,  tdp: 115 },
-  { value: "rtx4060ti",    label: "NVIDIA RTX 4060 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8,  tdp: 160 },
-  { value: "rtx4060ti16",  label: "NVIDIA RTX 4060 Ti 16GB",         price: 50000,  brand: "NVIDIA", memory: 16, tdp: 165 },
-  { value: "rtx4070",      label: "NVIDIA RTX 4070 12GB",            price: 56000,  brand: "NVIDIA", memory: 12, tdp: 200 },
-  { value: "rtx4070s",     label: "NVIDIA RTX 4070 Super 12GB",      price: 63000,  brand: "NVIDIA", memory: 12, tdp: 220 },
-  { value: "rtx4070ti",    label: "NVIDIA RTX 4070 Ti 12GB",         price: 72000,  brand: "NVIDIA", memory: 12, tdp: 285 },
-  { value: "rtx4070tis",   label: "NVIDIA RTX 4070 Ti Super 16GB",   price: 82000,  brand: "NVIDIA", memory: 16, tdp: 285 },
-  { value: "rtx4080",      label: "NVIDIA RTX 4080 16GB",            price: 97000,  brand: "NVIDIA", memory: 16, tdp: 320 },
-  { value: "rtx4090",      label: "NVIDIA RTX 4090 24GB",            price: 170000, brand: "NVIDIA", memory: 24, tdp: 450 },
+  { value: "rtx4060",      label: "NVIDIA RTX 4060 8GB",             price: 34000,  brand: "NVIDIA", memory: 8,  tdp: 115, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4060/" },
+  { value: "rtx4060ti",    label: "NVIDIA RTX 4060 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8,  tdp: 160, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4060ti/" },
+  { value: "rtx4060ti16",  label: "NVIDIA RTX 4060 Ti 16GB",         price: 50000,  brand: "NVIDIA", memory: 16, tdp: 165, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4060ti/" },
+  { value: "rtx4070",      label: "NVIDIA RTX 4070 12GB",            price: 56000,  brand: "NVIDIA", memory: 12, tdp: 200, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4070/" },
+  { value: "rtx4070s",     label: "NVIDIA RTX 4070 Super 12GB",      price: 63000,  brand: "NVIDIA", memory: 12, tdp: 220, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4070-super/" },
+  { value: "rtx4070ti",    label: "NVIDIA RTX 4070 Ti 12GB",         price: 72000,  brand: "NVIDIA", memory: 12, tdp: 285, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4070ti/" },
+  { value: "rtx4070tis",   label: "NVIDIA RTX 4070 Ti Super 16GB",   price: 82000,  brand: "NVIDIA", memory: 16, tdp: 285, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4070ti-super/" },
+  { value: "rtx4080",      label: "NVIDIA RTX 4080 16GB",            price: 97000,  brand: "NVIDIA", memory: 16, tdp: 320, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4080/" },
+  { value: "rtx4090",      label: "NVIDIA RTX 4090 24GB",            price: 170000, brand: "NVIDIA", memory: 24, tdp: 450, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/40-series/rtx-4090/" },
   // RTX 50 серия
-  { value: "rtx5070",      label: "NVIDIA RTX 5070 12GB",            price: 78000,  brand: "NVIDIA", memory: 12, tdp: 250 },
-  { value: "rtx5070ti",    label: "NVIDIA RTX 5070 Ti 16GB",         price: 98000,  brand: "NVIDIA", memory: 16, tdp: 300 },
-  { value: "rtx5080",      label: "NVIDIA RTX 5080 16GB",            price: 130000, brand: "NVIDIA", memory: 16, tdp: 360 },
-  { value: "rtx5090",      label: "NVIDIA RTX 5090 32GB",            price: 275000, brand: "NVIDIA", memory: 32, tdp: 575 },
+  { value: "rtx5070",      label: "NVIDIA RTX 5070 12GB",            price: 78000,  brand: "NVIDIA", memory: 12, tdp: 250, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/50-series/rtx-5070/" },
+  { value: "rtx5070ti",    label: "NVIDIA RTX 5070 Ti 16GB",         price: 98000,  brand: "NVIDIA", memory: 16, tdp: 300, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/50-series/rtx-5070-ti/" },
+  { value: "rtx5080",      label: "NVIDIA RTX 5080 16GB",            price: 130000, brand: "NVIDIA", memory: 16, tdp: 360, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/50-series/rtx-5080/" },
+  { value: "rtx5090",      label: "NVIDIA RTX 5090 32GB",            price: 275000, brand: "NVIDIA", memory: 32, tdp: 575, url: "https://www.nvidia.com/ru-ru/geforce/graphics-cards/50-series/rtx-5090/" },
   // RX 6xxx
-  { value: "rx6600",       label: "AMD RX 6600 8GB",                 price: 16500,  brand: "AMD", memory: 8,  tdp: 132 },
-  { value: "rx6600xt",     label: "AMD RX 6600 XT 8GB",              price: 20000,  brand: "AMD", memory: 8,  tdp: 160 },
-  { value: "rx6700xt",     label: "AMD RX 6700 XT 12GB",             price: 29500,  brand: "AMD", memory: 12, tdp: 230 },
-  { value: "rx6800xt",     label: "AMD RX 6800 XT 16GB",             price: 47500,  brand: "AMD", memory: 16, tdp: 300 },
-  { value: "rx6900xt",     label: "AMD RX 6900 XT 16GB",             price: 55000,  brand: "AMD", memory: 16, tdp: 300 },
+  { value: "rx6600",       label: "AMD RX 6600 8GB",                 price: 16500,  brand: "AMD", memory: 8,  tdp: 132, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6600.html" },
+  { value: "rx6600xt",     label: "AMD RX 6600 XT 8GB",              price: 20000,  brand: "AMD", memory: 8,  tdp: 160, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6600-xt.html" },
+  { value: "rx6700xt",     label: "AMD RX 6700 XT 12GB",             price: 29500,  brand: "AMD", memory: 12, tdp: 230, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html" },
+  { value: "rx6800xt",     label: "AMD RX 6800 XT 16GB",             price: 47500,  brand: "AMD", memory: 16, tdp: 300, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6800-xt.html" },
+  { value: "rx6900xt",     label: "AMD RX 6900 XT 16GB",             price: 55000,  brand: "AMD", memory: 16, tdp: 300, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6900-xt.html" },
   // RX 7xxx
-  { value: "rx7600",       label: "AMD RX 7600 8GB",                 price: 25500,  brand: "AMD", memory: 8,  tdp: 165 },
-  { value: "rx7700xt",     label: "AMD RX 7700 XT 12GB",             price: 37500,  brand: "AMD", memory: 12, tdp: 245 },
-  { value: "rx7800xt",     label: "AMD RX 7800 XT 16GB",             price: 46500,  brand: "AMD", memory: 16, tdp: 263 },
-  { value: "rx7900gre",    label: "AMD RX 7900 GRE 16GB",            price: 52000,  brand: "AMD", memory: 16, tdp: 260 },
-  { value: "rx7900xt",     label: "AMD RX 7900 XT 20GB",             price: 67000,  brand: "AMD", memory: 20, tdp: 315 },
-  { value: "rx7900xtx",    label: "AMD RX 7900 XTX 24GB",            price: 82000,  brand: "AMD", memory: 24, tdp: 355 },
-  { value: "rx9070",       label: "AMD RX 9070 16GB",                price: 62000,  brand: "AMD", memory: 16, tdp: 220 },
-  { value: "rx9070xt",     label: "AMD RX 9070 XT 16GB",             price: 70000,  brand: "AMD", memory: 16, tdp: 304 },
+  { value: "rx7600",       label: "AMD RX 7600 8GB",                 price: 25500,  brand: "AMD", memory: 8,  tdp: 165, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7600.html" },
+  { value: "rx7700xt",     label: "AMD RX 7700 XT 12GB",             price: 37500,  brand: "AMD", memory: 12, tdp: 245, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7700-xt.html" },
+  { value: "rx7800xt",     label: "AMD RX 7800 XT 16GB",             price: 46500,  brand: "AMD", memory: 16, tdp: 263, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7800-xt.html" },
+  { value: "rx7900gre",    label: "AMD RX 7900 GRE 16GB",            price: 52000,  brand: "AMD", memory: 16, tdp: 260, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900-gre.html" },
+  { value: "rx7900xt",     label: "AMD RX 7900 XT 20GB",             price: 67000,  brand: "AMD", memory: 20, tdp: 315, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900-xt.html" },
+  { value: "rx7900xtx",    label: "AMD RX 7900 XTX 24GB",            price: 82000,  brand: "AMD", memory: 24, tdp: 355, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/7000-series/amd-radeon-rx-7900-xtx.html" },
+  { value: "rx9070",       label: "AMD RX 9070 16GB",                price: 62000,  brand: "AMD", memory: 16, tdp: 220, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070.html" },
+  { value: "rx9070xt",     label: "AMD RX 9070 XT 16GB",             price: 70000,  brand: "AMD", memory: 16, tdp: 304, url: "https://www.amd.com/ru/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9070-xt.html" },
 ]
 
 const ramOptionsDefault: Part[] = [
   // DDR4
-  { value: "ddr4-8-kingston",    label: "8 ГБ DDR4-3200 Kingston Fury Beast",       price: 2200,  brand: "Kingston", memory: 8,  freq: 3200, ramType: "DDR4" },
-  { value: "ddr4-8-corsair",     label: "8 ГБ DDR4-3200 Corsair Vengeance LPX",    price: 2500,  brand: "Corsair",  memory: 8,  freq: 3200, ramType: "DDR4" },
-  { value: "ddr4-16-kingston",   label: "16 ГБ DDR4-3200 Kingston Fury Beast",      price: 4000,  brand: "Kingston", memory: 16, freq: 3200, ramType: "DDR4" },
-  { value: "ddr4-16-corsair",    label: "16 ГБ DDR4-3200 Corsair Vengeance LPX",   price: 4500,  brand: "Corsair",  memory: 16, freq: 3200, ramType: "DDR4" },
-  { value: "ddr4-16-gskill",     label: "16 ГБ DDR4-3600 G.Skill Ripjaws V",       price: 5000,  brand: "G.Skill",  memory: 16, freq: 3600, ramType: "DDR4" },
-  { value: "ddr4-32-kingston",   label: "32 ГБ DDR4-3200 Kingston Fury Beast 2×16",price: 7800,  brand: "Kingston", memory: 32, freq: 3200, ramType: "DDR4" },
-  { value: "ddr4-32-corsair",    label: "32 ГБ DDR4-3200 Corsair Vengeance 2×16",  price: 8800,  brand: "Corsair",  memory: 32, freq: 3200, ramType: "DDR4" },
-  { value: "ddr4-32-gskill",     label: "32 ГБ DDR4-3600 G.Skill Ripjaws V 2×16", price: 9500,  brand: "G.Skill",  memory: 32, freq: 3600, ramType: "DDR4" },
-  { value: "ddr4-64-kingston",   label: "64 ГБ DDR4-3200 Kingston Fury Beast 4×16",price: 15500, brand: "Kingston", memory: 64, freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-8-kingston",    label: "8 ГБ DDR4-3200 Kingston Fury Beast",       price: 2200,  brand: "Kingston", memory: 8,  freq: 3200, ramType: "DDR4", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr4-memory" },
+  { value: "ddr4-8-corsair",     label: "8 ГБ DDR4-3200 Corsair Vengeance LPX",    price: 2500,  brand: "Corsair",  memory: 8,  freq: 3200, ramType: "DDR4", url: "https://www.corsair.com/ru/ru/c/vengeance-lpx" },
+  { value: "ddr4-16-kingston",   label: "16 ГБ DDR4-3200 Kingston Fury Beast",      price: 4000,  brand: "Kingston", memory: 16, freq: 3200, ramType: "DDR4", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr4-memory" },
+  { value: "ddr4-16-corsair",    label: "16 ГБ DDR4-3200 Corsair Vengeance LPX",   price: 4500,  brand: "Corsair",  memory: 16, freq: 3200, ramType: "DDR4", url: "https://www.corsair.com/ru/ru/c/vengeance-lpx" },
+  { value: "ddr4-16-gskill",     label: "16 ГБ DDR4-3600 G.Skill Ripjaws V",       price: 5000,  brand: "G.Skill",  memory: 16, freq: 3600, ramType: "DDR4", url: "https://www.gskill.com/series/166/Ripjaws-V" },
+  { value: "ddr4-32-kingston",   label: "32 ГБ DDR4-3200 Kingston Fury Beast 2×16",price: 7800,  brand: "Kingston", memory: 32, freq: 3200, ramType: "DDR4", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr4-memory" },
+  { value: "ddr4-32-corsair",    label: "32 ГБ DDR4-3200 Corsair Vengeance 2×16",  price: 8800,  brand: "Corsair",  memory: 32, freq: 3200, ramType: "DDR4", url: "https://www.corsair.com/ru/ru/c/vengeance-lpx" },
+  { value: "ddr4-32-gskill",     label: "32 ГБ DDR4-3600 G.Skill Ripjaws V 2×16", price: 9500,  brand: "G.Skill",  memory: 32, freq: 3600, ramType: "DDR4", url: "https://www.gskill.com/series/166/Ripjaws-V" },
+  { value: "ddr4-64-kingston",   label: "64 ГБ DDR4-3200 Kingston Fury Beast 4×16",price: 15500, brand: "Kingston", memory: 64, freq: 3200, ramType: "DDR4", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr4-memory" },
   // DDR5
-  { value: "ddr5-16-kingston",   label: "16 ГБ DDR5-4800 Kingston Fury Beast",      price: 5000,  brand: "Kingston", memory: 16, freq: 4800, ramType: "DDR5" },
-  { value: "ddr5-16-corsair",    label: "16 ГБ DDR5-5200 Corsair Vengeance",        price: 6000,  brand: "Corsair",  memory: 16, freq: 5200, ramType: "DDR5" },
-  { value: "ddr5-32-kingston",   label: "32 ГБ DDR5-4800 Kingston Fury Beast 2×16",price: 9500,  brand: "Kingston", memory: 32, freq: 4800, ramType: "DDR5" },
-  { value: "ddr5-32-corsair",    label: "32 ГБ DDR5-5600 Corsair Vengeance 2×16",  price: 11500, brand: "Corsair",  memory: 32, freq: 5600, ramType: "DDR5" },
-  { value: "ddr5-32-gskill",     label: "32 ГБ DDR5-5600 G.Skill Ripjaws S5 2×16", price: 11000, brand: "G.Skill",  memory: 32, freq: 5600, ramType: "DDR5" },
-  { value: "ddr5-32-gskill-tz",  label: "32 ГБ DDR5-6000 G.Skill Trident Z5 2×16", price: 14500, brand: "G.Skill",  memory: 32, freq: 6000, ramType: "DDR5" },
-  { value: "ddr5-64-kingston",   label: "64 ГБ DDR5-4800 Kingston Fury Beast 2×32",price: 19000, brand: "Kingston", memory: 64, freq: 4800, ramType: "DDR5" },
-  { value: "ddr5-64-gskill",     label: "64 ГБ DDR5-6000 G.Skill Trident Z5 2×32", price: 28000, brand: "G.Skill",  memory: 64, freq: 6000, ramType: "DDR5" },
-  { value: "ddr5-96-gskill",     label: "96 ГБ DDR5-6000 G.Skill Trident Z5 2×48", price: 42000, brand: "G.Skill",  memory: 96, freq: 6000, ramType: "DDR5" },
+  { value: "ddr5-16-kingston",   label: "16 ГБ DDR5-4800 Kingston Fury Beast",      price: 5000,  brand: "Kingston", memory: 16, freq: 4800, ramType: "DDR5", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr5-memory" },
+  { value: "ddr5-16-corsair",    label: "16 ГБ DDR5-5200 Corsair Vengeance",        price: 6000,  brand: "Corsair",  memory: 16, freq: 5200, ramType: "DDR5", url: "https://www.corsair.com/ru/ru/c/vengeance-ddr5" },
+  { value: "ddr5-32-kingston",   label: "32 ГБ DDR5-4800 Kingston Fury Beast 2×16",price: 9500,  brand: "Kingston", memory: 32, freq: 4800, ramType: "DDR5", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr5-memory" },
+  { value: "ddr5-32-corsair",    label: "32 ГБ DDR5-5600 Corsair Vengeance 2×16",  price: 11500, brand: "Corsair",  memory: 32, freq: 5600, ramType: "DDR5", url: "https://www.corsair.com/ru/ru/c/vengeance-ddr5" },
+  { value: "ddr5-32-gskill",     label: "32 ГБ DDR5-5600 G.Skill Ripjaws S5 2×16", price: 11000, brand: "G.Skill",  memory: 32, freq: 5600, ramType: "DDR5", url: "https://www.gskill.com/series/355/Ripjaws-S5" },
+  { value: "ddr5-32-gskill-tz",  label: "32 ГБ DDR5-6000 G.Skill Trident Z5 2×16", price: 14500, brand: "G.Skill",  memory: 32, freq: 6000, ramType: "DDR5", url: "https://www.gskill.com/series/335/Trident-Z5" },
+  { value: "ddr5-64-kingston",   label: "64 ГБ DDR5-4800 Kingston Fury Beast 2×32",price: 19000, brand: "Kingston", memory: 64, freq: 4800, ramType: "DDR5", url: "https://www.kingston.com/ru/memory/gaming/kingston-fury-beast-ddr5-memory" },
+  { value: "ddr5-64-gskill",     label: "64 ГБ DDR5-6000 G.Skill Trident Z5 2×32", price: 28000, brand: "G.Skill",  memory: 64, freq: 6000, ramType: "DDR5", url: "https://www.gskill.com/series/335/Trident-Z5" },
+  { value: "ddr5-96-gskill",     label: "96 ГБ DDR5-6000 G.Skill Trident Z5 2×48", price: 42000, brand: "G.Skill",  memory: 96, freq: 6000, ramType: "DDR5", url: "https://www.gskill.com/series/335/Trident-Z5" },
 ]
 
 const storageOptionsDefault: Part[] = [
   // Samsung
-  { value: "sam870-500",   label: "Samsung 870 EVO 500GB SATA",          price: 5500,  brand: "Samsung", memory: 500 },
-  { value: "sam870-1t",    label: "Samsung 870 EVO 1TB SATA",             price: 8500,  brand: "Samsung", memory: 1000 },
-  { value: "sam870-2t",    label: "Samsung 870 EVO 2TB SATA",             price: 16500, brand: "Samsung", memory: 2000 },
-  { value: "sam980p-1t",   label: "Samsung 980 PRO 1TB NVMe PCIe4",       price: 9500,  brand: "Samsung", memory: 1000 },
-  { value: "sam980p-2t",   label: "Samsung 980 PRO 2TB NVMe PCIe4",       price: 17500, brand: "Samsung", memory: 2000 },
-  { value: "sam990p-1t",   label: "Samsung 990 PRO 1TB NVMe PCIe4",       price: 9000,  brand: "Samsung", memory: 1000 },
-  { value: "sam990p-2t",   label: "Samsung 990 PRO 2TB NVMe PCIe4",       price: 16000, brand: "Samsung", memory: 2000 },
-  { value: "sam990p-4t",   label: "Samsung 990 PRO 4TB NVMe PCIe4",       price: 32000, brand: "Samsung", memory: 4000 },
+  { value: "sam870-500",   label: "Samsung 870 EVO 500GB SATA",          price: 5500,  brand: "Samsung", memory: 500,  url: "https://www.samsung.com/ru/memory-storage/sata-ssd/870-evo-500gb-sata-3-2-5-ssd-mz-77e500bw/" },
+  { value: "sam870-1t",    label: "Samsung 870 EVO 1TB SATA",             price: 8500,  brand: "Samsung", memory: 1000, url: "https://www.samsung.com/ru/memory-storage/sata-ssd/870-evo-1tb-sata-3-2-5-ssd-mz-77e1t0bw/" },
+  { value: "sam870-2t",    label: "Samsung 870 EVO 2TB SATA",             price: 16500, brand: "Samsung", memory: 2000, url: "https://www.samsung.com/ru/memory-storage/sata-ssd/870-evo-2tb-sata-3-2-5-ssd-mz-77e2t0bw/" },
+  { value: "sam980p-1t",   label: "Samsung 980 PRO 1TB NVMe PCIe4",       price: 9500,  brand: "Samsung", memory: 1000, url: "https://www.samsung.com/ru/memory-storage/nvme-ssd/980-pro-1tb-nvme-pcie-gen-4-gaming-ssd-mz-v8p1t0bw/" },
+  { value: "sam980p-2t",   label: "Samsung 980 PRO 2TB NVMe PCIe4",       price: 17500, brand: "Samsung", memory: 2000, url: "https://www.samsung.com/ru/memory-storage/nvme-ssd/980-pro-2tb-nvme-pcie-gen-4-gaming-ssd-mz-v8p2t0bw/" },
+  { value: "sam990p-1t",   label: "Samsung 990 PRO 1TB NVMe PCIe4",       price: 9000,  brand: "Samsung", memory: 1000, url: "https://www.samsung.com/ru/memory-storage/nvme-ssd/990-pro-1tb-nvme-pcie-gen-4-gaming-ssd-mz-v9p1t0bw/" },
+  { value: "sam990p-2t",   label: "Samsung 990 PRO 2TB NVMe PCIe4",       price: 16000, brand: "Samsung", memory: 2000, url: "https://www.samsung.com/ru/memory-storage/nvme-ssd/990-pro-2tb-nvme-pcie-gen-4-gaming-ssd-mz-v9p2t0bw/" },
+  { value: "sam990p-4t",   label: "Samsung 990 PRO 4TB NVMe PCIe4",       price: 32000, brand: "Samsung", memory: 4000, url: "https://www.samsung.com/ru/memory-storage/nvme-ssd/990-pro-with-heatsink-4tb-nvme-pcie-gen-4-gaming-ssd-mz-v9p4t0cw/" },
   // WD
-  { value: "wd-blue-1t",   label: "WD Blue SN580 1TB NVMe PCIe4",         price: 7500,  brand: "WD", memory: 1000 },
-  { value: "wd-blue-2t",   label: "WD Blue SN580 2TB NVMe PCIe4",         price: 12500, brand: "WD", memory: 2000 },
-  { value: "wd-black-1t",  label: "WD Black SN850X 1TB NVMe PCIe4",       price: 12500, brand: "WD", memory: 1000 },
-  { value: "wd-black-2t",  label: "WD Black SN850X 2TB NVMe PCIe4",       price: 22000, brand: "WD", memory: 2000 },
+  { value: "wd-blue-1t",   label: "WD Blue SN580 1TB NVMe PCIe4",         price: 7500,  brand: "WD", memory: 1000, url: "https://www.westerndigital.com/ru-ru/products/internal-drives/wd-blue-sn580-nvme-ssd" },
+  { value: "wd-blue-2t",   label: "WD Blue SN580 2TB NVMe PCIe4",         price: 12500, brand: "WD", memory: 2000, url: "https://www.westerndigital.com/ru-ru/products/internal-drives/wd-blue-sn580-nvme-ssd" },
+  { value: "wd-black-1t",  label: "WD Black SN850X 1TB NVMe PCIe4",       price: 12500, brand: "WD", memory: 1000, url: "https://www.westerndigital.com/ru-ru/products/internal-drives/wd-black-sn850x-nvme-ssd" },
+  { value: "wd-black-2t",  label: "WD Black SN850X 2TB NVMe PCIe4",       price: 22000, brand: "WD", memory: 2000, url: "https://www.westerndigital.com/ru-ru/products/internal-drives/wd-black-sn850x-nvme-ssd" },
   // Kingston
-  { value: "kn-nv2-500",   label: "Kingston NV2 500GB NVMe PCIe4",         price: 3500,  brand: "Kingston", memory: 500 },
-  { value: "kn-nv2-1t",    label: "Kingston NV2 1TB NVMe PCIe4",           price: 6000,  brand: "Kingston", memory: 1000 },
-  { value: "kn-nv2-2t",    label: "Kingston NV2 2TB NVMe PCIe4",           price: 10000, brand: "Kingston", memory: 2000 },
-  { value: "kn-kc3000-1t", label: "Kingston KC3000 1TB NVMe PCIe4",        price: 9000,  brand: "Kingston", memory: 1000 },
+  { value: "kn-nv2-500",   label: "Kingston NV2 500GB NVMe PCIe4",         price: 3500,  brand: "Kingston", memory: 500,  url: "https://www.kingston.com/ru/ssd/nv2-nvme-pcie-ssd" },
+  { value: "kn-nv2-1t",    label: "Kingston NV2 1TB NVMe PCIe4",           price: 6000,  brand: "Kingston", memory: 1000, url: "https://www.kingston.com/ru/ssd/nv2-nvme-pcie-ssd" },
+  { value: "kn-nv2-2t",    label: "Kingston NV2 2TB NVMe PCIe4",           price: 10000, brand: "Kingston", memory: 2000, url: "https://www.kingston.com/ru/ssd/nv2-nvme-pcie-ssd" },
+  { value: "kn-kc3000-1t", label: "Kingston KC3000 1TB NVMe PCIe4",        price: 9000,  brand: "Kingston", memory: 1000, url: "https://www.kingston.com/ru/ssd/kc3000-nvme-m2-solid-state-drive" },
   // Crucial
-  { value: "cr-p3-1t",     label: "Crucial P3 1TB NVMe PCIe3",             price: 5500,  brand: "Crucial", memory: 1000 },
-  { value: "cr-p3-2t",     label: "Crucial P3 2TB NVMe PCIe3",             price: 9500,  brand: "Crucial", memory: 2000 },
-  { value: "cr-p5p-1t",    label: "Crucial P5 Plus 1TB NVMe PCIe4",        price: 8000,  brand: "Crucial", memory: 1000 },
-  { value: "cr-mx500-500", label: "Crucial MX500 500GB SATA",               price: 4500,  brand: "Crucial", memory: 500 },
-  { value: "cr-mx500-1t",  label: "Crucial MX500 1TB SATA",                 price: 7000,  brand: "Crucial", memory: 1000 },
+  { value: "cr-p3-1t",     label: "Crucial P3 1TB NVMe PCIe3",             price: 5500,  brand: "Crucial", memory: 1000, url: "https://www.crucial.com/ssd/p3/ct1000p3ssd8" },
+  { value: "cr-p3-2t",     label: "Crucial P3 2TB NVMe PCIe3",             price: 9500,  brand: "Crucial", memory: 2000, url: "https://www.crucial.com/ssd/p3/ct2000p3ssd8" },
+  { value: "cr-p5p-1t",    label: "Crucial P5 Plus 1TB NVMe PCIe4",        price: 8000,  brand: "Crucial", memory: 1000, url: "https://www.crucial.com/ssd/p5-plus/ct1000p5pssd8" },
+  { value: "cr-mx500-500", label: "Crucial MX500 500GB SATA",               price: 4500,  brand: "Crucial", memory: 500,  url: "https://www.crucial.com/ssd/mx500/CT500MX500SSD1" },
+  { value: "cr-mx500-1t",  label: "Crucial MX500 1TB SATA",                 price: 7000,  brand: "Crucial", memory: 1000, url: "https://www.crucial.com/ssd/mx500/CT1000MX500SSD1" },
   // Seagate
-  { value: "sg-f-1t",      label: "Seagate FireCuda 530 1TB NVMe PCIe4",   price: 10000, brand: "Seagate", memory: 1000 },
-  { value: "sg-f-2t",      label: "Seagate FireCuda 530 2TB NVMe PCIe4",   price: 18000, brand: "Seagate", memory: 2000 },
+  { value: "sg-f-1t",      label: "Seagate FireCuda 530 1TB NVMe PCIe4",   price: 10000, brand: "Seagate", memory: 1000, url: "https://www.seagate.com/ru/ru/products/gaming-drives/pc-gaming/firecuda-530-ssd/" },
+  { value: "sg-f-2t",      label: "Seagate FireCuda 530 2TB NVMe PCIe4",   price: 18000, brand: "Seagate", memory: 2000, url: "https://www.seagate.com/ru/ru/products/gaming-drives/pc-gaming/firecuda-530-ssd/" },
   // ADATA
-  { value: "ad-s70-1t",    label: "ADATA XPG S70 Blade 1TB NVMe PCIe4",   price: 8500,  brand: "ADATA", memory: 1000 },
-  { value: "ad-s70-2t",    label: "ADATA XPG S70 Blade 2TB NVMe PCIe4",   price: 15000, brand: "ADATA", memory: 2000 },
+  { value: "ad-s70-1t",    label: "ADATA XPG S70 Blade 1TB NVMe PCIe4",   price: 8500,  brand: "ADATA", memory: 1000, url: "https://www.xpg.com/ru/xpg/693" },
+  { value: "ad-s70-2t",    label: "ADATA XPG S70 Blade 2TB NVMe PCIe4",   price: 15000, brand: "ADATA", memory: 2000, url: "https://www.xpg.com/ru/xpg/693" },
 ]
 
 const psuOptionsDefault: Part[] = [
-  { value: "dp-pq550d",    label: "Deepcool PQ550D 550W 80+ Bronze",        price: 3500,  brand: "Deepcool", watt: 550 },
-  { value: "dp-pq650d",    label: "Deepcool PQ650D 650W 80+ Bronze",        price: 4500,  brand: "Deepcool", watt: 650 },
-  { value: "dp-pq650m",    label: "Deepcool PQ650M 650W 80+ Gold",          price: 6500,  brand: "Deepcool", watt: 650 },
-  { value: "dp-pq750m",    label: "Deepcool PQ750M 750W 80+ Gold",          price: 8000,  brand: "Deepcool", watt: 750 },
-  { value: "dp-pq850m",    label: "Deepcool PQ850M 850W 80+ Gold",          price: 9500,  brand: "Deepcool", watt: 850 },
-  { value: "ss-s12-500",   label: "Seasonic S12III 500W 80+ Bronze",        price: 4000,  brand: "Seasonic", watt: 500 },
-  { value: "ss-gx-650",    label: "Seasonic Focus GX-650 650W 80+ Gold",    price: 8000,  brand: "Seasonic", watt: 650 },
-  { value: "ss-gx-750",    label: "Seasonic Focus GX-750 750W 80+ Gold",    price: 9500,  brand: "Seasonic", watt: 750 },
-  { value: "ss-gx-850",    label: "Seasonic Focus GX-850 850W 80+ Gold",    price: 11500, brand: "Seasonic", watt: 850 },
-  { value: "bq-sys500",    label: "be quiet! System Power 10 500W Bronze",  price: 3800,  brand: "be quiet!", watt: 500 },
-  { value: "bq-pp12-550",  label: "be quiet! Pure Power 12M 550W 80+ Gold", price: 7000,  brand: "be quiet!", watt: 550 },
-  { value: "bq-pp12-750",  label: "be quiet! Pure Power 12M 750W 80+ Gold", price: 9800,  brand: "be quiet!", watt: 750 },
-  { value: "bq-pp12-850",  label: "be quiet! Pure Power 12M 850W 80+ Gold", price: 11800, brand: "be quiet!", watt: 850 },
-  { value: "cs-rm550",     label: "Corsair RM550 550W 80+ Gold",             price: 7000,  brand: "Corsair", watt: 550 },
-  { value: "cs-rm650",     label: "Corsair RM650 650W 80+ Gold",             price: 8500,  brand: "Corsair", watt: 650 },
-  { value: "cs-rm750",     label: "Corsair RM750 750W 80+ Gold",             price: 10500, brand: "Corsair", watt: 750 },
-  { value: "cs-rm850",     label: "Corsair RM850x 850W 80+ Gold",            price: 13500, brand: "Corsair", watt: 850 },
-  { value: "cs-rm1000",    label: "Corsair RM1000x 1000W 80+ Gold",          price: 16500, brand: "Corsair", watt: 1000 },
-  { value: "msi-a650",     label: "MSI MAG A650BN 650W 80+ Bronze",          price: 4800,  brand: "MSI", watt: 650 },
-  { value: "msi-a750",     label: "MSI MAG A750GL 750W 80+ Gold",            price: 8500,  brand: "MSI", watt: 750 },
-  { value: "as-tuf-650",   label: "ASUS TUF Gaming 650W 80+ Bronze",         price: 6500,  brand: "ASUS", watt: 650 },
-  { value: "as-tuf-850",   label: "ASUS TUF Gaming 850W 80+ Gold",           price: 11500, brand: "ASUS", watt: 850 },
+  // DEEPCOOL PF серия (80+ Standard)
+  { value: "dp-pf450",     label: "DEEPCOOL PF450 450W 80+",               price: 0, brand: "Deepcool", watt: 450,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/DEEPCOOL-PF450/2022/15200.shtml" },
+  { value: "dp-pf500",     label: "DEEPCOOL PF500 500W 80+",               price: 0, brand: "Deepcool", watt: 500,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/DEEPCOOL-PF500/2022/15201.shtml" },
+  { value: "dp-pf600",     label: "DEEPCOOL PF600 600W 80+",               price: 0, brand: "Deepcool", watt: 600,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/DEEPCOOL-PF600/2022/15202.shtml" },
+  { value: "dp-pf650",     label: "DEEPCOOL PF650 650W 80+",               price: 0, brand: "Deepcool", watt: 650,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/DEEPCOOL-PF650/2022/15203.shtml" },
+  { value: "dp-pf700",     label: "DEEPCOOL PF700 700W 80+",               price: 0, brand: "Deepcool", watt: 700,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/DEEPCOOL-PF700/2022/15204.shtml" },
+  { value: "dp-pf750",     label: "DEEPCOOL PF750 750W 80+",               price: 0, brand: "Deepcool", watt: 750,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/DEEPCOOL-PF750/2022/15205.shtml" },
+  // DEEPCOOL GamerStorm PQ серия (80+ Gold, модульные)
+  { value: "dp-pq650g",    label: "DEEPCOOL GamerStorm PQ650G 650W 80+ Gold",   price: 0, brand: "Deepcool", watt: 650,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PQ650G/2023/17096.shtml" },
+  { value: "dp-pq750g",    label: "DEEPCOOL GamerStorm PQ750G 750W 80+ Gold",   price: 0, brand: "Deepcool", watt: 750,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PQ750G/2023/17097.shtml" },
+  { value: "dp-pq850g",    label: "DEEPCOOL GamerStorm PQ850G 850W 80+ Gold",   price: 0, brand: "Deepcool", watt: 850,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PQ850G/2023/17098.shtml" },
+  { value: "dp-pq1000g",   label: "DEEPCOOL GamerStorm PQ1000G 1000W 80+ Gold", price: 0, brand: "Deepcool", watt: 1000, url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PQ1000G/2023/17099.shtml" },
+  { value: "dp-pq1000g-wh",label: "DEEPCOOL GamerStorm PQ1000G WH 1000W 80+ Gold (белый)", price: 0, brand: "Deepcool", watt: 1000, url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PQ1000G/2023/17099.shtml" },
+  { value: "dp-pq1200g",   label: "DEEPCOOL GamerStorm PQ1200G 1200W 80+ Gold", price: 0, brand: "Deepcool", watt: 1200, url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PQ1200G/2023/17100.shtml" },
+  // DEEPCOOL GamerStorm PK серия (80+ Bronze, модульные)
+  { value: "dp-pk750d",    label: "DEEPCOOL GamerStorm PK750D 750W 80+ Bronze",  price: 0, brand: "Deepcool", watt: 750,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PK750D/2022/16234.shtml" },
+  // DEEPCOOL GamerStorm PN серия (80+ Gold, полностью модульные)
+  { value: "dp-pn850m",    label: "DEEPCOOL GamerStorm PN850M 850W 80+ Gold",    price: 0, brand: "Deepcool", watt: 850,  url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PN850M/2023/17300.shtml" },
+  { value: "dp-pn1000m",   label: "DEEPCOOL GamerStorm PN1000M 1000W 80+ Gold",  price: 0, brand: "Deepcool", watt: 1000, url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PN1000M/2023/17301.shtml" },
+  { value: "dp-pn1200m",   label: "DEEPCOOL GamerStorm PN1200M 1200W 80+ Gold",  price: 0, brand: "Deepcool", watt: 1200, url: "https://www.deepcool.com/products/PowerSupplyUnits/psu/GamerStorm-PN1200M/2023/17302.shtml" },
+  // Cougar GEC серия (80+ Gold)
+  { value: "cougar-gec750",      label: "Cougar GEC 750 750W 80+ Gold",           price: 0, brand: "Cougar", watt: 750,  url: "https://www.cougar-world.com/products/psu/gec-750.html" },
+  { value: "cougar-gec850",      label: "Cougar GEC 850 850W 80+ Gold",           price: 0, brand: "Cougar", watt: 850,  url: "https://www.cougar-world.com/products/psu/gec-850.html" },
+  { value: "cougar-gec850-snow", label: "Cougar GEC 850 SNOW 850W 80+ Gold (белый)", price: 0, brand: "Cougar", watt: 850,  url: "https://www.cougar-world.com/products/psu/gec-850.html" },
+  // Cougar GEX серия (80+ Gold, модульные)
+  { value: "cougar-gex850",      label: "Cougar GEX850 850W 80+ Gold",            price: 0, brand: "Cougar", watt: 850,  url: "https://www.cougar-world.com/products/psu/gex-850.html" },
+  { value: "cougar-gex850-snow", label: "Cougar GEX 850 SNOW 850W 80+ Gold (белый)", price: 0, brand: "Cougar", watt: 850, url: "https://www.cougar-world.com/products/psu/gex-850.html" },
+  { value: "cougar-gexx2-1000",  label: "Cougar GEX X2 1000W 80+ Gold",          price: 0, brand: "Cougar", watt: 1000, url: "https://www.cougar-world.com/products/psu/gex-x2-1000.html" },
+  // Cougar GES серия (80+ Gold, 12V-2x6)
+  { value: "cougar-ges850",      label: "Cougar GES 850 850W 80+ Gold",           price: 0, brand: "Cougar", watt: 850,  url: "https://www.cougar-world.com/products/psu/ges-850.html" },
+  // Cougar GR серия (80+ Gold, 12V-2x6)
+  { value: "cougar-gr750",       label: "Cougar GR 750 750W 80+ Gold",            price: 0, brand: "Cougar", watt: 750,  url: "https://www.cougar-world.com/products/psu/gr-750.html" },
+  { value: "cougar-gr850",       label: "Cougar GR 850 850W 80+ Gold",            price: 0, brand: "Cougar", watt: 850,  url: "https://www.cougar-world.com/products/psu/gr-850.html" },
+  // Cougar Atlas серия (80+ Bronze)
+  { value: "cougar-atlas750",    label: "Cougar Atlas 750 750W 80+ Bronze",       price: 0, brand: "Cougar", watt: 750,  url: "https://www.cougar-world.com/products/psu/atlas-750.html" },
+  // Cougar GEC SNOW 750
+  { value: "cougar-gec-snow750", label: "Cougar GEC SNOW 750 750W 80+ Gold (белый)", price: 0, brand: "Cougar", watt: 750, url: "https://www.cougar-world.com/products/psu/gec-750.html" },
+  // Cougar STC серия (80+ Standard)
+  { value: "cougar-stc600",      label: "Cougar STC 600 600W 80+",               price: 0, brand: "Cougar", watt: 600,  url: "https://www.cougar-world.com/products/psu/stc-600.html" },
+  { value: "cougar-stc650",      label: "Cougar STC 650 650W 80+",               price: 0, brand: "Cougar", watt: 650,  url: "https://www.cougar-world.com/products/psu/stc-650.html" },
+  // MSI MPG серия (80+ Gold, PCIe5 / 12VHPWR)
+  { value: "msi-mpg-a850g",      label: "MSI MPG A850G PCIE5 850W 80+ Gold",     price: 0, brand: "MSI", watt: 850,  url: "https://www.msi.com/Power-Supply/MPG-A850G-PCIE5" },
+  { value: "msi-mpg-a1000g",     label: "MSI MPG A1000G PCIE5 1000W 80+ Gold",   price: 0, brand: "MSI", watt: 1000, url: "https://www.msi.com/Power-Supply/MPG-A1000G-PCIE5" },
+  // MSI MAG серия (80+ Bronze / Gold)
+  { value: "msi-mag-a550bn",     label: "MSI MAG A550BN 550W 80+ Bronze",        price: 0, brand: "MSI", watt: 550,  url: "https://www.msi.com/Power-Supply/MAG-A550BN" },
+  { value: "msi-mag-a650bn",     label: "MSI MAG A650BN 650W 80+ Bronze",        price: 0, brand: "MSI", watt: 650,  url: "https://www.msi.com/Power-Supply/MAG-A650BN" },
+  { value: "msi-mag-a1000gl",    label: "MSI MAG A1000GL PCIE5 1000W 80+ Gold",  price: 0, brand: "MSI", watt: 1000, url: "https://www.msi.com/Power-Supply/MAG-A1000GL-PCIE5" },
+  // MONTECH серия (80+ Gold)
+  { value: "montech-titan850",   label: "MONTECH TITAN GOLD 850 850W 80+ Gold",  price: 0, brand: "Montech", watt: 850,  url: "https://www.montechpc.com/en/product-detail/titan-gold-850w/" },
+  { value: "montech-gamma750",   label: "MONTECH GAMMA II 750 750W 80+ Gold",    price: 0, brand: "Montech", watt: 750,  url: "https://www.montechpc.com/en/product-detail/gamma-ii-750w/" },
+  // Seasonic
+  { value: "ss-s12-500",   label: "Seasonic S12III 500W 80+ Bronze",        price: 4000,  brand: "Seasonic", watt: 500,  url: "https://seasonic.com/s12iii" },
+  { value: "ss-gx-650",    label: "Seasonic Focus GX-650 650W 80+ Gold",    price: 8000,  brand: "Seasonic", watt: 650,  url: "https://seasonic.com/focus-gx" },
+  { value: "ss-gx-750",    label: "Seasonic Focus GX-750 750W 80+ Gold",    price: 9500,  brand: "Seasonic", watt: 750,  url: "https://seasonic.com/focus-gx" },
+  { value: "ss-gx-850",    label: "Seasonic Focus GX-850 850W 80+ Gold",    price: 11500, brand: "Seasonic", watt: 850,  url: "https://seasonic.com/focus-gx" },
+  // be quiet!
+  { value: "bq-sys500",    label: "be quiet! System Power 10 500W Bronze",  price: 3800,  brand: "be quiet!", watt: 500,  url: "https://www.bequiet.com/ru/powersupply/system-power-10" },
+  { value: "bq-pp12-550",  label: "be quiet! Pure Power 12M 550W 80+ Gold", price: 7000,  brand: "be quiet!", watt: 550,  url: "https://www.bequiet.com/ru/powersupply/pure-power-12-m" },
+  { value: "bq-pp12-750",  label: "be quiet! Pure Power 12M 750W 80+ Gold", price: 9800,  brand: "be quiet!", watt: 750,  url: "https://www.bequiet.com/ru/powersupply/pure-power-12-m" },
+  { value: "bq-pp12-850",  label: "be quiet! Pure Power 12M 850W 80+ Gold", price: 11800, brand: "be quiet!", watt: 850,  url: "https://www.bequiet.com/ru/powersupply/pure-power-12-m" },
+  // Corsair
+  { value: "cs-rm550",     label: "Corsair RM550 550W 80+ Gold",             price: 7000,  brand: "Corsair", watt: 550,  url: "https://www.corsair.com/ru/ru/p/psu/cp-9020194-eu/rm550-2019-550w-80-plus-gold-fully-modular-atx-psu-eu-cp-9020194-eu" },
+  { value: "cs-rm650",     label: "Corsair RM650 650W 80+ Gold",             price: 8500,  brand: "Corsair", watt: 650,  url: "https://www.corsair.com/ru/ru/p/psu/cp-9020195-eu/rm650-2019-650w-80-plus-gold-fully-modular-atx-psu-eu-cp-9020195-eu" },
+  { value: "cs-rm750",     label: "Corsair RM750 750W 80+ Gold",             price: 10500, brand: "Corsair", watt: 750,  url: "https://www.corsair.com/ru/ru/p/psu/cp-9020196-eu/rm750-2019-750w-80-plus-gold-fully-modular-atx-psu-eu-cp-9020196-eu" },
+  { value: "cs-rm850",     label: "Corsair RM850x 850W 80+ Gold",            price: 13500, brand: "Corsair", watt: 850,  url: "https://www.corsair.com/ru/ru/p/psu/cp-9020200-eu/rmx-series-rm850x-2021-850-watt-80-plus-gold-fully-modular-atx-psu-eu-cp-9020200-eu" },
+  { value: "cs-rm1000",    label: "Corsair RM1000x 1000W 80+ Gold",          price: 16500, brand: "Corsair", watt: 1000, url: "https://www.corsair.com/ru/ru/p/psu/cp-9020201-eu/rmx-series-rm1000x-2021-1000-watt-80-plus-gold-fully-modular-atx-psu-eu-cp-9020201-eu" },
+  // ASUS
+  { value: "as-tuf-650",   label: "ASUS TUF Gaming 650W 80+ Bronze",         price: 6500,  brand: "ASUS", watt: 650,  url: "https://www.asus.com/motherboards-components/psu/tuf-gaming/tuf-gaming-650b/" },
+  { value: "as-tuf-850",   label: "ASUS TUF Gaming 850W 80+ Gold",           price: 11500, brand: "ASUS", watt: 850,  url: "https://www.asus.com/motherboards-components/psu/tuf-gaming/tuf-gaming-850g/" },
 ]
 
 const caseOptionsDefault: Part[] = [
-  { value: "matx-deepcool-40",  label: "Deepcool MATREXX 40 (mATX)",                 price: 3200,  brand: "Deepcool" },
-  { value: "atx-deepcool-cc560",label: "Deepcool CC560 (ATX)",                       price: 5000,  brand: "Deepcool" },
-  { value: "atx-deepcool-ch510",label: "Deepcool CH510 (ATX)",                       price: 5500,  brand: "Deepcool" },
-  { value: "atx-deepcool-ch560",label: "Deepcool CH560 Mesh (ATX)",                  price: 8000,  brand: "Deepcool" },
-  { value: "atx-bequiet-500dx", label: "be quiet! Pure Base 500DX (ATX)",            price: 9000,  brand: "be quiet!" },
-  { value: "atx-bequiet-600dx", label: "be quiet! Pure Base 600DX (ATX)",            price: 13500, brand: "be quiet!" },
-  { value: "atx-bequiet-dark",  label: "be quiet! Dark Base 700 (ATX)",              price: 17500, brand: "be quiet!" },
-  { value: "atx-fractal-pop",   label: "Fractal Design Pop Air (ATX)",               price: 10000, brand: "Fractal" },
-  { value: "atx-fractal-north", label: "Fractal Design North (ATX)",                 price: 14500, brand: "Fractal" },
-  { value: "atx-fractal-meshify",label:"Fractal Design Meshify 2 (ATX)",             price: 16500, brand: "Fractal" },
-  { value: "atx-nzxt-h5-flow",  label: "NZXT H5 Flow (ATX)",                        price: 10500, brand: "NZXT" },
-  { value: "atx-nzxt-h7-flow",  label: "NZXT H7 Flow (ATX)",                        price: 15500, brand: "NZXT" },
-  { value: "atx-corsair-4000d", label: "Corsair 4000D Airflow (ATX)",                price: 9500,  brand: "Corsair" },
-  { value: "atx-corsair-5000d", label: "Corsair 5000D Airflow (ATX)",                price: 13500, brand: "Corsair" },
-  { value: "atx-lian-205",      label: "Lian Li LANCOOL 205 (ATX)",                  price: 7500,  brand: "Lian Li" },
-  { value: "atx-lian-216",      label: "Lian Li LANCOOL 216 (ATX)",                  price: 11500, brand: "Lian Li" },
-  { value: "atx-lian-o11d",     label: "Lian Li O11 Dynamic EVO (ATX/E-ATX)",        price: 17500, brand: "Lian Li" },
-  { value: "atx-phanteks-p400a",label: "Phanteks Eclipse P400A (ATX)",               price: 8500,  brand: "Phanteks" },
-  { value: "atx-cooler-td500",  label: "Cooler Master TD500 Mesh V2 (ATX)",          price: 8500,  brand: "Cooler Master" },
-  { value: "atx-msi-mag-forge", label: "MSI MAG FORGE 111R (ATX)",                   price: 6000,  brand: "MSI" },
+  { value: "matx-deepcool-40",  label: "Deepcool MATREXX 40 (mATX)",                 price: 3200,  brand: "Deepcool",      url: "https://www.deepcool.com/products/Cases/matxtower/MATREXX-40/2019/11955.shtml" },
+  { value: "atx-deepcool-cc560",label: "Deepcool CC560 (ATX)",                       price: 5000,  brand: "Deepcool",      url: "https://www.deepcool.com/products/Cases/atxtower/CC560/2022/15900.shtml" },
+  { value: "atx-deepcool-ch510",label: "Deepcool CH510 (ATX)",                       price: 5500,  brand: "Deepcool",      url: "https://www.deepcool.com/products/Cases/atxtower/CH510/2021/14250.shtml" },
+  { value: "atx-deepcool-ch560",label: "Deepcool CH560 Mesh (ATX)",                  price: 8000,  brand: "Deepcool",      url: "https://www.deepcool.com/products/Cases/atxtower/CH560/2023/17500.shtml" },
+  { value: "atx-bequiet-500dx", label: "be quiet! Pure Base 500DX (ATX)",            price: 9000,  brand: "be quiet!",     url: "https://www.bequiet.com/ru/case/pure-base-500dx" },
+  { value: "atx-bequiet-600dx", label: "be quiet! Pure Base 600DX (ATX)",            price: 13500, brand: "be quiet!",     url: "https://www.bequiet.com/ru/case/pure-base-600" },
+  { value: "atx-bequiet-dark",  label: "be quiet! Dark Base 700 (ATX)",              price: 17500, brand: "be quiet!",     url: "https://www.bequiet.com/ru/case/dark-base-700" },
+  { value: "atx-fractal-pop",   label: "Fractal Design Pop Air (ATX)",               price: 10000, brand: "Fractal",       url: "https://www.fractal-design.com/products/cases/pop/pop-air/" },
+  { value: "atx-fractal-north", label: "Fractal Design North (ATX)",                 price: 14500, brand: "Fractal",       url: "https://www.fractal-design.com/products/cases/north/" },
+  { value: "atx-fractal-meshify",label:"Fractal Design Meshify 2 (ATX)",             price: 16500, brand: "Fractal",       url: "https://www.fractal-design.com/products/cases/meshify/meshify-2/" },
+  { value: "atx-nzxt-h5-flow",  label: "NZXT H5 Flow (ATX)",                        price: 10500, brand: "NZXT",          url: "https://nzxt.com/product/h5-flow" },
+  { value: "atx-nzxt-h7-flow",  label: "NZXT H7 Flow (ATX)",                        price: 15500, brand: "NZXT",          url: "https://nzxt.com/product/h7-flow" },
+  { value: "atx-corsair-4000d", label: "Corsair 4000D Airflow (ATX)",                price: 9500,  brand: "Corsair",       url: "https://www.corsair.com/ru/ru/p/pc-cases/cc-9011200-ww/4000d-airflow-tempered-glass-mid-tower-atx-pc-case-black-cc-9011200-ww" },
+  { value: "atx-corsair-5000d", label: "Corsair 5000D Airflow (ATX)",                price: 13500, brand: "Corsair",       url: "https://www.corsair.com/ru/ru/p/pc-cases/cc-9011209-ww/5000d-airflow-tempered-glass-mid-tower-atx-pc-case-black-cc-9011209-ww" },
+  { value: "atx-lian-205",      label: "Lian Li LANCOOL 205 (ATX)",                  price: 7500,  brand: "Lian Li",       url: "https://lian-li.com/product/lancool-205/" },
+  { value: "atx-lian-216",      label: "Lian Li LANCOOL 216 (ATX)",                  price: 11500, brand: "Lian Li",       url: "https://lian-li.com/product/lancool-216/" },
+  { value: "atx-lian-o11d",     label: "Lian Li O11 Dynamic EVO (ATX/E-ATX)",        price: 17500, brand: "Lian Li",       url: "https://lian-li.com/product/o11-dynamic-evo/" },
+  { value: "atx-phanteks-p400a",label: "Phanteks Eclipse P400A (ATX)",               price: 8500,  brand: "Phanteks",      url: "https://phanteks.com/Eclipse-P400A.html" },
+  { value: "atx-cooler-td500",  label: "Cooler Master TD500 Mesh V2 (ATX)",          price: 8500,  brand: "Cooler Master",  url: "https://www.coolermaster.com/catalog/cases/mid-tower/masterbox-td500-mesh-v2/" },
+  { value: "atx-msi-mag-forge", label: "MSI MAG FORGE 111R (ATX)",                   price: 6000,  brand: "MSI",           url: "https://ru.msi.com/PC-Case/MAG-FORGE-111R" },
 ]
 
 const coolerOptionsDefault: Part[] = [
-  { value: "box",    label: "Боксовый кулер (в комплекте с CPU)", price: 0,    brand: "Боксовый" },
-  { value: "dc1",    label: "Deepcool AG400 (башня 120мм)",        price: 2800, brand: "Deepcool" },
-  { value: "be1",    label: "be quiet! Pure Rock 2 (башня 120мм)", price: 4200, brand: "be quiet!" },
-  { value: "dc2",    label: "Deepcool AG620 (двойная башня 2×120мм)",price: 5200, brand: "Deepcool" },
-  { value: "aio240", label: "Deepcool LT240 (СЖО 240мм)",          price: 8000, brand: "Deepcool" },
-  { value: "aio360", label: "Deepcool LT360 (СЖО 360мм)",          price: 12000, brand: "Deepcool" },
+  { value: "box",    label: "Боксовый кулер (в комплекте с CPU)", price: 0,     brand: "Боксовый" },
+  { value: "dc1",    label: "Deepcool AG400 (башня 120мм)",        price: 2800,  brand: "Deepcool",  url: "https://www.deepcool.com/products/Coolings/cpuaircoolers/AG400/2022/15800.shtml" },
+  { value: "be1",    label: "be quiet! Pure Rock 2 (башня 120мм)", price: 4200,  brand: "be quiet!", url: "https://www.bequiet.com/ru/cpucooler/pure-rock-2" },
+  { value: "dc2",    label: "Deepcool AG620 (двойная башня 2×120мм)",price: 5200, brand: "Deepcool",  url: "https://www.deepcool.com/products/Coolings/cpuaircoolers/AG620/2022/15801.shtml" },
+  { value: "aio240", label: "Deepcool LT240 (СЖО 240мм)",          price: 8000,  brand: "Deepcool",  url: "https://www.deepcool.com/products/Coolings/cpuliquidcoolers/LT240/2022/16000.shtml" },
+  { value: "aio360", label: "Deepcool LT360 (СЖО 360мм)",          price: 12000, brand: "Deepcool",  url: "https://www.deepcool.com/products/Coolings/cpuliquidcoolers/LT360/2022/16001.shtml" },
 ]
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -816,6 +864,19 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
                       </option>
                     ))}
                   </select>
+                  {(() => {
+                    const selectedPart = opts.find(o => o.value === selections[key])
+                    return selectedPart?.url ? (
+                      <a
+                        href={selectedPart.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="self-start font-mono text-[10px] text-foreground/50 hover:text-foreground/80 underline underline-offset-2 transition-colors"
+                      >
+                        Технические характеристики →
+                      </a>
+                    ) : null
+                  })()}
                   {key === "psu" && psuInsufficient && (
                     <p className="flex items-center gap-1 font-mono text-[10px] text-orange-400">
                       <span>⚠</span> Выбранный БП может не справиться с нагрузкой. Рекомендуем от {recommendedPsu} Вт.
