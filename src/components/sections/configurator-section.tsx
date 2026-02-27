@@ -15,6 +15,7 @@ interface Part {
   freq?: number
   watt?: number
   ramType?: "DDR4" | "DDR5"
+  tdp?: number
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -24,53 +25,53 @@ const socketOptions = ["AM4", "AM5", "LGA1200", "LGA1700", "LGA1851"]
 
 const cpuOptionsDefault: Part[] = [
   // AM4
-  { value: "r3-3100",    label: "AMD Ryzen 3 3100",         price: 6500,  socket: "AM4", brand: "AMD" },
-  { value: "r5-3600",    label: "AMD Ryzen 5 3600",         price: 8500,  socket: "AM4", brand: "AMD" },
-  { value: "r5-5600",    label: "AMD Ryzen 5 5600",         price: 11500, socket: "AM4", brand: "AMD" },
-  { value: "r5-5600x",   label: "AMD Ryzen 5 5600X",        price: 13500, socket: "AM4", brand: "AMD" },
-  { value: "r7-5700x",   label: "AMD Ryzen 7 5700X",        price: 16500, socket: "AM4", brand: "AMD" },
-  { value: "r7-5800x",   label: "AMD Ryzen 7 5800X",        price: 21000, socket: "AM4", brand: "AMD" },
-  { value: "r9-5900x",   label: "AMD Ryzen 9 5900X",        price: 25500, socket: "AM4", brand: "AMD" },
-  { value: "r9-5950x",   label: "AMD Ryzen 9 5950X",        price: 36000, socket: "AM4", brand: "AMD" },
+  { value: "r3-3100",    label: "AMD Ryzen 3 3100",         price: 6500,  socket: "AM4", brand: "AMD",   tdp: 65 },
+  { value: "r5-3600",    label: "AMD Ryzen 5 3600",         price: 8500,  socket: "AM4", brand: "AMD",   tdp: 65 },
+  { value: "r5-5600",    label: "AMD Ryzen 5 5600",         price: 11500, socket: "AM4", brand: "AMD",   tdp: 65 },
+  { value: "r5-5600x",   label: "AMD Ryzen 5 5600X",        price: 13500, socket: "AM4", brand: "AMD",   tdp: 95 },
+  { value: "r7-5700x",   label: "AMD Ryzen 7 5700X",        price: 16500, socket: "AM4", brand: "AMD",   tdp: 105 },
+  { value: "r7-5800x",   label: "AMD Ryzen 7 5800X",        price: 21000, socket: "AM4", brand: "AMD",   tdp: 105 },
+  { value: "r9-5900x",   label: "AMD Ryzen 9 5900X",        price: 25500, socket: "AM4", brand: "AMD",   tdp: 105 },
+  { value: "r9-5950x",   label: "AMD Ryzen 9 5950X",        price: 36000, socket: "AM4", brand: "AMD",   tdp: 105 },
   // AM5
-  { value: "r5-7600",    label: "AMD Ryzen 5 7600",         price: 16500, socket: "AM5", brand: "AMD" },
-  { value: "r5-7600x",   label: "AMD Ryzen 5 7600X",        price: 20000, socket: "AM5", brand: "AMD" },
-  { value: "r7-7700",    label: "AMD Ryzen 7 7700",         price: 23500, socket: "AM5", brand: "AMD" },
-  { value: "r7-7700x",   label: "AMD Ryzen 7 7700X",        price: 28000, socket: "AM5", brand: "AMD" },
-  { value: "r7-7800x3d", label: "AMD Ryzen 7 7800X3D",      price: 36500, socket: "AM5", brand: "AMD" },
-  { value: "r9-7900x",   label: "AMD Ryzen 9 7900X",        price: 40000, socket: "AM5", brand: "AMD" },
-  { value: "r9-7950x",   label: "AMD Ryzen 9 7950X",        price: 65000, socket: "AM5", brand: "AMD" },
-  { value: "r9-9900x",   label: "AMD Ryzen 9 9900X",        price: 52000, socket: "AM5", brand: "AMD" },
-  { value: "r9-9950x",   label: "AMD Ryzen 9 9950X",        price: 76000, socket: "AM5", brand: "AMD" },
+  { value: "r5-7600",    label: "AMD Ryzen 5 7600",         price: 16500, socket: "AM5", brand: "AMD",   tdp: 65 },
+  { value: "r5-7600x",   label: "AMD Ryzen 5 7600X",        price: 20000, socket: "AM5", brand: "AMD",   tdp: 105 },
+  { value: "r7-7700",    label: "AMD Ryzen 7 7700",         price: 23500, socket: "AM5", brand: "AMD",   tdp: 65 },
+  { value: "r7-7700x",   label: "AMD Ryzen 7 7700X",        price: 28000, socket: "AM5", brand: "AMD",   tdp: 105 },
+  { value: "r7-7800x3d", label: "AMD Ryzen 7 7800X3D",      price: 36500, socket: "AM5", brand: "AMD",   tdp: 120 },
+  { value: "r9-7900x",   label: "AMD Ryzen 9 7900X",        price: 40000, socket: "AM5", brand: "AMD",   tdp: 170 },
+  { value: "r9-7950x",   label: "AMD Ryzen 9 7950X",        price: 65000, socket: "AM5", brand: "AMD",   tdp: 170 },
+  { value: "r9-9900x",   label: "AMD Ryzen 9 9900X",        price: 52000, socket: "AM5", brand: "AMD",   tdp: 120 },
+  { value: "r9-9950x",   label: "AMD Ryzen 9 9950X",        price: 76000, socket: "AM5", brand: "AMD",   tdp: 170 },
   // LGA1200
-  { value: "i3-10100f",  label: "Intel Core i3-10100F",     price: 5500,  socket: "LGA1200", brand: "Intel" },
-  { value: "i5-10400f",  label: "Intel Core i5-10400F",     price: 8500,  socket: "LGA1200", brand: "Intel" },
-  { value: "i5-10600k",  label: "Intel Core i5-10600K",     price: 11500, socket: "LGA1200", brand: "Intel" },
-  { value: "i7-10700f",  label: "Intel Core i7-10700F",     price: 14000, socket: "LGA1200", brand: "Intel" },
-  { value: "i7-10700k",  label: "Intel Core i7-10700K",     price: 17500, socket: "LGA1200", brand: "Intel" },
-  { value: "i9-10900k",  label: "Intel Core i9-10900K",     price: 23000, socket: "LGA1200", brand: "Intel" },
-  { value: "i5-11400f",  label: "Intel Core i5-11400F",     price: 9500,  socket: "LGA1200", brand: "Intel" },
-  { value: "i7-11700f",  label: "Intel Core i7-11700F",     price: 15500, socket: "LGA1200", brand: "Intel" },
+  { value: "i3-10100f",  label: "Intel Core i3-10100F",     price: 5500,  socket: "LGA1200", brand: "Intel", tdp: 65 },
+  { value: "i5-10400f",  label: "Intel Core i5-10400F",     price: 8500,  socket: "LGA1200", brand: "Intel", tdp: 65 },
+  { value: "i5-10600k",  label: "Intel Core i5-10600K",     price: 11500, socket: "LGA1200", brand: "Intel", tdp: 125 },
+  { value: "i7-10700f",  label: "Intel Core i7-10700F",     price: 14000, socket: "LGA1200", brand: "Intel", tdp: 65 },
+  { value: "i7-10700k",  label: "Intel Core i7-10700K",     price: 17500, socket: "LGA1200", brand: "Intel", tdp: 125 },
+  { value: "i9-10900k",  label: "Intel Core i9-10900K",     price: 23000, socket: "LGA1200", brand: "Intel", tdp: 125 },
+  { value: "i5-11400f",  label: "Intel Core i5-11400F",     price: 9500,  socket: "LGA1200", brand: "Intel", tdp: 65 },
+  { value: "i7-11700f",  label: "Intel Core i7-11700F",     price: 15500, socket: "LGA1200", brand: "Intel", tdp: 65 },
   // LGA1700
-  { value: "i3-12100f",  label: "Intel Core i3-12100F",     price: 8500,  socket: "LGA1700", brand: "Intel" },
-  { value: "i5-12400f",  label: "Intel Core i5-12400F",     price: 12500, socket: "LGA1700", brand: "Intel" },
-  { value: "i5-12600k",  label: "Intel Core i5-12600K",     price: 15500, socket: "LGA1700", brand: "Intel" },
-  { value: "i5-13400f",  label: "Intel Core i5-13400F",     price: 17500, socket: "LGA1700", brand: "Intel" },
-  { value: "i5-13600k",  label: "Intel Core i5-13600K",     price: 21500, socket: "LGA1700", brand: "Intel" },
-  { value: "i7-12700f",  label: "Intel Core i7-12700F",     price: 19500, socket: "LGA1700", brand: "Intel" },
-  { value: "i7-13700f",  label: "Intel Core i7-13700F",     price: 26500, socket: "LGA1700", brand: "Intel" },
-  { value: "i7-13700k",  label: "Intel Core i7-13700K",     price: 33000, socket: "LGA1700", brand: "Intel" },
-  { value: "i9-12900k",  label: "Intel Core i9-12900K",     price: 37000, socket: "LGA1700", brand: "Intel" },
-  { value: "i9-13900k",  label: "Intel Core i9-13900K",     price: 48000, socket: "LGA1700", brand: "Intel" },
+  { value: "i3-12100f",  label: "Intel Core i3-12100F",     price: 8500,  socket: "LGA1700", brand: "Intel", tdp: 65 },
+  { value: "i5-12400f",  label: "Intel Core i5-12400F",     price: 12500, socket: "LGA1700", brand: "Intel", tdp: 65 },
+  { value: "i5-12600k",  label: "Intel Core i5-12600K",     price: 15500, socket: "LGA1700", brand: "Intel", tdp: 125 },
+  { value: "i5-13400f",  label: "Intel Core i5-13400F",     price: 17500, socket: "LGA1700", brand: "Intel", tdp: 65 },
+  { value: "i5-13600k",  label: "Intel Core i5-13600K",     price: 21500, socket: "LGA1700", brand: "Intel", tdp: 125 },
+  { value: "i7-12700f",  label: "Intel Core i7-12700F",     price: 19500, socket: "LGA1700", brand: "Intel", tdp: 65 },
+  { value: "i7-13700f",  label: "Intel Core i7-13700F",     price: 26500, socket: "LGA1700", brand: "Intel", tdp: 65 },
+  { value: "i7-13700k",  label: "Intel Core i7-13700K",     price: 33000, socket: "LGA1700", brand: "Intel", tdp: 125 },
+  { value: "i9-12900k",  label: "Intel Core i9-12900K",     price: 37000, socket: "LGA1700", brand: "Intel", tdp: 125 },
+  { value: "i9-13900k",  label: "Intel Core i9-13900K",     price: 48000, socket: "LGA1700", brand: "Intel", tdp: 125 },
   // LGA1851
-  { value: "i5-14400f",  label: "Intel Core i5-14400F",     price: 19500, socket: "LGA1851", brand: "Intel" },
-  { value: "i5-14600k",  label: "Intel Core i5-14600K",     price: 25000, socket: "LGA1851", brand: "Intel" },
-  { value: "i7-14700f",  label: "Intel Core i7-14700F",     price: 31000, socket: "LGA1851", brand: "Intel" },
-  { value: "i7-14700k",  label: "Intel Core i7-14700K",     price: 38500, socket: "LGA1851", brand: "Intel" },
-  { value: "i9-14900k",  label: "Intel Core i9-14900K",     price: 54000, socket: "LGA1851", brand: "Intel" },
-  { value: "i5-arrow",   label: "Intel Core Ultra 5 245K",  price: 29000, socket: "LGA1851", brand: "Intel" },
-  { value: "i7-arrow",   label: "Intel Core Ultra 7 265K",  price: 40000, socket: "LGA1851", brand: "Intel" },
-  { value: "i9-arrow",   label: "Intel Core Ultra 9 285K",  price: 60000, socket: "LGA1851", brand: "Intel" },
+  { value: "i5-14400f",  label: "Intel Core i5-14400F",     price: 19500, socket: "LGA1851", brand: "Intel", tdp: 65 },
+  { value: "i5-14600k",  label: "Intel Core i5-14600K",     price: 25000, socket: "LGA1851", brand: "Intel", tdp: 125 },
+  { value: "i7-14700f",  label: "Intel Core i7-14700F",     price: 31000, socket: "LGA1851", brand: "Intel", tdp: 65 },
+  { value: "i7-14700k",  label: "Intel Core i7-14700K",     price: 38500, socket: "LGA1851", brand: "Intel", tdp: 125 },
+  { value: "i9-14900k",  label: "Intel Core i9-14900K",     price: 54000, socket: "LGA1851", brand: "Intel", tdp: 125 },
+  { value: "i5-arrow",   label: "Intel Core Ultra 5 245K",  price: 29000, socket: "LGA1851", brand: "Intel", tdp: 125 },
+  { value: "i7-arrow",   label: "Intel Core Ultra 7 265K",  price: 40000, socket: "LGA1851", brand: "Intel", tdp: 125 },
+  { value: "i9-arrow",   label: "Intel Core Ultra 9 285K",  price: 60000, socket: "LGA1851", brand: "Intel", tdp: 125 },
 ]
 
 const mbOptionsDefault: Part[] = [
@@ -111,43 +112,43 @@ const mbOptionsDefault: Part[] = [
 
 const gpuOptionsDefault: Part[] = [
   // RTX 30 серия
-  { value: "rtx3050",      label: "NVIDIA RTX 3050 8GB",             price: 19500,  brand: "NVIDIA", memory: 8 },
-  { value: "rtx3060",      label: "NVIDIA RTX 3060 12GB",            price: 26000,  brand: "NVIDIA", memory: 12 },
-  { value: "rtx3060ti",    label: "NVIDIA RTX 3060 Ti 8GB",          price: 30000,  brand: "NVIDIA", memory: 8 },
-  { value: "rtx3070",      label: "NVIDIA RTX 3070 8GB",             price: 36000,  brand: "NVIDIA", memory: 8 },
-  { value: "rtx3070ti",    label: "NVIDIA RTX 3070 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8 },
-  { value: "rtx3080",      label: "NVIDIA RTX 3080 10GB",            price: 52000,  brand: "NVIDIA", memory: 10 },
-  { value: "rtx3090",      label: "NVIDIA RTX 3090 24GB",            price: 72000,  brand: "NVIDIA", memory: 24 },
+  { value: "rtx3050",      label: "NVIDIA RTX 3050 8GB",             price: 19500,  brand: "NVIDIA", memory: 8,  tdp: 130 },
+  { value: "rtx3060",      label: "NVIDIA RTX 3060 12GB",            price: 26000,  brand: "NVIDIA", memory: 12, tdp: 170 },
+  { value: "rtx3060ti",    label: "NVIDIA RTX 3060 Ti 8GB",          price: 30000,  brand: "NVIDIA", memory: 8,  tdp: 200 },
+  { value: "rtx3070",      label: "NVIDIA RTX 3070 8GB",             price: 36000,  brand: "NVIDIA", memory: 8,  tdp: 220 },
+  { value: "rtx3070ti",    label: "NVIDIA RTX 3070 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8,  tdp: 290 },
+  { value: "rtx3080",      label: "NVIDIA RTX 3080 10GB",            price: 52000,  brand: "NVIDIA", memory: 10, tdp: 320 },
+  { value: "rtx3090",      label: "NVIDIA RTX 3090 24GB",            price: 72000,  brand: "NVIDIA", memory: 24, tdp: 350 },
   // RTX 40 серия
-  { value: "rtx4060",      label: "NVIDIA RTX 4060 8GB",             price: 34000,  brand: "NVIDIA", memory: 8 },
-  { value: "rtx4060ti",    label: "NVIDIA RTX 4060 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8 },
-  { value: "rtx4060ti16",  label: "NVIDIA RTX 4060 Ti 16GB",         price: 50000,  brand: "NVIDIA", memory: 16 },
-  { value: "rtx4070",      label: "NVIDIA RTX 4070 12GB",            price: 56000,  brand: "NVIDIA", memory: 12 },
-  { value: "rtx4070s",     label: "NVIDIA RTX 4070 Super 12GB",      price: 63000,  brand: "NVIDIA", memory: 12 },
-  { value: "rtx4070ti",    label: "NVIDIA RTX 4070 Ti 12GB",         price: 72000,  brand: "NVIDIA", memory: 12 },
-  { value: "rtx4070tis",   label: "NVIDIA RTX 4070 Ti Super 16GB",   price: 82000,  brand: "NVIDIA", memory: 16 },
-  { value: "rtx4080",      label: "NVIDIA RTX 4080 16GB",            price: 97000,  brand: "NVIDIA", memory: 16 },
-  { value: "rtx4090",      label: "NVIDIA RTX 4090 24GB",            price: 170000, brand: "NVIDIA", memory: 24 },
+  { value: "rtx4060",      label: "NVIDIA RTX 4060 8GB",             price: 34000,  brand: "NVIDIA", memory: 8,  tdp: 115 },
+  { value: "rtx4060ti",    label: "NVIDIA RTX 4060 Ti 8GB",          price: 42000,  brand: "NVIDIA", memory: 8,  tdp: 160 },
+  { value: "rtx4060ti16",  label: "NVIDIA RTX 4060 Ti 16GB",         price: 50000,  brand: "NVIDIA", memory: 16, tdp: 165 },
+  { value: "rtx4070",      label: "NVIDIA RTX 4070 12GB",            price: 56000,  brand: "NVIDIA", memory: 12, tdp: 200 },
+  { value: "rtx4070s",     label: "NVIDIA RTX 4070 Super 12GB",      price: 63000,  brand: "NVIDIA", memory: 12, tdp: 220 },
+  { value: "rtx4070ti",    label: "NVIDIA RTX 4070 Ti 12GB",         price: 72000,  brand: "NVIDIA", memory: 12, tdp: 285 },
+  { value: "rtx4070tis",   label: "NVIDIA RTX 4070 Ti Super 16GB",   price: 82000,  brand: "NVIDIA", memory: 16, tdp: 285 },
+  { value: "rtx4080",      label: "NVIDIA RTX 4080 16GB",            price: 97000,  brand: "NVIDIA", memory: 16, tdp: 320 },
+  { value: "rtx4090",      label: "NVIDIA RTX 4090 24GB",            price: 170000, brand: "NVIDIA", memory: 24, tdp: 450 },
   // RTX 50 серия
-  { value: "rtx5070",      label: "NVIDIA RTX 5070 12GB",            price: 78000,  brand: "NVIDIA", memory: 12 },
-  { value: "rtx5070ti",    label: "NVIDIA RTX 5070 Ti 16GB",         price: 98000,  brand: "NVIDIA", memory: 16 },
-  { value: "rtx5080",      label: "NVIDIA RTX 5080 16GB",            price: 130000, brand: "NVIDIA", memory: 16 },
-  { value: "rtx5090",      label: "NVIDIA RTX 5090 32GB",            price: 275000, brand: "NVIDIA", memory: 32 },
+  { value: "rtx5070",      label: "NVIDIA RTX 5070 12GB",            price: 78000,  brand: "NVIDIA", memory: 12, tdp: 250 },
+  { value: "rtx5070ti",    label: "NVIDIA RTX 5070 Ti 16GB",         price: 98000,  brand: "NVIDIA", memory: 16, tdp: 300 },
+  { value: "rtx5080",      label: "NVIDIA RTX 5080 16GB",            price: 130000, brand: "NVIDIA", memory: 16, tdp: 360 },
+  { value: "rtx5090",      label: "NVIDIA RTX 5090 32GB",            price: 275000, brand: "NVIDIA", memory: 32, tdp: 575 },
   // RX 6xxx
-  { value: "rx6600",       label: "AMD RX 6600 8GB",                 price: 16500,  brand: "AMD", memory: 8 },
-  { value: "rx6600xt",     label: "AMD RX 6600 XT 8GB",              price: 20000,  brand: "AMD", memory: 8 },
-  { value: "rx6700xt",     label: "AMD RX 6700 XT 12GB",             price: 29500,  brand: "AMD", memory: 12 },
-  { value: "rx6800xt",     label: "AMD RX 6800 XT 16GB",             price: 47500,  brand: "AMD", memory: 16 },
-  { value: "rx6900xt",     label: "AMD RX 6900 XT 16GB",             price: 55000,  brand: "AMD", memory: 16 },
+  { value: "rx6600",       label: "AMD RX 6600 8GB",                 price: 16500,  brand: "AMD", memory: 8,  tdp: 132 },
+  { value: "rx6600xt",     label: "AMD RX 6600 XT 8GB",              price: 20000,  brand: "AMD", memory: 8,  tdp: 160 },
+  { value: "rx6700xt",     label: "AMD RX 6700 XT 12GB",             price: 29500,  brand: "AMD", memory: 12, tdp: 230 },
+  { value: "rx6800xt",     label: "AMD RX 6800 XT 16GB",             price: 47500,  brand: "AMD", memory: 16, tdp: 300 },
+  { value: "rx6900xt",     label: "AMD RX 6900 XT 16GB",             price: 55000,  brand: "AMD", memory: 16, tdp: 300 },
   // RX 7xxx
-  { value: "rx7600",       label: "AMD RX 7600 8GB",                 price: 25500,  brand: "AMD", memory: 8 },
-  { value: "rx7700xt",     label: "AMD RX 7700 XT 12GB",             price: 37500,  brand: "AMD", memory: 12 },
-  { value: "rx7800xt",     label: "AMD RX 7800 XT 16GB",             price: 46500,  brand: "AMD", memory: 16 },
-  { value: "rx7900gre",    label: "AMD RX 7900 GRE 16GB",            price: 52000,  brand: "AMD", memory: 16 },
-  { value: "rx7900xt",     label: "AMD RX 7900 XT 20GB",             price: 67000,  brand: "AMD", memory: 20 },
-  { value: "rx7900xtx",    label: "AMD RX 7900 XTX 24GB",            price: 82000,  brand: "AMD", memory: 24 },
-  { value: "rx9070",       label: "AMD RX 9070 16GB",                price: 62000,  brand: "AMD", memory: 16 },
-  { value: "rx9070xt",     label: "AMD RX 9070 XT 16GB",             price: 70000,  brand: "AMD", memory: 16 },
+  { value: "rx7600",       label: "AMD RX 7600 8GB",                 price: 25500,  brand: "AMD", memory: 8,  tdp: 165 },
+  { value: "rx7700xt",     label: "AMD RX 7700 XT 12GB",             price: 37500,  brand: "AMD", memory: 12, tdp: 245 },
+  { value: "rx7800xt",     label: "AMD RX 7800 XT 16GB",             price: 46500,  brand: "AMD", memory: 16, tdp: 263 },
+  { value: "rx7900gre",    label: "AMD RX 7900 GRE 16GB",            price: 52000,  brand: "AMD", memory: 16, tdp: 260 },
+  { value: "rx7900xt",     label: "AMD RX 7900 XT 20GB",             price: 67000,  brand: "AMD", memory: 20, tdp: 315 },
+  { value: "rx7900xtx",    label: "AMD RX 7900 XTX 24GB",            price: 82000,  brand: "AMD", memory: 24, tdp: 355 },
+  { value: "rx9070",       label: "AMD RX 9070 16GB",                price: 62000,  brand: "AMD", memory: 16, tdp: 220 },
+  { value: "rx9070xt",     label: "AMD RX 9070 XT 16GB",             price: 70000,  brand: "AMD", memory: 16, tdp: 304 },
 ]
 
 const ramOptionsDefault: Part[] = [
@@ -353,6 +354,18 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
     ? ramOptions.filter(o => o.ramType === selectedMbForRam.ramType)
     : ramOptions
 
+  // PSU recommendation based on CPU + GPU TDP
+  const selectedCpuPart = cpuOptions.find(o => o.value === selections.cpu)
+  const selectedGpuPart = gpuOptions.find(o => o.value === selections.gpu)
+  const cpuTdp = selectedCpuPart?.tdp ?? 0
+  const gpuTdp = selectedGpuPart?.tdp ?? 0
+  // system overhead ~100W, 20% headroom
+  const recommendedPsu = cpuTdp + gpuTdp > 0
+    ? Math.ceil(((cpuTdp + gpuTdp + 100) * 1.2) / 50) * 50
+    : 0
+  const selectedPsuPart = psuOptions.find(o => o.value === selections.psu)
+  const psuInsufficient = recommendedPsu > 0 && selectedPsuPart && (selectedPsuPart.watt ?? 0) < recommendedPsu
+
   // Current category options for manage tab
   const { options: catOptions, set: setCatOptions } = allParts[manageCategory]
 
@@ -512,6 +525,11 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
                         {selectedMbForRam.ramType} only
                       </span>
                     )}
+                    {key === "psu" && recommendedPsu > 0 && (
+                      <span className={`rounded-full border px-2 py-0.5 font-mono text-[10px] ${psuInsufficient ? "border-orange-500/50 text-orange-400" : "border-foreground/20 text-foreground/60"}`}>
+                        от {recommendedPsu} Вт
+                      </span>
+                    )}
                   </div>
                   <select
                     className={selectClass}
@@ -539,6 +557,11 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
                       </option>
                     ))}
                   </select>
+                  {key === "psu" && psuInsufficient && (
+                    <p className="flex items-center gap-1 font-mono text-[10px] text-orange-400">
+                      <span>⚠</span> Выбранный БП может не справиться с нагрузкой. Рекомендуем от {recommendedPsu} Вт.
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
