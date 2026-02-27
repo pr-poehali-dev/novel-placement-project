@@ -49,7 +49,7 @@ export function WorkSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start flex-col justify-center px-6 pt-20 pb-8 md:px-12 md:pt-0 lg:px-16 overflow-y-auto"
+      className="flex w-full flex-col justify-center px-6 py-16 md:px-12 md:py-24 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div

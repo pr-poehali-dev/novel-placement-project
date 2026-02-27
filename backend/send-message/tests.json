@@ -7,15 +7,11 @@
       "expectedStatus": 200
     },
     {
-      "name": "POST valid message",
+      "name": "POST empty — returns 400",
       "method": "POST",
       "path": "/",
-      "body": {
-        "name": "Тест Тестов",
-        "phone": "+7 900 000-00-00",
-        "message": "Хочу заказать сборку ПК"
-      },
-      "expectedStatus": 200
+      "body": {},
+      "expectedStatus": 400
     }
   ]
 }

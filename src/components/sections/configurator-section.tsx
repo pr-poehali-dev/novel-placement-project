@@ -2,7 +2,7 @@ import { useReveal } from "@/hooks/use-reveal"
 import { useState, useMemo } from "react"
 import Icon from "@/components/ui/icon"
 
-const SEND_CONFIG_URL = "https://functions.poehali.dev/86675a14-a4c9-40d6-8d10-cb2be1369846"
+const SEND_CONFIG_URL = "https://functions.poehali.dev/f839bbc9-37e1-42e4-ada3-9040fa436013"
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Types
@@ -738,10 +738,17 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
   const sendToTelegram = async () => {
     setSendState("loading")
     try {
+      const cfg = getConfigLabels()
+      const configText = Object.entries(cfg).map(([, v]) => v).join(", ")
       const resp = await fetch(SEND_CONFIG_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ config: getConfigLabels(), total, name: sendName, phone: sendPhone }),
+        body: JSON.stringify({
+          name: sendName,
+          phone: sendPhone,
+          subject: "Конфигурация ПК",
+          message: configText,
+        }),
       })
       const data = await resp.json()
       setSendState(data.ok ? "done" : "error")
@@ -759,7 +766,7 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
   return (
     <section
       ref={ref}
-      className="flex w-screen shrink-0 snap-start flex-col justify-start px-4 pt-16 pb-8 md:px-12 md:pt-12 lg:px-16 overflow-y-auto h-screen"
+      className="flex w-full flex-col justify-start px-4 py-16 md:px-12 md:py-20 lg:px-16"
     >
       <div className="mx-auto w-full max-w-6xl">
         {/* Header */}
@@ -874,20 +881,16 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
             {/* Right: summary */}
             <div className="flex flex-col gap-3 sticky top-0">
               <div className="flex flex-col rounded-xl border border-foreground/15 bg-foreground/5 p-4 backdrop-blur-sm">
-                <p className="mb-1 font-mono text-xs text-foreground/50">Итоговая стоимость</p>
-                <div className="flex items-end gap-2 mb-1">
-                  <span className="font-sans text-4xl font-light text-foreground">{total.toLocaleString("ru")}</span>
-                  <span className="mb-1 font-sans text-xl text-foreground/60">₽</span>
-                </div>
-                <p className="font-mono text-[10px] text-foreground/40 mb-3">Включает сборку, тестирование и гарантию</p>
-
-                <div className="space-y-1.5 border-t border-foreground/10 pt-2 max-h-[30vh] overflow-y-auto">
-                  {breakdown.map((item, i) => (
-                    <div key={i} className="flex justify-between gap-2">
-                      <span className="font-mono text-[10px] text-foreground/50 truncate">{item.label}</span>
-                      <span className="font-mono text-[10px] text-foreground/70 shrink-0">{item.price.toLocaleString("ru")} ₽</span>
+                <p className="mb-2 font-mono text-xs text-foreground/50">Ваша конфигурация</p>
+                <div className="space-y-1.5 max-h-[35vh] overflow-y-auto">
+                  {breakdown.length > 1 ? breakdown.map((item, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="mt-0.5 shrink-0 text-foreground/30 font-mono text-[10px]">•</span>
+                      <span className="font-mono text-[10px] text-foreground/60">{item.label}</span>
                     </div>
-                  ))}
+                  )) : (
+                    <p className="font-mono text-[10px] text-foreground/30 italic">Выберите комплектующие слева</p>
+                  )}
                 </div>
               </div>
 
@@ -918,30 +921,22 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
           >
             <div className="w-full max-w-md rounded-2xl border border-foreground/20 bg-[#0d0d1a] p-6 shadow-2xl">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="font-sans text-xl font-light text-foreground">Расчёт сборки</h3>
+                <h3 className="font-sans text-xl font-light text-foreground">Отправить заявку</h3>
                 <button onClick={() => { setShowModal(false); setSendState("idle") }} className="text-foreground/40 hover:text-foreground/70 transition-colors">
                   <Icon name="X" size={20} />
                 </button>
               </div>
 
-              {/* Breakdown */}
-              <div className="mb-4 space-y-2 rounded-xl border border-foreground/10 bg-foreground/5 p-4 max-h-48 overflow-y-auto">
+              {/* Breakdown — только названия */}
+              <div className="mb-5 space-y-1.5 rounded-xl border border-foreground/10 bg-foreground/5 p-4 max-h-44 overflow-y-auto">
                 {breakdown.length > 1 ? breakdown.map((item, i) => (
-                  <div key={i} className="flex justify-between gap-2">
-                    <span className="font-mono text-xs text-foreground/60 truncate">{item.label}</span>
-                    <span className="font-mono text-xs text-foreground/80 shrink-0">{item.price.toLocaleString("ru")} ₽</span>
+                  <div key={i} className="flex items-start gap-2">
+                    <span className="mt-0.5 shrink-0 text-foreground/30 font-mono text-[10px]">•</span>
+                    <span className="font-mono text-xs text-foreground/60">{item.label}</span>
                   </div>
                 )) : (
                   <p className="font-mono text-xs text-foreground/40 text-center py-2">Выберите комплектующие</p>
                 )}
-              </div>
-
-              <div className="flex items-end justify-between mb-5 px-1">
-                <span className="font-mono text-xs text-foreground/50">Итого</span>
-                <div className="flex items-end gap-1">
-                  <span className="font-sans text-3xl font-light text-foreground">{total.toLocaleString("ru")}</span>
-                  <span className="mb-0.5 font-sans text-base text-foreground/60">₽</span>
-                </div>
               </div>
 
               {sendState === "done" ? (

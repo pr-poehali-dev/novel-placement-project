@@ -11,42 +11,12 @@ interface PortfolioItem {
 
 const STORAGE_KEY = "portfolio_items"
 
-const DEFAULT_ITEMS: PortfolioItem[] = [
-  {
-    id: "default-1",
-    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/c8f6fa25-874b-4a13-aa05-eccaf7001c36.jpg",
-    title: "Игровая сборка",
-    description: "RTX 4070 + Ryzen 7 7700X",
-  },
-  {
-    id: "default-2",
-    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/1dfe37b6-7d17-4432-ae04-f6f114fa0db2.jpg",
-    title: "AMD геймерский ПК",
-    description: "RX 7800 XT + Ryzen 5 7600",
-  },
-  {
-    id: "default-3",
-    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/c8163e50-d0c2-49b9-a05a-188a086f6d8a.jpg",
-    title: "Рабочая станция",
-    description: "Монтаж видео и 3D",
-  },
-  {
-    id: "default-4",
-    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/b8525a2f-4d27-4a9d-a83f-c81a0ca10f22.jpg",
-    title: "Офисный ПК",
-    description: "Тихая и надёжная работа",
-  },
-]
-
 function loadItems(): PortfolioItem[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    const saved = raw ? JSON.parse(raw) : []
-    const savedIds = new Set(saved.map((i: PortfolioItem) => i.id))
-    const defaults = DEFAULT_ITEMS.filter(d => !savedIds.has(d.id))
-    return [...defaults, ...saved]
+    return raw ? JSON.parse(raw) : []
   } catch {
-    return DEFAULT_ITEMS
+    return []
   }
 }
 
@@ -54,7 +24,7 @@ function saveItems(items: PortfolioItem[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
 }
 
-export function PortfolioSection() {
+export function PortfolioSection({ isAdmin = false }: { isAdmin?: boolean }) {
   const { ref, isVisible } = useReveal(0.2)
   const [items, setItems] = useState<PortfolioItem[]>(loadItems)
   const [selected, setSelected] = useState<PortfolioItem | null>(null)
@@ -120,9 +90,9 @@ export function PortfolioSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start flex-col px-4 pt-20 md:px-12 md:pt-0"
+      className="flex w-full flex-col px-4 py-16 md:px-12 md:py-24"
     >
-      <div className="mx-auto flex h-full w-full max-w-7xl flex-col py-8 md:py-16">
+      <div className="mx-auto flex w-full max-w-7xl flex-col">
         {/* Header */}
         <div
           className={`mb-6 flex flex-col gap-4 transition-all duration-700 md:mb-10 md:flex-row md:items-end md:justify-between ${
@@ -140,26 +110,30 @@ export function PortfolioSection() {
             </p>
           </div>
 
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={uploading}
-            className="flex shrink-0 items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/10 px-5 py-2.5 font-sans text-sm font-medium text-foreground backdrop-blur-sm transition-all hover:border-foreground/40 hover:bg-foreground/20 disabled:opacity-50"
-          >
-            <Icon name="Upload" size={16} />
-            {uploading ? "Загрузка..." : "Добавить фото"}
-          </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            multiple
-            className="hidden"
-            onChange={handleFileChange}
-          />
+          {isAdmin && (
+            <>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="flex shrink-0 items-center gap-2 rounded-lg border border-foreground/20 bg-foreground/10 px-5 py-2.5 font-sans text-sm font-medium text-foreground backdrop-blur-sm transition-all hover:border-foreground/40 hover:bg-foreground/20 disabled:opacity-50"
+              >
+                <Icon name="Upload" size={16} />
+                {uploading ? "Загрузка..." : "Добавить фото"}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </>
+          )}
         </div>
 
         {/* Grid */}
-        <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
+        <div>
           {items.length === 0 ? (
             <div
               className={`flex h-full flex-col items-center justify-center gap-4 transition-all duration-700 ${
@@ -167,18 +141,27 @@ export function PortfolioSection() {
               }`}
               style={{ transitionDelay: "300ms" }}
             >
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="flex cursor-pointer flex-col items-center gap-3 rounded-2xl border border-dashed border-foreground/20 px-12 py-16 transition-all hover:border-foreground/40 hover:bg-foreground/5"
-              >
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-foreground/10">
-                  <Icon name="ImagePlus" size={28} className="text-foreground/60" />
+              {isAdmin ? (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex cursor-pointer flex-col items-center gap-3 rounded-2xl border border-dashed border-foreground/20 px-12 py-16 transition-all hover:border-foreground/40 hover:bg-foreground/5"
+                >
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-foreground/10">
+                    <Icon name="ImagePlus" size={28} className="text-foreground/60" />
+                  </div>
+                  <p className="text-center font-sans text-base text-foreground/60">
+                    Нажмите, чтобы загрузить первые фото
+                  </p>
+                  <p className="font-mono text-xs text-foreground/30">PNG, JPG, WEBP — любые изображения</p>
                 </div>
-                <p className="text-center font-sans text-base text-foreground/60">
-                  Нажмите, чтобы загрузить первые фото
-                </p>
-                <p className="font-mono text-xs text-foreground/30">PNG, JPG, WEBP — любые изображения</p>
-              </div>
+              ) : (
+                <div className="flex flex-col items-center gap-3">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-foreground/5">
+                    <Icon name="Images" size={28} className="text-foreground/20" />
+                  </div>
+                  <p className="text-center font-mono text-sm text-foreground/30">Фотографии работ скоро появятся</p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-3 pb-4 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
@@ -201,7 +184,7 @@ export function PortfolioSection() {
                     />
                   </div>
 
-                  {editId === item.id ? (
+                  {isAdmin && editId === item.id ? (
                     <div className="p-2">
                       <input
                         className="mb-1 w-full rounded bg-foreground/10 px-2 py-1 font-sans text-xs text-foreground outline-none focus:ring-1 focus:ring-foreground/30"
@@ -228,34 +211,38 @@ export function PortfolioSection() {
                       {item.description && (
                         <p className="mt-0.5 truncate font-mono text-xs text-foreground/50">{item.description}</p>
                       )}
-                      <div className="mt-2 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-                        <button
-                          onClick={() => startEdit(item)}
-                          className="flex items-center gap-1 rounded bg-foreground/10 px-2 py-1 font-sans text-xs text-foreground/70 hover:bg-foreground/20"
-                        >
-                          <Icon name="Pencil" size={11} />
-                          Изменить
-                        </button>
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="flex items-center gap-1 rounded bg-red-500/10 px-2 py-1 font-sans text-xs text-red-400 hover:bg-red-500/20"
-                        >
-                          <Icon name="Trash2" size={11} />
-                        </button>
-                      </div>
+                      {isAdmin && (
+                        <div className="mt-2 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                          <button
+                            onClick={() => startEdit(item)}
+                            className="flex items-center gap-1 rounded bg-foreground/10 px-2 py-1 font-sans text-xs text-foreground/70 hover:bg-foreground/20"
+                          >
+                            <Icon name="Pencil" size={11} />
+                            Изменить
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="flex items-center gap-1 rounded bg-red-500/10 px-2 py-1 font-sans text-xs text-red-400 hover:bg-red-500/20"
+                          >
+                            <Icon name="Trash2" size={11} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
               ))}
 
-              {/* Add more tile */}
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-foreground/20 transition-all hover:border-foreground/40 hover:bg-foreground/5"
-              >
-                <Icon name="Plus" size={24} className="text-foreground/40" />
-                <span className="font-mono text-xs text-foreground/40">Добавить</span>
-              </div>
+              {/* Add more tile — only admin */}
+              {isAdmin && (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-foreground/20 transition-all hover:border-foreground/40 hover:bg-foreground/5"
+                >
+                  <Icon name="Plus" size={24} className="text-foreground/40" />
+                  <span className="font-mono text-xs text-foreground/40">Добавить</span>
+                </div>
+              )}
             </div>
           )}
         </div>

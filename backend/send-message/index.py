@@ -63,7 +63,7 @@ def handler(event: dict, context) -> dict:
 
     # --- отправляем в Telegram ---
     token   = os.environ.get('TELEGRAM_BOT_TOKEN', '')
-    chat_id = os.environ.get('TELEGRAM_CHAT_ID', '')
+    chat_id = os.environ.get('TELEGRAM_CHAT_ID', '@sborkapcchita_bot')
 
     if not token or not chat_id:
         return {

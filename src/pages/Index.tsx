@@ -8,14 +8,13 @@ import { ReviewsSection } from "@/components/sections/reviews-section"
 import { ConfiguratorSection } from "@/components/sections/configurator-section"
 import { PortfolioSection } from "@/components/sections/portfolio-section"
 import { MagneticButton } from "@/components/magnetic-button"
+import { AdminPanel, useAdmin } from "@/components/admin-panel"
 import { useRef, useEffect, useState } from "react"
 
 export default function Index() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [currentSection, setCurrentSection] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
-  const touchStartY = useRef(0)
-  const touchStartX = useRef(0)
+  const { isAdmin, login, logout } = useAdmin()
   const shaderContainerRef = useRef<HTMLDivElement>(null)
   const scrollThrottleRef = useRef<number>()
 
@@ -49,131 +48,40 @@ export default function Index() {
     }
   }, [])
 
+  const SECTION_IDS = ["hero", "work", "services", "about", "reviews", "portfolio", "configurator", "contact"]
+
   const scrollToSection = (index: number) => {
-    if (scrollContainerRef.current) {
-      const sectionWidth = scrollContainerRef.current.offsetWidth
-      scrollContainerRef.current.scrollTo({
-        left: sectionWidth * index,
-        behavior: "smooth",
-      })
-      setCurrentSection(index)
+    const id = SECTION_IDS[index]
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" })
     }
+    setCurrentSection(index)
   }
-
-  useEffect(() => {
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY.current = e.touches[0].clientY
-      touchStartX.current = e.touches[0].clientX
-    }
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (Math.abs(e.touches[0].clientY - touchStartY.current) > 10) {
-        e.preventDefault()
-      }
-    }
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      const touchEndY = e.changedTouches[0].clientY
-      const touchEndX = e.changedTouches[0].clientX
-      const deltaY = touchStartY.current - touchEndY
-      const deltaX = touchStartX.current - touchEndX
-
-      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 50) {
-        if (deltaY > 0 && currentSection < 7) {
-          scrollToSection(currentSection + 1)
-        } else if (deltaY < 0 && currentSection > 0) {
-          scrollToSection(currentSection - 1)
-        }
-      }
-    }
-
-    const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener("touchstart", handleTouchStart, { passive: true })
-      container.addEventListener("touchmove", handleTouchMove, { passive: false })
-      container.addEventListener("touchend", handleTouchEnd, { passive: true })
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener("touchstart", handleTouchStart)
-        container.removeEventListener("touchmove", handleTouchMove)
-        container.removeEventListener("touchend", handleTouchEnd)
-      }
-    }
-  }, [currentSection])
-
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        e.preventDefault()
-
-        if (!scrollContainerRef.current) return
-
-        scrollContainerRef.current.scrollBy({
-          left: e.deltaY,
-          behavior: "instant",
-        })
-
-        const sectionWidth = scrollContainerRef.current.offsetWidth
-        const newSection = Math.round(scrollContainerRef.current.scrollLeft / sectionWidth)
-        if (newSection !== currentSection) {
-          setCurrentSection(newSection)
-        }
-      }
-    }
-
-    const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener("wheel", handleWheel, { passive: false })
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener("wheel", handleWheel)
-      }
-    }
-  }, [currentSection])
 
   useEffect(() => {
     const handleScroll = () => {
       if (scrollThrottleRef.current) return
-
       scrollThrottleRef.current = requestAnimationFrame(() => {
-        if (!scrollContainerRef.current) {
-          scrollThrottleRef.current = undefined
-          return
-        }
-
-        const sectionWidth = scrollContainerRef.current.offsetWidth
-        const scrollLeft = scrollContainerRef.current.scrollLeft
-        const newSection = Math.round(scrollLeft / sectionWidth)
-
-        if (newSection !== currentSection && newSection >= 0 && newSection <= 7) {
-          setCurrentSection(newSection)
-        }
-
+        const sections = SECTION_IDS.map(id => document.getElementById(id))
+        const scrollY = window.scrollY + window.innerHeight / 3
+        let active = 0
+        sections.forEach((el, i) => {
+          if (el && el.offsetTop <= scrollY) active = i
+        })
+        if (active !== currentSection) setCurrentSection(active)
         scrollThrottleRef.current = undefined
       })
     }
-
-    const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener("scroll", handleScroll, { passive: true })
-    }
-
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll)
-      }
-      if (scrollThrottleRef.current) {
-        cancelAnimationFrame(scrollThrottleRef.current)
-      }
+      window.removeEventListener("scroll", handleScroll)
+      if (scrollThrottleRef.current) cancelAnimationFrame(scrollThrottleRef.current)
     }
   }, [currentSection])
 
   return (
-    <main className="relative h-screen w-full overflow-hidden bg-background">
+    <main className="relative min-h-screen w-full bg-background">
       <CustomCursor />
       <GrainOverlay />
 
@@ -258,7 +166,7 @@ export default function Index() {
       </div>
 
       <nav
-        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-opacity duration-700 md:px-12 ${
+        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-700 md:px-12 border-b border-foreground/5 backdrop-blur-xl bg-background/60 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -266,27 +174,27 @@ export default function Index() {
           onClick={() => scrollToSection(0)}
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25">
-            <span className="font-sans text-xl font-bold text-foreground">⚡</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md">
+            <span className="font-sans text-lg font-bold text-foreground">⚡</span>
           </div>
-          <span className="font-sans text-xl font-semibold tracking-tight text-foreground">Sborka PC Chita</span>
+          <span className="font-sans text-lg font-semibold tracking-tight text-foreground">Sborka PC Chita</span>
         </button>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {["Главная", "Конфигурации", "Услуги", "О нас", "Отзывы", "Наши работы", "Конфигуратор", "Заказать"].map((item, index) => (
+        <div className="hidden items-center gap-6 md:flex">
+          {[
+            { label: "Сборки", idx: 1 },
+            { label: "Услуги", idx: 2 },
+            { label: "О нас", idx: 3 },
+            { label: "Отзывы", idx: 4 },
+            { label: "Работы", idx: 5 },
+            { label: "Конфигуратор", idx: 6 },
+          ].map(({ label, idx }) => (
             <button
-              key={item}
-              onClick={() => scrollToSection(index)}
-              className={`group relative font-sans text-sm font-medium transition-colors ${
-                currentSection === index ? "text-foreground" : "text-foreground/80 hover:text-foreground"
-              }`}
+              key={label}
+              onClick={() => scrollToSection(idx)}
+              className="font-sans text-sm text-foreground/60 hover:text-foreground transition-colors"
             >
-              {item}
-              <span
-                className={`absolute -bottom-1 left-0 h-px bg-foreground transition-all duration-300 ${
-                  currentSection === index ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
+              {label}
             </button>
           ))}
         </div>
@@ -297,61 +205,58 @@ export default function Index() {
       </nav>
 
       <div
-        ref={scrollContainerRef}
-        data-scroll-container
-        className={`relative z-10 flex h-screen overflow-x-auto overflow-y-hidden transition-opacity duration-700 ${
+        className={`relative z-10 transition-opacity duration-700 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Hero Section */}
-        <section className="flex min-h-screen w-screen shrink-0 flex-col justify-end px-6 pb-16 pt-24 md:px-12 md:pb-24">
-          <div className="max-w-3xl">
-            <div className="mb-4 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/15 px-4 py-1.5 backdrop-blur-md duration-700">
-              <p className="font-mono text-xs text-foreground/90">Конфигуратор и сборка ПК</p>
+        <section id="hero" className="flex min-h-screen w-full flex-col justify-center px-6 pt-20 pb-16 md:px-12 md:pb-24">
+          <div className="mx-auto w-full max-w-5xl">
+            <div className="mb-6 inline-block animate-in fade-in slide-in-from-bottom-4 rounded-full border border-foreground/20 bg-foreground/10 px-4 py-1.5 backdrop-blur-md duration-700">
+              <p className="font-mono text-xs text-foreground/70">Сборка ПК в Чите · Забайкальский край</p>
             </div>
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-sans text-6xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
-              <span className="text-balance">
-                Твой идеальный ПК — с нуля
-              </span>
+            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-sans text-5xl font-light leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
+              Твой идеальный<br />
+              <span className="text-foreground/40">ПК — с нуля</span>
             </h1>
-            <p className="mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-lg leading-relaxed text-foreground/90 duration-1000 delay-200 md:text-xl">
-              <span className="text-pretty">
-                Подбираем комплектующие под любые задачи и бюджет. Собираем, тестируем и доставляем готовый компьютер.
-              </span>
+            <p className="mb-10 max-w-xl animate-in fade-in slide-in-from-bottom-4 text-lg leading-relaxed text-foreground/60 duration-1000 delay-200 md:text-xl">
+              Подбираем комплектующие под любые задачи и бюджет. Собираем, тестируем и доставляем готовый компьютер.
             </p>
             <div className="flex animate-in fade-in slide-in-from-bottom-4 flex-col gap-4 duration-1000 delay-300 sm:flex-row sm:items-center">
-              <MagneticButton
-                size="lg"
-                variant="primary"
-                onClick={() => scrollToSection(6)}
-              >
+              <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection(6)}>
                 Конфигуратор
               </MagneticButton>
-              <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(1)}>
-                Примеры сборок
+              <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(7)}>
+                Заказать
               </MagneticButton>
             </div>
-          </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500">
-            <div className="flex items-center gap-2">
-              <p className="font-mono text-xs text-foreground/80">Листайте вправо</p>
-              <div className="flex h-6 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/15 backdrop-blur-md">
-                <div className="h-2 w-2 animate-pulse rounded-full bg-foreground/80" />
-              </div>
+            <div className="mt-20 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {[
+                { value: "5+", label: "лет опыта" },
+                { value: "500+", label: "собранных ПК" },
+                { value: "24ч", label: "срок сборки" },
+                { value: "100%", label: "гарантия" },
+              ].map((stat) => (
+                <div key={stat.value} className="rounded-xl border border-foreground/10 bg-foreground/5 p-4 backdrop-blur-sm">
+                  <p className="font-sans text-2xl font-light text-foreground">{stat.value}</p>
+                  <p className="font-mono text-xs text-foreground/40 mt-1">{stat.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <WorkSection />
-        <ServicesSection />
-        <AboutSection scrollToSection={scrollToSection} />
-        <ReviewsSection />
-        <PortfolioSection />
-        <ConfiguratorSection scrollToSection={scrollToSection} />
-        <ContactSection />
+        <div id="work"><WorkSection /></div>
+        <div id="services"><ServicesSection /></div>
+        <div id="about"><AboutSection scrollToSection={scrollToSection} /></div>
+        <div id="reviews"><ReviewsSection /></div>
+        <div id="portfolio"><PortfolioSection isAdmin={isAdmin} /></div>
+        <div id="configurator"><ConfiguratorSection scrollToSection={scrollToSection} /></div>
+        <div id="contact"><ContactSection /></div>
       </div>
+
+      <AdminPanel isAdmin={isAdmin} onLogin={login} onLogout={logout} />
 
       <style>{`
         div::-webkit-scrollbar {

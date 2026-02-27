@@ -73,7 +73,7 @@ export function ReviewsSection() {
   return (
     <section
       ref={ref}
-      className="flex w-screen shrink-0 snap-start flex-col justify-start px-4 pt-16 pb-8 md:px-12 md:pt-12 lg:px-16 overflow-y-auto h-screen"
+      className="flex w-full flex-col justify-start px-4 py-16 md:px-12 md:py-20 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         {/* Header */}
