@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react"
 import { MagneticButton } from "@/components/magnetic-button"
 
 const SEND_CONFIG_URL = "https://functions.poehali.dev/86675a14-a4c9-40d6-8d10-cb2be1369846"
+const SEND_MESSAGE_URL = "https://functions.poehali.dev/f839bbc9-37e1-42e4-ada3-9040fa436013"
 
 export function ContactSection() {
   const { ref, isVisible } = useReveal(0.3)
@@ -23,13 +24,13 @@ export function ContactSection() {
     setSubmitError(false)
 
     try {
-      const resp = await fetch(SEND_CONFIG_URL, {
+      const resp = await fetch(SEND_MESSAGE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          config: { заявка: formData.message },
           name: formData.name,
           phone: formData.phone,
+          message: formData.message,
         }),
       })
       const data = await resp.json()

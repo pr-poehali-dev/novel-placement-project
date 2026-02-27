@@ -1,0 +1,21 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "POST valid message",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Тест Тестов",
+        "phone": "+7 900 000-00-00",
+        "message": "Хочу заказать сборку ПК"
+      },
+      "expectedStatus": 200
+    }
+  ]
+}
