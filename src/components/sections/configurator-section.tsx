@@ -14,6 +14,7 @@ interface Part {
   memory?: number
   freq?: number
   watt?: number
+  ramType?: "DDR4" | "DDR5"
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -73,39 +74,39 @@ const cpuOptionsDefault: Part[] = [
 ]
 
 const mbOptionsDefault: Part[] = [
-  // AM4
-  { value: "am4-matx-b450m-ds3h",  label: "Gigabyte B450M DS3H (mATX)",             price: 7000,  socket: "AM4", brand: "Gigabyte" },
-  { value: "am4-matx-b450m-pro",   label: "ASUS PRIME B450M-A II (mATX)",           price: 8000,  socket: "AM4", brand: "ASUS" },
-  { value: "am4-matx-b550m-pro",   label: "MSI PRO B550M-P GEN3 (mATX)",            price: 9000,  socket: "AM4", brand: "MSI" },
-  { value: "am4-atx-b550-tomahawk",label: "MSI MAG B550 TOMAHAWK (ATX)",            price: 13500, socket: "AM4", brand: "MSI" },
-  { value: "am4-atx-x570-pro",     label: "ASUS PRIME X570-PRO (ATX)",              price: 17500, socket: "AM4", brand: "ASUS" },
-  { value: "am4-atx-x570-elite",   label: "Gigabyte X570 AORUS ELITE (ATX)",        price: 21500, socket: "AM4", brand: "Gigabyte" },
-  { value: "am4-itx-b550i",        label: "ASUS ROG STRIX B550-I GAMING (Mini-ITX)",price: 15500, socket: "AM4", brand: "ASUS" },
-  // AM5
-  { value: "am5-matx-b650m-k",     label: "ASUS PRIME B650M-K (mATX)",              price: 11500, socket: "AM5", brand: "ASUS" },
-  { value: "am5-matx-b650m-plus",  label: "MSI PRO B650M-A WiFi (mATX)",            price: 13500, socket: "AM5", brand: "MSI" },
-  { value: "am5-atx-b650-gaming",  label: "Gigabyte B650 GAMING X AX (ATX)",        price: 16000, socket: "AM5", brand: "Gigabyte" },
-  { value: "am5-atx-b650e-aorus",  label: "Gigabyte B650E AORUS PRO AX (ATX)",      price: 21500, socket: "AM5", brand: "Gigabyte" },
-  { value: "am5-atx-x670-pro",     label: "ASUS ROG STRIX X670E-F GAMING (ATX)",    price: 35000, socket: "AM5", brand: "ASUS" },
-  { value: "am5-atx-x670e-aorus",  label: "Gigabyte X670E AORUS MASTER (ATX)",      price: 44000, socket: "AM5", brand: "Gigabyte" },
-  // LGA1200
-  { value: "1200-matx-h410m",      label: "Gigabyte H410M DS2V (mATX)",              price: 5500,  socket: "LGA1200", brand: "Gigabyte" },
-  { value: "1200-matx-b460m",      label: "Gigabyte B460M DS3H (mATX)",              price: 7000,  socket: "LGA1200", brand: "Gigabyte" },
-  { value: "1200-matx-b560m-pro",  label: "MSI PRO B560M-P (mATX)",                 price: 8500,  socket: "LGA1200", brand: "MSI" },
-  { value: "1200-atx-z490-tuf",    label: "ASUS TUF GAMING Z490-PLUS (ATX)",        price: 13500, socket: "LGA1200", brand: "ASUS" },
-  { value: "1200-atx-z590-aorus",  label: "Gigabyte Z590 AORUS ELITE (ATX)",        price: 17500, socket: "LGA1200", brand: "Gigabyte" },
-  // LGA1700
-  { value: "1700-matx-b660m-pro",  label: "MSI PRO B660M-A DDR4 (mATX)",            price: 9000,  socket: "LGA1700", brand: "MSI" },
-  { value: "1700-matx-b760m-pro",  label: "MSI PRO B760M-P (mATX)",                 price: 11000, socket: "LGA1700", brand: "MSI" },
-  { value: "1700-matx-b760m-asus", label: "ASUS PRIME B760M-A DDR5 (mATX)",         price: 12500, socket: "LGA1700", brand: "ASUS" },
-  { value: "1700-atx-b760-gaming", label: "MSI MAG B760 TOMAHAWK WiFi (ATX)",       price: 16500, socket: "LGA1700", brand: "MSI" },
-  { value: "1700-atx-z790-tomahawk",label: "MSI MAG Z790 TOMAHAWK WiFi (ATX)",      price: 27000, socket: "LGA1700", brand: "MSI" },
-  { value: "1700-atx-z790-rog",    label: "ASUS ROG STRIX Z790-F GAMING WiFi (ATX)",price: 37000, socket: "LGA1700", brand: "ASUS" },
-  // LGA1851
-  { value: "1851-matx-z890m-pro",  label: "MSI PRO Z890-P WiFi (mATX)",             price: 19500, socket: "LGA1851", brand: "MSI" },
-  { value: "1851-atx-z890-tomahawk",label: "MSI MAG Z890 TOMAHAWK WiFi (ATX)",      price: 27500, socket: "LGA1851", brand: "MSI" },
-  { value: "1851-atx-z890-tuf",    label: "ASUS TUF GAMING Z890-PLUS WiFi (ATX)",   price: 31000, socket: "LGA1851", brand: "ASUS" },
-  { value: "1851-atx-z890-aorus",  label: "Gigabyte Z890 AORUS MASTER (ATX)",       price: 44000, socket: "LGA1851", brand: "Gigabyte" },
+  // AM4 — DDR4
+  { value: "am4-matx-b450m-ds3h",  label: "Gigabyte B450M DS3H (mATX)",             price: 7000,  socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-matx-b450m-pro",   label: "ASUS PRIME B450M-A II (mATX)",           price: 8000,  socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-matx-b550m-pro",   label: "MSI PRO B550M-P GEN3 (mATX)",            price: 9000,  socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-atx-b550-tomahawk",label: "MSI MAG B550 TOMAHAWK (ATX)",            price: 13500, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-atx-x570-pro",     label: "ASUS PRIME X570-PRO (ATX)",              price: 17500, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-atx-x570-elite",   label: "Gigabyte X570 AORUS ELITE (ATX)",        price: 21500, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-itx-b550i",        label: "ASUS ROG STRIX B550-I GAMING (Mini-ITX)",price: 15500, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  // AM5 — DDR5
+  { value: "am5-matx-b650m-k",     label: "ASUS PRIME B650M-K (mATX)",              price: 11500, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-matx-b650m-plus",  label: "MSI PRO B650M-A WiFi (mATX)",            price: 13500, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-atx-b650-gaming",  label: "Gigabyte B650 GAMING X AX (ATX)",        price: 16000, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-atx-b650e-aorus",  label: "Gigabyte B650E AORUS PRO AX (ATX)",      price: 21500, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-atx-x670-pro",     label: "ASUS ROG STRIX X670E-F GAMING (ATX)",    price: 35000, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-atx-x670e-aorus",  label: "Gigabyte X670E AORUS MASTER (ATX)",      price: 44000, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  // LGA1200 — DDR4
+  { value: "1200-matx-h410m",      label: "Gigabyte H410M DS2V (mATX)",              price: 5500,  socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1200-matx-b460m",      label: "Gigabyte B460M DS3H (mATX)",              price: 7000,  socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1200-matx-b560m-pro",  label: "MSI PRO B560M-P (mATX)",                 price: 8500,  socket: "LGA1200", brand: "MSI",      ramType: "DDR4" },
+  { value: "1200-atx-z490-tuf",    label: "ASUS TUF GAMING Z490-PLUS (ATX)",        price: 13500, socket: "LGA1200", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1200-atx-z590-aorus",  label: "Gigabyte Z590 AORUS ELITE (ATX)",        price: 17500, socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
+  // LGA1700 — DDR4 или DDR5
+  { value: "1700-matx-b660m-pro",  label: "MSI PRO B660M-A DDR4 (mATX)",            price: 9000,  socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
+  { value: "1700-matx-b760m-pro",  label: "MSI PRO B760M-P DDR4 (mATX)",            price: 11000, socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
+  { value: "1700-matx-b760m-asus", label: "ASUS PRIME B760M-A DDR5 (mATX)",         price: 12500, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-atx-b760-gaming", label: "MSI MAG B760 TOMAHAWK WiFi DDR4 (ATX)",  price: 16500, socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
+  { value: "1700-atx-z790-tomahawk",label: "MSI MAG Z790 TOMAHAWK WiFi DDR5 (ATX)", price: 27000, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-atx-z790-rog",    label: "ASUS ROG STRIX Z790-F GAMING DDR5 (ATX)",price: 37000, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  // LGA1851 — DDR5
+  { value: "1851-matx-z890m-pro",  label: "MSI PRO Z890-P WiFi (mATX)",             price: 19500, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-atx-z890-tomahawk",label: "MSI MAG Z890 TOMAHAWK WiFi (ATX)",      price: 27500, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-atx-z890-tuf",    label: "ASUS TUF GAMING Z890-PLUS WiFi (ATX)",   price: 31000, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-atx-z890-aorus",  label: "Gigabyte Z890 AORUS MASTER (ATX)",       price: 44000, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
 ]
 
 const gpuOptionsDefault: Part[] = [
@@ -151,25 +152,25 @@ const gpuOptionsDefault: Part[] = [
 
 const ramOptionsDefault: Part[] = [
   // DDR4
-  { value: "ddr4-8-kingston",    label: "8 ГБ DDR4-3200 Kingston Fury Beast",       price: 2200,  brand: "Kingston", memory: 8,  freq: 3200 },
-  { value: "ddr4-8-corsair",     label: "8 ГБ DDR4-3200 Corsair Vengeance LPX",    price: 2500,  brand: "Corsair",  memory: 8,  freq: 3200 },
-  { value: "ddr4-16-kingston",   label: "16 ГБ DDR4-3200 Kingston Fury Beast",      price: 4000,  brand: "Kingston", memory: 16, freq: 3200 },
-  { value: "ddr4-16-corsair",    label: "16 ГБ DDR4-3200 Corsair Vengeance LPX",   price: 4500,  brand: "Corsair",  memory: 16, freq: 3200 },
-  { value: "ddr4-16-gskill",     label: "16 ГБ DDR4-3600 G.Skill Ripjaws V",       price: 5000,  brand: "G.Skill",  memory: 16, freq: 3600 },
-  { value: "ddr4-32-kingston",   label: "32 ГБ DDR4-3200 Kingston Fury Beast 2×16",price: 7800,  brand: "Kingston", memory: 32, freq: 3200 },
-  { value: "ddr4-32-corsair",    label: "32 ГБ DDR4-3200 Corsair Vengeance 2×16",  price: 8800,  brand: "Corsair",  memory: 32, freq: 3200 },
-  { value: "ddr4-32-gskill",     label: "32 ГБ DDR4-3600 G.Skill Ripjaws V 2×16", price: 9500,  brand: "G.Skill",  memory: 32, freq: 3600 },
-  { value: "ddr4-64-kingston",   label: "64 ГБ DDR4-3200 Kingston Fury Beast 4×16",price: 15500, brand: "Kingston", memory: 64, freq: 3200 },
+  { value: "ddr4-8-kingston",    label: "8 ГБ DDR4-3200 Kingston Fury Beast",       price: 2200,  brand: "Kingston", memory: 8,  freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-8-corsair",     label: "8 ГБ DDR4-3200 Corsair Vengeance LPX",    price: 2500,  brand: "Corsair",  memory: 8,  freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-16-kingston",   label: "16 ГБ DDR4-3200 Kingston Fury Beast",      price: 4000,  brand: "Kingston", memory: 16, freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-16-corsair",    label: "16 ГБ DDR4-3200 Corsair Vengeance LPX",   price: 4500,  brand: "Corsair",  memory: 16, freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-16-gskill",     label: "16 ГБ DDR4-3600 G.Skill Ripjaws V",       price: 5000,  brand: "G.Skill",  memory: 16, freq: 3600, ramType: "DDR4" },
+  { value: "ddr4-32-kingston",   label: "32 ГБ DDR4-3200 Kingston Fury Beast 2×16",price: 7800,  brand: "Kingston", memory: 32, freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-32-corsair",    label: "32 ГБ DDR4-3200 Corsair Vengeance 2×16",  price: 8800,  brand: "Corsair",  memory: 32, freq: 3200, ramType: "DDR4" },
+  { value: "ddr4-32-gskill",     label: "32 ГБ DDR4-3600 G.Skill Ripjaws V 2×16", price: 9500,  brand: "G.Skill",  memory: 32, freq: 3600, ramType: "DDR4" },
+  { value: "ddr4-64-kingston",   label: "64 ГБ DDR4-3200 Kingston Fury Beast 4×16",price: 15500, brand: "Kingston", memory: 64, freq: 3200, ramType: "DDR4" },
   // DDR5
-  { value: "ddr5-16-kingston",   label: "16 ГБ DDR5-4800 Kingston Fury Beast",      price: 5000,  brand: "Kingston", memory: 16, freq: 4800 },
-  { value: "ddr5-16-corsair",    label: "16 ГБ DDR5-5200 Corsair Vengeance",        price: 6000,  brand: "Corsair",  memory: 16, freq: 5200 },
-  { value: "ddr5-32-kingston",   label: "32 ГБ DDR5-4800 Kingston Fury Beast 2×16",price: 9500,  brand: "Kingston", memory: 32, freq: 4800 },
-  { value: "ddr5-32-corsair",    label: "32 ГБ DDR5-5600 Corsair Vengeance 2×16",  price: 11500, brand: "Corsair",  memory: 32, freq: 5600 },
-  { value: "ddr5-32-gskill",     label: "32 ГБ DDR5-5600 G.Skill Ripjaws S5 2×16", price: 11000, brand: "G.Skill",  memory: 32, freq: 5600 },
-  { value: "ddr5-32-gskill-tz",  label: "32 ГБ DDR5-6000 G.Skill Trident Z5 2×16", price: 14500, brand: "G.Skill",  memory: 32, freq: 6000 },
-  { value: "ddr5-64-kingston",   label: "64 ГБ DDR5-4800 Kingston Fury Beast 2×32",price: 19000, brand: "Kingston", memory: 64, freq: 4800 },
-  { value: "ddr5-64-gskill",     label: "64 ГБ DDR5-6000 G.Skill Trident Z5 2×32", price: 28000, brand: "G.Skill",  memory: 64, freq: 6000 },
-  { value: "ddr5-96-gskill",     label: "96 ГБ DDR5-6000 G.Skill Trident Z5 2×48", price: 42000, brand: "G.Skill",  memory: 96, freq: 6000 },
+  { value: "ddr5-16-kingston",   label: "16 ГБ DDR5-4800 Kingston Fury Beast",      price: 5000,  brand: "Kingston", memory: 16, freq: 4800, ramType: "DDR5" },
+  { value: "ddr5-16-corsair",    label: "16 ГБ DDR5-5200 Corsair Vengeance",        price: 6000,  brand: "Corsair",  memory: 16, freq: 5200, ramType: "DDR5" },
+  { value: "ddr5-32-kingston",   label: "32 ГБ DDR5-4800 Kingston Fury Beast 2×16",price: 9500,  brand: "Kingston", memory: 32, freq: 4800, ramType: "DDR5" },
+  { value: "ddr5-32-corsair",    label: "32 ГБ DDR5-5600 Corsair Vengeance 2×16",  price: 11500, brand: "Corsair",  memory: 32, freq: 5600, ramType: "DDR5" },
+  { value: "ddr5-32-gskill",     label: "32 ГБ DDR5-5600 G.Skill Ripjaws S5 2×16", price: 11000, brand: "G.Skill",  memory: 32, freq: 5600, ramType: "DDR5" },
+  { value: "ddr5-32-gskill-tz",  label: "32 ГБ DDR5-6000 G.Skill Trident Z5 2×16", price: 14500, brand: "G.Skill",  memory: 32, freq: 6000, ramType: "DDR5" },
+  { value: "ddr5-64-kingston",   label: "64 ГБ DDR5-4800 Kingston Fury Beast 2×32",price: 19000, brand: "Kingston", memory: 64, freq: 4800, ramType: "DDR5" },
+  { value: "ddr5-64-gskill",     label: "64 ГБ DDR5-6000 G.Skill Trident Z5 2×32", price: 28000, brand: "G.Skill",  memory: 64, freq: 6000, ramType: "DDR5" },
+  { value: "ddr5-96-gskill",     label: "96 ГБ DDR5-6000 G.Skill Trident Z5 2×48", price: 42000, brand: "G.Skill",  memory: 96, freq: 6000, ramType: "DDR5" },
 ]
 
 const storageOptionsDefault: Part[] = [
@@ -346,6 +347,12 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
   const filteredCpu = socket ? cpuOptions.filter(o => o.socket === socket) : cpuOptions
   const filteredMb  = socket ? mbOptions.filter(o => o.socket === socket)  : mbOptions
 
+  // RAM filtered by selected motherboard's DDR type
+  const selectedMbForRam = mbOptions.find(o => o.value === selections.mb)
+  const filteredRam = selectedMbForRam?.ramType
+    ? ramOptions.filter(o => o.ramType === selectedMbForRam.ramType)
+    : ramOptions
+
   // Current category options for manage tab
   const { options: catOptions, set: setCatOptions } = allParts[manageCategory]
 
@@ -491,18 +498,38 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
                 { key: "cpu" as CategoryKey,     label: "Процессор",         opts: filteredCpu },
                 { key: "mb" as CategoryKey,      label: "Материнская плата", opts: filteredMb },
                 { key: "gpu" as CategoryKey,     label: "Видеокарта",        opts: gpuOptions },
-                { key: "ram" as CategoryKey,     label: "Оперативная память",opts: ramOptions },
+                { key: "ram" as CategoryKey,     label: "Оперативная память",opts: filteredRam },
                 { key: "storage" as CategoryKey, label: "Накопитель",        opts: storageOptions },
                 { key: "psu" as CategoryKey,     label: "Блок питания",      opts: psuOptions },
                 { key: "case" as CategoryKey,    label: "Корпус",            opts: caseOptions },
                 { key: "cooler" as CategoryKey,  label: "Охлаждение CPU",    opts: coolerOptions },
               ] as const).map(({ key, label, opts }) => (
                 <div key={key} className="flex flex-col gap-1">
-                  <label className="font-mono text-xs text-foreground/50">{label}</label>
+                  <div className="flex items-center gap-2">
+                    <label className="font-mono text-xs text-foreground/50">{label}</label>
+                    {key === "ram" && selectedMbForRam?.ramType && (
+                      <span className="rounded-full border border-foreground/20 px-2 py-0.5 font-mono text-[10px] text-foreground/60">
+                        {selectedMbForRam.ramType} only
+                      </span>
+                    )}
+                  </div>
                   <select
                     className={selectClass}
                     value={selections[key]}
-                    onChange={e => setSelections(s => ({ ...s, [key]: e.target.value }))}
+                    onChange={e => {
+                      const val = e.target.value
+                      if (key === "mb") {
+                        const newMb = mbOptions.find(o => o.value === val)
+                        const oldMb = mbOptions.find(o => o.value === selections.mb)
+                        if (newMb?.ramType !== oldMb?.ramType) {
+                          setSelections(s => ({ ...s, mb: val, ram: "" }))
+                        } else {
+                          setSelections(s => ({ ...s, mb: val }))
+                        }
+                      } else {
+                        setSelections(s => ({ ...s, [key]: val }))
+                      }
+                    }}
                     style={{ background: "#0d0d1a" }}
                   >
                     <option value="" style={{ background: "#0d0d1a" }}>Выберите {label.toLowerCase()}</option>
