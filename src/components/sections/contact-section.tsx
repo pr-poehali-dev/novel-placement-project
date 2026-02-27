@@ -3,31 +3,48 @@ import { useReveal } from "@/hooks/use-reveal"
 import { useState, type FormEvent } from "react"
 import { MagneticButton } from "@/components/magnetic-button"
 
+const SEND_CONFIG_URL = "https://functions.poehali.dev/86675a14-a4c9-40d6-8d10-cb2be1369846"
+
 export function ContactSection() {
   const { ref, isVisible } = useReveal(0.3)
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" })
+  const [formData, setFormData] = useState({ name: "", phone: "", message: "" })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
+    if (!formData.name || !formData.phone || !formData.message) {
       return
     }
 
     setIsSubmitting(true)
+    setSubmitError(false)
 
-    // Simulate form submission (replace with actual API call later)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const resp = await fetch(SEND_CONFIG_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          config: { заявка: formData.message },
+          name: formData.name,
+          phone: formData.phone,
+        }),
+      })
+      const data = await resp.json()
+      if (data.ok) {
+        setSubmitSuccess(true)
+        setFormData({ name: "", phone: "", message: "" })
+        setTimeout(() => setSubmitSuccess(false), 5000)
+      } else {
+        setSubmitError(true)
+      }
+    } catch {
+      setSubmitError(true)
+    }
 
     setIsSubmitting(false)
-    setSubmitSuccess(true)
-    setFormData({ name: "", email: "", message: "" })
-
-    // Reset success message after 5 seconds
-    setTimeout(() => setSubmitSuccess(false), 5000)
   }
 
   return (
@@ -152,14 +169,14 @@ export function ContactSection() {
                 }`}
                 style={{ transitionDelay: "350ms" }}
               >
-                <label className="mb-1 block font-mono text-xs text-foreground/60 md:mb-2">Email</label>
+                <label className="mb-1 block font-mono text-xs text-foreground/60 md:mb-2">Телефон</label>
                 <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
                   className="w-full border-b border-foreground/30 bg-transparent py-1.5 text-sm text-foreground placeholder:text-foreground/40 focus:border-foreground/50 focus:outline-none md:py-2 md:text-base"
-                  placeholder="your@email.com"
+                  placeholder="+7 900 000-00-00"
                 />
               </div>
 
@@ -194,7 +211,10 @@ export function ContactSection() {
                   {isSubmitting ? "Отправка..." : "Отправить"}
                 </MagneticButton>
                 {submitSuccess && (
-                  <p className="mt-3 text-center font-mono text-sm text-foreground/80">Сообщение отправлено!</p>
+                  <p className="mt-3 text-center font-mono text-sm text-foreground/80">Заявка отправлена! Свяжемся с вами.</p>
+                )}
+                {submitError && (
+                  <p className="mt-3 text-center font-mono text-sm text-red-400">Ошибка. Попробуйте позвонить нам.</p>
                 )}
               </div>
             </form>

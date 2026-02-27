@@ -41,8 +41,7 @@ def handler(event: dict, context) -> dict:
         'ram': 'Оперативная память',
         'storage': 'Накопитель',
         'psu': 'Блок питания',
-        'case': 'Корпус',
-        'cooler': 'Охлаждение',
+        'заявка': 'Сообщение',
     }
 
     for key, label in labels.items():
@@ -58,7 +57,7 @@ def handler(event: dict, context) -> dict:
     text = '\n'.join(lines)
 
     token = os.environ['TELEGRAM_BOT_TOKEN']
-    chat_id = os.environ.get('TELEGRAM_CHAT_ID', '@SborkaPCChita')
+    chat_id = os.environ.get('TELEGRAM_CHAT_ID', 'sborkapcid866328516')
 
     url = f'https://api.telegram.org/bot{token}/sendMessage'
     payload = json.dumps({

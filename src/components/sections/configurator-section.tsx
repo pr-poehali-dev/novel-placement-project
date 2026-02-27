@@ -821,8 +821,6 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
                 { key: "ram" as CategoryKey,     label: "Оперативная память",opts: filteredRam },
                 { key: "storage" as CategoryKey, label: "Накопитель",        opts: storageOptions },
                 { key: "psu" as CategoryKey,     label: "Блок питания",      opts: psuOptions },
-                { key: "case" as CategoryKey,    label: "Корпус",            opts: caseOptions },
-                { key: "cooler" as CategoryKey,  label: "Охлаждение CPU",    opts: coolerOptions },
               ] as const).map(({ key, label, opts }) => (
                 <div key={key} className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
@@ -860,23 +858,10 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
                     <option value="" style={{ background: "#0d0d1a" }}>Выберите {label.toLowerCase()}</option>
                     {opts.map(o => (
                       <option key={o.value} value={o.value} style={{ background: "#0d0d1a" }}>
-                        {o.label}{o.price > 0 ? ` — ${o.price.toLocaleString("ru")} ₽` : ""}
+                        {o.label}
                       </option>
                     ))}
                   </select>
-                  {(() => {
-                    const selectedPart = opts.find(o => o.value === selections[key])
-                    return selectedPart?.url ? (
-                      <a
-                        href={selectedPart.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="self-start font-mono text-[10px] text-foreground/50 hover:text-foreground/80 underline underline-offset-2 transition-colors"
-                      >
-                        Технические характеристики →
-                      </a>
-                    ) : null
-                  })()}
                   {key === "psu" && psuInsufficient && (
                     <p className="flex items-center gap-1 font-mono text-[10px] text-orange-400">
                       <span>⚠</span> Выбранный БП может не справиться с нагрузкой. Рекомендуем от {recommendedPsu} Вт.

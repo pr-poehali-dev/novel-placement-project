@@ -11,12 +11,42 @@ interface PortfolioItem {
 
 const STORAGE_KEY = "portfolio_items"
 
+const DEFAULT_ITEMS: PortfolioItem[] = [
+  {
+    id: "default-1",
+    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/c8f6fa25-874b-4a13-aa05-eccaf7001c36.jpg",
+    title: "Игровая сборка",
+    description: "RTX 4070 + Ryzen 7 7700X",
+  },
+  {
+    id: "default-2",
+    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/1dfe37b6-7d17-4432-ae04-f6f114fa0db2.jpg",
+    title: "AMD геймерский ПК",
+    description: "RX 7800 XT + Ryzen 5 7600",
+  },
+  {
+    id: "default-3",
+    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/c8163e50-d0c2-49b9-a05a-188a086f6d8a.jpg",
+    title: "Рабочая станция",
+    description: "Монтаж видео и 3D",
+  },
+  {
+    id: "default-4",
+    src: "https://cdn.poehali.dev/projects/232bc773-606a-496d-8a58-e8c7fc46ab65/files/b8525a2f-4d27-4a9d-a83f-c81a0ca10f22.jpg",
+    title: "Офисный ПК",
+    description: "Тихая и надёжная работа",
+  },
+]
+
 function loadItems(): PortfolioItem[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : []
+    const saved = raw ? JSON.parse(raw) : []
+    const savedIds = new Set(saved.map((i: PortfolioItem) => i.id))
+    const defaults = DEFAULT_ITEMS.filter(d => !savedIds.has(d.id))
+    return [...defaults, ...saved]
   } catch {
-    return []
+    return DEFAULT_ITEMS
   }
 }
 
