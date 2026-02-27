@@ -33,13 +33,18 @@ export function ServicesSection() {
               direction: "right",
             },
             {
-              title: "Тестирование и настройка",
-              description: "Стресс-тест, установка ОС и драйверов, разгон процессора и памяти при необходимости",
+              title: "Апгрейд старого ПК",
+              description: "Диагностируем текущую систему, определяем узкое место и подбираем замену: процессор, видеокарта, RAM или накопитель. Меняем термопасту, чистим от пыли, устанавливаем компоненты и проводим полное тестирование после обновления",
               direction: "left",
             },
             {
+              title: "Тестирование и настройка",
+              description: "Стресс-тест, установка ОС и драйверов, разгон процессора и памяти при необходимости",
+              direction: "bottom",
+            },
+            {
               title: "Гарантия и поддержка",
-              description: "Гарантия на сборку 1 год. Помогаем с апгрейдом и решением любых технических вопросов",
+              description: "Гарантия на сборку и апгрейд 1 год. Помогаем с любыми техническими вопросами",
               direction: "bottom",
             },
           ].map((service, i) => (
@@ -87,7 +92,7 @@ function ServiceCard({
     >
       <div className="mb-3 flex items-center gap-3">
         <div className="h-px w-8 bg-foreground/30 transition-all duration-300 group-hover:w-12 group-hover:bg-foreground/50" />
-        <span className="font-mono text-xs text-foreground/60">0{index + 1}</span>
+        <span className="font-mono text-xs text-foreground/60">{String(index + 1).padStart(2, '0')}</span>
       </div>
       <h3 className="mb-2 font-sans text-2xl font-light text-foreground md:text-3xl">{service.title}</h3>
       <p className="max-w-sm text-sm leading-relaxed text-foreground/80 md:text-base">{service.description}</p>

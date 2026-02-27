@@ -2,6 +2,8 @@ import { useReveal } from "@/hooks/use-reveal"
 import { useState, useMemo } from "react"
 import Icon from "@/components/ui/icon"
 
+const SEND_CONFIG_URL = "https://functions.poehali.dev/86675a14-a4c9-40d6-8d10-cb2be1369846"
+
 // ──────────────────────────────────────────────────────────────────────────────
 // Types
 // ──────────────────────────────────────────────────────────────────────────────
@@ -75,39 +77,253 @@ const cpuOptionsDefault: Part[] = [
 ]
 
 const mbOptionsDefault: Part[] = [
+  // ══════════════════════════════════════════════════════
   // AM4 — DDR4
-  { value: "am4-matx-b450m-ds3h",  label: "Gigabyte B450M DS3H (mATX)",             price: 7000,  socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
-  { value: "am4-matx-b450m-pro",   label: "ASUS PRIME B450M-A II (mATX)",           price: 8000,  socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
-  { value: "am4-matx-b550m-pro",   label: "MSI PRO B550M-P GEN3 (mATX)",            price: 9000,  socket: "AM4", brand: "MSI",      ramType: "DDR4" },
-  { value: "am4-atx-b550-tomahawk",label: "MSI MAG B550 TOMAHAWK (ATX)",            price: 13500, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
-  { value: "am4-atx-x570-pro",     label: "ASUS PRIME X570-PRO (ATX)",              price: 17500, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
-  { value: "am4-atx-x570-elite",   label: "Gigabyte X570 AORUS ELITE (ATX)",        price: 21500, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
-  { value: "am4-itx-b550i",        label: "ASUS ROG STRIX B550-I GAMING (Mini-ITX)",price: 15500, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  // ══════════════════════════════════════════════════════
+  // X570 (High-end)
+  { value: "am4-asus-crosshair-viii-formula",   label: "ASUS ROG Crosshair VIII Formula",       price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-crosshair-viii-hero",      label: "ASUS ROG Crosshair VIII Hero",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-crosshair-viii-dark-hero", label: "ASUS ROG Crosshair VIII Dark Hero",     price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-crosshair-viii-extreme",   label: "ASUS ROG Crosshair VIII Extreme",       price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-x570-e",         label: "ASUS ROG Strix X570-E Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-x570-f",         label: "ASUS ROG Strix X570-F Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-x570-i",         label: "ASUS ROG Strix X570-I Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-x570-p",             label: "ASUS Prime X570-P",                     price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-x570-pro",           label: "ASUS Prime X570-Pro",                   price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-tuf-x570-plus",            label: "ASUS TUF Gaming X570-Plus",             price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-msi-meg-x570-godlike",          label: "MSI MEG X570 Godlike",                  price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-meg-x570-ace",              label: "MSI MEG X570 Ace",                      price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-meg-x570-unify",            label: "MSI MEG X570 Unify",                    price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mpg-x570-gaming-pro-carbon",label: "MSI MPG X570 Gaming Pro Carbon",        price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mpg-x570-edge",             label: "MSI MPG X570 Edge",                     price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mag-x570-tomahawk",         label: "MSI MAG X570 Tomahawk",                 price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-gb-x570-aorus-extreme",         label: "Gigabyte X570 Aorus Extreme",           price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-x570-aorus-master",          label: "Gigabyte X570 Aorus Master",            price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-x570-aorus-ultra",           label: "Gigabyte X570 Aorus Ultra",             price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-x570-aorus-pro",             label: "Gigabyte X570 Aorus Pro",               price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-x570-aorus-elite",           label: "Gigabyte X570 Aorus Elite",             price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-x570-gaming-x",              label: "Gigabyte X570 Gaming X",                price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-asrock-x570-taichi",            label: "ASRock X570 Taichi",                    price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-x570-phantom-x",         label: "ASRock X570 Phantom Gaming X",          price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-x570-steel-legend",      label: "ASRock X570 Steel Legend",              price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-x570-pro4",              label: "ASRock X570 Pro4",                      price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  // B550 (Middle)
+  { value: "am4-asus-rog-strix-b550-f",         label: "ASUS ROG Strix B550-F Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-b550-e",         label: "ASUS ROG Strix B550-E Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-b550-a",         label: "ASUS ROG Strix B550-A Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-b550-i",         label: "ASUS ROG Strix B550-I Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-tuf-b550-plus",            label: "ASUS TUF Gaming B550-Plus",             price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-tuf-b550-pro",             label: "ASUS TUF Gaming B550-Pro",              price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-b550-plus",          label: "ASUS Prime B550-Plus",                  price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-msi-mag-b550-tomahawk",         label: "MSI MAG B550 Tomahawk",                 price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mag-b550m-mortar",          label: "MSI MAG B550M Mortar WiFi",             price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mpg-b550-gaming-plus",      label: "MSI MPG B550 Gaming Plus",              price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mpg-b550-gaming-edge",      label: "MSI MPG B550 Gaming Edge",              price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-gb-b550-aorus-master",          label: "Gigabyte B550 Aorus Master",            price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-b550-aorus-pro",             label: "Gigabyte B550 Aorus Pro",               price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-b550-aorus-elite",           label: "Gigabyte B550 Aorus Elite AX",          price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-b550m-ds3h",                 label: "Gigabyte B550M DS3H",                   price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-asrock-b550-steel-legend",      label: "ASRock B550 Steel Legend",              price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-b550-extreme4",          label: "ASRock B550 Extreme4",                  price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-b550-phantom-4",         label: "ASRock B550 Phantom Gaming 4",          price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-b550-pro4",              label: "ASRock B550 Pro4",                      price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  // B450 (Budget/popular)
+  { value: "am4-msi-b450-tomahawk-max",         label: "MSI B450 Tomahawk Max",                 price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-b450m-mortar-max",          label: "MSI B450M Mortar Max",                  price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-b450-gaming-plus-max",      label: "MSI B450 Gaming Plus Max",              price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-b450-a-pro",                label: "MSI B450-A Pro",                        price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-b450-f",         label: "ASUS ROG Strix B450-F Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-b450-i",         label: "ASUS ROG Strix B450-I Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-tuf-b450-pro",             label: "ASUS TUF B450-Pro Gaming",              price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-tuf-b450-plus",            label: "ASUS TUF B450-Plus Gaming",             price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-b450m-a",            label: "ASUS Prime B450M-A",                    price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-b450m-k",            label: "ASUS Prime B450M-K",                    price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-gb-b450-aorus-elite",           label: "Gigabyte B450 Aorus Elite",             price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-b450-aorus-pro",             label: "Gigabyte B450 Aorus Pro",               price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-b450m-ds3h",                 label: "Gigabyte B450M DS3H",                   price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-b450-gaming-x",              label: "Gigabyte B450 Gaming X",                price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-asrock-b450-steel-legend",      label: "ASRock B450 Steel Legend",              price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-b450m-pro4",             label: "ASRock B450M Pro4",                     price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-b450-fatal1ty",          label: "ASRock Fatal1ty B450 Gaming",           price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  // A520 / A320 (Budget)
+  { value: "am4-asus-prime-a520m-k",            label: "ASUS Prime A520M-K",                    price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-a520m-a",            label: "ASUS Prime A520M-A",                    price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-tuf-a520m-plus",           label: "ASUS TUF Gaming A520M-Plus",            price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-gb-a520m-s2h",                  label: "Gigabyte A520M S2H",                    price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-a520m-ds3h",                 label: "Gigabyte A520M DS3H",                   price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-a320m-s2h",                  label: "Gigabyte GA-A320M-S2H",                 price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-msi-a520m-a-pro",               label: "MSI A520M-A Pro",                       price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-mag-a520m-vector",          label: "MSI MAG A520M Vector WiFi",             price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-asrock-a520m-hvs",              label: "ASRock A520M-HVS",                      price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-a520m-pro4",             label: "ASRock A520M Pro4",                     price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  { value: "am4-asrock-a320m-hdv",              label: "ASRock A320M-HDV",                      price: 0, socket: "AM4", brand: "ASRock",   ramType: "DDR4" },
+  // X470 / X370 / B350 (Enthusiast legacy)
+  { value: "am4-asus-crosshair-vi-hero",        label: "ASUS ROG Crosshair VI Hero (X370)",     price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-crosshair-vii-hero",       label: "ASUS ROG Crosshair VII Hero (X470)",    price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-prime-x470-pro",           label: "ASUS Prime X470-Pro",                   price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-asus-rog-strix-b350-f",         label: "ASUS ROG Strix B350-F Gaming",          price: 0, socket: "AM4", brand: "ASUS",     ramType: "DDR4" },
+  { value: "am4-msi-x470-gaming-m7",            label: "MSI X470 Gaming M7 AC",                 price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-msi-x370-xpower-titanium",      label: "MSI X370 XPower Gaming Titanium",       price: 0, socket: "AM4", brand: "MSI",      ramType: "DDR4" },
+  { value: "am4-gb-x470-aorus-gaming-7",        label: "Gigabyte X470 Aorus Gaming 7",          price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "am4-gb-ab350-gaming-3",             label: "Gigabyte GA-AB350-Gaming 3",             price: 0, socket: "AM4", brand: "Gigabyte", ramType: "DDR4" },
+
+  // ══════════════════════════════════════════════════════
   // AM5 — DDR5
-  { value: "am5-matx-b650m-k",     label: "ASUS PRIME B650M-K (mATX)",              price: 11500, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
-  { value: "am5-matx-b650m-plus",  label: "MSI PRO B650M-A WiFi (mATX)",            price: 13500, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
-  { value: "am5-atx-b650-gaming",  label: "Gigabyte B650 GAMING X AX (ATX)",        price: 16000, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
-  { value: "am5-atx-b650e-aorus",  label: "Gigabyte B650E AORUS PRO AX (ATX)",      price: 21500, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
-  { value: "am5-atx-x670-pro",     label: "ASUS ROG STRIX X670E-F GAMING (ATX)",    price: 35000, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
-  { value: "am5-atx-x670e-aorus",  label: "Gigabyte X670E AORUS MASTER (ATX)",      price: 44000, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  // ══════════════════════════════════════════════════════
+  // X870E / X870 (Flagship)
+  { value: "am5-asus-crosshair-x870e-extreme",  label: "ASUS ROG Crosshair X870E Extreme",      price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-crosshair-x870e-hero",     label: "ASUS ROG Crosshair X870E Hero",         price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-crosshair-x870e-glacial",  label: "ASUS ROG Crosshair X870E Glacial",      price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-proart-x870e-creator",     label: "ASUS ProArt X870E-Creator WiFi",        price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-rog-strix-x870-a",         label: "ASUS ROG Strix X870-A Gaming WiFi",     price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-prime-x670-p",             label: "ASUS Prime X670-P",                     price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-msi-meg-x670e-godlike",         label: "MSI MEG X670E Godlike",                 price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-meg-x670e-ace",             label: "MSI MEG X670E Ace",                     price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-mpg-x870e-carbon",          label: "MSI MPG X870E Carbon WiFi",             price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-mag-x870e-tomahawk",        label: "MSI MAG X870E Tomahawk WiFi",           price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-mag-x870-tomahawk",         label: "MSI MAG X870 Tomahawk WiFi",            price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-gb-x870e-aorus-xtreme",         label: "Gigabyte X870E AORUS Xtreme",           price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-x870e-aorus-master",         label: "Gigabyte X870E AORUS Master",           price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-x870e-aorus-pro-x3d",        label: "Gigabyte X870E AORUS Pro X3D",          price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-x870e-aero-x",               label: "Gigabyte X870E Aero X",                 price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-x870-gaming-x-wifi7",        label: "Gigabyte X870 Gaming X WiFi7",          price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-asrock-x870e-taichi",           label: "ASRock X870E Taichi",                   price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-asrock-x870e-taichi-lite",      label: "ASRock X870E Taichi Lite",              price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-asrock-x670e-steel-legend",     label: "ASRock X670E Steel Legend",             price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-asrock-x670e-pro-rs",           label: "ASRock X670E Pro RS",                   price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-asrock-x870-steel-legend",      label: "ASRock X870 Steel Legend WiFi",         price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-asrock-b650e-itx",              label: "ASRock B650E Phantom Gaming-ITX/ax",    price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-nzxt-n9-x870e",                 label: "NZXT N9 X870E",                         price: 0, socket: "AM5", brand: "NZXT",     ramType: "DDR5" },
+  // B850 / B650 / B840 (Middle)
+  { value: "am5-asus-tuf-b850-plus",            label: "ASUS TUF Gaming B850-Plus WiFi",        price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-prime-b650m-a",            label: "ASUS Prime B650M-A",                    price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-proart-b850-creator",      label: "ASUS ProArt B850-Creator WiFi Neo",     price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-rog-strix-b650e-f",        label: "ASUS ROG Strix B650E-F Gaming WiFi",    price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-msi-mag-b850-tomahawk-max",     label: "MSI MAG B850 Tomahawk MAX",             price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-pro-b850m-a",               label: "MSI PRO B850M-A WiFi",                  price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-b650-gaming-plus",          label: "MSI B650 Gaming Plus",                  price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-msi-mpg-b650e-carbon",          label: "MSI MPG B650E Carbon WiFi",             price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-gb-b850-aorus-elite",           label: "Gigabyte B850 AORUS Elite WiFi7",       price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-b650-eagle-ax",              label: "Gigabyte B650 Eagle AX",                price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-b840-gaming-x",              label: "Gigabyte B840 Gaming X",                price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-b650e-aorus-stealth-ice",    label: "Gigabyte B650E AORUS Stealth Ice",      price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-asrock-b850m-pro-rs",           label: "ASRock B850M Pro RS WiFi",              price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  { value: "am5-asrock-b650m-hdv",              label: "ASRock B650M-HDV/M.2",                  price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+  // A620 (Budget AM5)
+  { value: "am5-asus-tuf-a620m-plus",           label: "ASUS TUF Gaming A620M-Plus",            price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-asus-prime-a620m-k",            label: "ASUS Prime A620M-K",                    price: 0, socket: "AM5", brand: "ASUS",     ramType: "DDR5" },
+  { value: "am5-gb-a620m-s2h",                  label: "Gigabyte A620M S2H",                    price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-gb-a620m-gaming-x",             label: "Gigabyte A620M Gaming X",               price: 0, socket: "AM5", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "am5-msi-pro-a620m-e",               label: "MSI PRO A620M-E",                       price: 0, socket: "AM5", brand: "MSI",      ramType: "DDR5" },
+  { value: "am5-asrock-a620m-hdv",              label: "ASRock A620M-HDV/M.2+",                 price: 0, socket: "AM5", brand: "ASRock",   ramType: "DDR5" },
+
+  // ══════════════════════════════════════════════════════
   // LGA1200 — DDR4
-  { value: "1200-matx-h410m",      label: "Gigabyte H410M DS2V (mATX)",              price: 5500,  socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
-  { value: "1200-matx-b460m",      label: "Gigabyte B460M DS3H (mATX)",              price: 7000,  socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
-  { value: "1200-matx-b560m-pro",  label: "MSI PRO B560M-P (mATX)",                 price: 8500,  socket: "LGA1200", brand: "MSI",      ramType: "DDR4" },
-  { value: "1200-atx-z490-tuf",    label: "ASUS TUF GAMING Z490-PLUS (ATX)",        price: 13500, socket: "LGA1200", brand: "ASUS",     ramType: "DDR4" },
-  { value: "1200-atx-z590-aorus",  label: "Gigabyte Z590 AORUS ELITE (ATX)",        price: 17500, socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
-  // LGA1700 — DDR4 или DDR5
-  { value: "1700-matx-b660m-pro",  label: "MSI PRO B660M-A DDR4 (mATX)",            price: 9000,  socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
-  { value: "1700-matx-b760m-pro",  label: "MSI PRO B760M-P DDR4 (mATX)",            price: 11000, socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
-  { value: "1700-matx-b760m-asus", label: "ASUS PRIME B760M-A DDR5 (mATX)",         price: 12500, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
-  { value: "1700-atx-b760-gaming", label: "MSI MAG B760 TOMAHAWK WiFi DDR4 (ATX)",  price: 16500, socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
-  { value: "1700-atx-z790-tomahawk",label: "MSI MAG Z790 TOMAHAWK WiFi DDR5 (ATX)", price: 27000, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
-  { value: "1700-atx-z790-rog",    label: "ASUS ROG STRIX Z790-F GAMING DDR5 (ATX)",price: 37000, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  // ══════════════════════════════════════════════════════
+  { value: "1200-asus-rog-maximus-xiii",         label: "ASUS ROG Maximus XIII Hero (Z590)",     price: 0, socket: "LGA1200", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1200-asus-strix-z590-e",             label: "ASUS ROG Strix Z590-E Gaming",          price: 0, socket: "LGA1200", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1200-asus-tuf-b560-plus",            label: "ASUS TUF Gaming B560-Plus WiFi",        price: 0, socket: "LGA1200", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1200-asus-prime-h510m-k",            label: "ASUS Prime H510M-K",                    price: 0, socket: "LGA1200", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1200-msi-meg-z590-ace",              label: "MSI MEG Z590 Ace",                      price: 0, socket: "LGA1200", brand: "MSI",      ramType: "DDR4" },
+  { value: "1200-msi-mag-b560-torpedo",          label: "MSI MAG B560 Torpedo",                  price: 0, socket: "LGA1200", brand: "MSI",      ramType: "DDR4" },
+  { value: "1200-msi-mortar-b460m",              label: "MSI MAG B460M Mortar",                  price: 0, socket: "LGA1200", brand: "MSI",      ramType: "DDR4" },
+  { value: "1200-msi-pro-h410m",                 label: "MSI PRO H410M-B",                       price: 0, socket: "LGA1200", brand: "MSI",      ramType: "DDR4" },
+  { value: "1200-gb-z590-aorus-master",          label: "Gigabyte Z590 Aorus Master",            price: 0, socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1200-gb-b560m-ds3h",                 label: "Gigabyte B560M DS3H",                   price: 0, socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1200-gb-h470-vision-g",              label: "Gigabyte H470 Vision G",                price: 0, socket: "LGA1200", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1200-asrock-z590-taichi",            label: "ASRock Z590 Taichi",                    price: 0, socket: "LGA1200", brand: "ASRock",   ramType: "DDR4" },
+  { value: "1200-asrock-b560-steel-legend",      label: "ASRock B560 Steel Legend",              price: 0, socket: "LGA1200", brand: "ASRock",   ramType: "DDR4" },
+  { value: "1200-asrock-h510m-hdv",              label: "ASRock H510M-HDV",                      price: 0, socket: "LGA1200", brand: "ASRock",   ramType: "DDR4" },
+
+  // ══════════════════════════════════════════════════════
+  // LGA1700 — DDR4 / DDR5
+  // ══════════════════════════════════════════════════════
+  // Z790 / Z690 (High-end)
+  { value: "1700-asus-rog-maximus-z790",         label: "ASUS ROG Maximus Z790 Hero",            price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-asus-rog-strix-z790-e",         label: "ASUS ROG Strix Z790-E Gaming WiFi",     price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-asus-rog-strix-z790-f",         label: "ASUS ROG Strix Z790-F Gaming WiFi",     price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-asus-tuf-z790-plus",            label: "ASUS TUF Gaming Z790-Plus WiFi",        price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-asus-prime-z790-a",             label: "ASUS Prime Z790-A WiFi",                price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-msi-meg-z790-godlike",          label: "MSI MEG Z790 Godlike",                  price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-meg-z790-ace",              label: "MSI MEG Z790 Ace",                      price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-mpg-z790-carbon",           label: "MSI MPG Z790 Carbon WiFi",              price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-mpg-z790-edge",             label: "MSI MPG Z790 Edge WiFi",                price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-mag-z790-tomahawk",         label: "MSI MAG Z790 Tomahawk WiFi",            price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-pro-z790-p",                label: "MSI PRO Z790-P WiFi",                   price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-gb-z790-aorus-xtreme",          label: "Gigabyte Z790 Aorus Xtreme",            price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1700-gb-z790-aorus-master",          label: "Gigabyte Z790 Aorus Master",            price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1700-gb-z790-aorus-elite",           label: "Gigabyte Z790 Aorus Elite AX",          price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1700-gb-z790-gaming-x",              label: "Gigabyte Z790 Gaming X WiFi",           price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1700-asrock-z790-taichi",            label: "ASRock Z790 Taichi",                    price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR5" },
+  { value: "1700-asrock-z790-phantom",           label: "ASRock Z790 Phantom Gaming Riptide",    price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR5" },
+  { value: "1700-asrock-z790-steel-legend",      label: "ASRock Z790 Steel Legend WiFi",         price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR5" },
+  // B760 / B660 / H770 / H670 (Middle)
+  { value: "1700-asus-rog-strix-b760-f",         label: "ASUS ROG Strix B760-F Gaming WiFi",     price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-asus-rog-strix-b760-i",         label: "ASUS ROG Strix B760-I Gaming WiFi",     price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1700-asus-tuf-b760-plus",            label: "ASUS TUF Gaming B760-Plus WiFi",        price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1700-asus-tuf-b760m",                label: "ASUS TUF Gaming B760M-Plus WiFi",       price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1700-asus-prime-b760m-a",            label: "ASUS Prime B760M-A WiFi",               price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1700-msi-mag-b760-tomahawk",         label: "MSI MAG B760 Tomahawk WiFi DDR5",       price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-mag-b760m-mortar",          label: "MSI MAG B760M Mortar WiFi",             price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR5" },
+  { value: "1700-msi-pro-b760-p",                label: "MSI PRO B760-P WiFi DDR4",              price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
+  { value: "1700-gb-b760-aorus-elite",           label: "Gigabyte B760 Aorus Elite AX DDR5",     price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1700-gb-b760m-gaming-x",             label: "Gigabyte B760M Gaming X DDR4",          price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1700-gb-b760m-ds3h",                 label: "Gigabyte B760M DS3H DDR4",              price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1700-asrock-b760m-steel-legend",     label: "ASRock B760M Steel Legend WiFi",        price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR5" },
+  { value: "1700-asrock-b760-pro-rs",            label: "ASRock B760 Pro RS",                    price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR4" },
+  { value: "1700-asrock-b760m-hdv",              label: "ASRock B760M-HDV/M.2",                  price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR4" },
+  // H610 (Budget)
+  { value: "1700-asus-prime-h610m-k",            label: "ASUS Prime H610M-K",                    price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1700-asus-prime-h610m-e",            label: "ASUS Prime H610M-E",                    price: 0, socket: "LGA1700", brand: "ASUS",     ramType: "DDR4" },
+  { value: "1700-msi-pro-h610m-b",               label: "MSI PRO H610M-B DDR4",                  price: 0, socket: "LGA1700", brand: "MSI",      ramType: "DDR4" },
+  { value: "1700-gb-h610m-s2h",                  label: "Gigabyte H610M S2H DDR4",               price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1700-gb-h610m-h",                    label: "Gigabyte H610M H",                      price: 0, socket: "LGA1700", brand: "Gigabyte", ramType: "DDR4" },
+  { value: "1700-asrock-h610m-hvs",              label: "ASRock H610M-HVS",                      price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR4" },
+  { value: "1700-asrock-h610m-hdv",              label: "ASRock H610M-HDV",                      price: 0, socket: "LGA1700", brand: "ASRock",   ramType: "DDR4" },
+
+  // ══════════════════════════════════════════════════════
   // LGA1851 — DDR5
-  { value: "1851-matx-z890m-pro",  label: "MSI PRO Z890-P WiFi (mATX)",             price: 19500, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
-  { value: "1851-atx-z890-tomahawk",label: "MSI MAG Z890 TOMAHAWK WiFi (ATX)",      price: 27500, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
-  { value: "1851-atx-z890-tuf",    label: "ASUS TUF GAMING Z890-PLUS WiFi (ATX)",   price: 31000, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
-  { value: "1851-atx-z890-aorus",  label: "Gigabyte Z890 AORUS MASTER (ATX)",       price: 44000, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  // ══════════════════════════════════════════════════════
+  // Z890 (Flagship)
+  { value: "1851-asus-rog-maximus-z890-hero",    label: "ASUS ROG Maximus Z890 Hero",            price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-rog-maximus-z890-apex",    label: "ASUS ROG Maximus Z890 Apex",            price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-rog-maximus-z890-extreme", label: "ASUS ROG Maximus Z890 Extreme",         price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-rog-strix-z890-e",         label: "ASUS ROG Strix Z890-E Gaming WiFi",     price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-rog-strix-z890-f",         label: "ASUS ROG Strix Z890-F Gaming WiFi",     price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-rog-strix-z890-h",         label: "ASUS ROG Strix Z890-H Gaming WiFi",     price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-tuf-z890-plus",            label: "ASUS TUF Gaming Z890-PLUS WiFi",        price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-prime-z890-p",             label: "ASUS Prime Z890-P WiFi",                price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-proart-z890-creator",      label: "ASUS ProArt Z890-CREATOR WiFi",         price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-msi-meg-z890-godlike",          label: "MSI MEG Z890 Godlike",                  price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-msi-meg-z890-ace",              label: "MSI MEG Z890 Ace",                      price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-msi-mpg-z890-carbon",           label: "MSI MPG Z890 Carbon WiFi",              price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-msi-mpg-z890-edge-ti",          label: "MSI MPG Z890 Edge TI WiFi",             price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-msi-mag-z890-tomahawk",         label: "MSI MAG Z890 Tomahawk WiFi",            price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-msi-pro-z890-p",                label: "MSI PRO Z890-P WiFi",                   price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-gb-z890-aorus-xtreme",          label: "Gigabyte Z890 AORUS Xtreme WiFi7",      price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-z890-aorus-elite",           label: "Gigabyte Z890 AORUS Elite WiFi7",       price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-z890-aorus-pro-ice",         label: "Gigabyte Z890 AORUS Pro ICE",           price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-z890i-aorus-ultra",          label: "Gigabyte Z890I AORUS Ultra (Mini-ITX)", price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-z890-gaming-x",              label: "Gigabyte Z890 Gaming X WiFi7",          price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-z890-eagle",                 label: "Gigabyte Z890 Eagle WiFi7",             price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-asrock-z890-taichi",            label: "ASRock Z890 Taichi",                    price: 0, socket: "LGA1851", brand: "ASRock",   ramType: "DDR5" },
+  { value: "1851-asrock-z890-pro-a",             label: "ASRock Z890 Pro-A WiFi",                price: 0, socket: "LGA1851", brand: "ASRock",   ramType: "DDR5" },
+  { value: "1851-asrock-z890-phantom",           label: "ASRock Z890 Phantom Gaming",            price: 0, socket: "LGA1851", brand: "ASRock",   ramType: "DDR5" },
+  // B860 (Middle LGA1851)
+  { value: "1851-asus-rog-strix-b860-g",         label: "ASUS ROG Strix B860-G Gaming WiFi",     price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-rog-strix-b860-i",         label: "ASUS ROG Strix B860-I Gaming WiFi",     price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-tuf-b860-plus",            label: "ASUS TUF Gaming B860-PLUS WiFi",        price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-tuf-b860m-plus",           label: "ASUS TUF Gaming B860M-PLUS WiFi",       price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-prime-b860m-a",            label: "ASUS Prime B860M-A WiFi",               price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-msi-mag-b860-tomahawk",         label: "MSI MAG B860 Tomahawk WiFi",            price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-msi-pro-b850m-p",               label: "MSI PRO B850M-P WiFi",                  price: 0, socket: "LGA1851", brand: "MSI",      ramType: "DDR5" },
+  { value: "1851-gb-b860m-aorus-elite",          label: "Gigabyte B860M AORUS Elite WiFi7",      price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-b860m-eagle-v2",             label: "Gigabyte B860M Eagle V2",               price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  // H810 (Budget LGA1851)
+  { value: "1851-asus-prime-z890-ayw",           label: "ASUS Prime Z890-AYW Gaming WiFi",       price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-asus-prime-b860m-k",            label: "ASUS Prime B860M-K",                    price: 0, socket: "LGA1851", brand: "ASUS",     ramType: "DDR5" },
+  { value: "1851-gb-h810m-h",                    label: "Gigabyte H810M H",                      price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
+  { value: "1851-gb-h810m-k",                    label: "Gigabyte H810M K",                      price: 0, socket: "LGA1851", brand: "Gigabyte", ramType: "DDR5" },
 ]
 
 const gpuOptionsDefault: Part[] = [
@@ -342,6 +558,12 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
   const [addLabel, setAddLabel] = useState("")
   const [addPrice, setAddPrice] = useState("")
 
+  // Modal for calculate + send
+  const [showModal, setShowModal] = useState(false)
+  const [sendName, setSendName] = useState("")
+  const [sendPhone, setSendPhone] = useState("")
+  const [sendState, setSendState] = useState<"idle" | "loading" | "done" | "error">("idle")
+
   const assemblyPrice = 5000
 
   // Filtered options for build tab
@@ -441,6 +663,43 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
     setAddLabel("")
     setAddPrice("")
     setAddForm(null)
+  }
+
+  const getConfigLabels = () => {
+    const result: Record<string, string> = {}
+    if (socket) result.socket = socket
+    const cpuPart = cpuOptions.find(o => o.value === selections.cpu)
+    const mbPart  = mbOptions.find(o => o.value === selections.mb)
+    const gpuPart = gpuOptions.find(o => o.value === selections.gpu)
+    const ramPart = ramOptions.find(o => o.value === selections.ram)
+    const stPart  = storageOptions.find(o => o.value === selections.storage)
+    const psuPart = psuOptions.find(o => o.value === selections.psu)
+    const casePart= caseOptions.find(o => o.value === selections.case)
+    const coolerPart = coolerOptions.find(o => o.value === selections.cooler)
+    if (cpuPart)    result.cpu     = cpuPart.label
+    if (mbPart)     result.mb      = mbPart.label
+    if (gpuPart)    result.gpu     = gpuPart.label
+    if (ramPart)    result.ram     = ramPart.label
+    if (stPart)     result.storage = stPart.label
+    if (psuPart)    result.psu     = psuPart.label
+    if (casePart)   result.case    = casePart.label
+    if (coolerPart) result.cooler  = coolerPart.label
+    return result
+  }
+
+  const sendToTelegram = async () => {
+    setSendState("loading")
+    try {
+      const resp = await fetch(SEND_CONFIG_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ config: getConfigLabels(), total, name: sendName, phone: sendPhone }),
+      })
+      const data = await resp.json()
+      setSendState(data.ok ? "done" : "error")
+    } catch {
+      setSendState("error")
+    }
   }
 
   const selectClass = "w-full rounded-lg border border-foreground/20 bg-foreground/5 px-3 py-2.5 font-sans text-sm text-foreground backdrop-blur-sm transition-all duration-200 focus:border-foreground/50 focus:outline-none hover:border-foreground/35 appearance-none cursor-pointer"
@@ -596,11 +855,85 @@ export function ConfiguratorSection({ scrollToSection }: { scrollToSection: (i: 
               )}
 
               <button
-                onClick={() => scrollToSection(6)}
+                onClick={() => { setShowModal(true); setSendState("idle") }}
                 className="w-full rounded-xl bg-foreground px-6 py-3 font-sans text-sm font-medium text-background transition-opacity hover:opacity-80"
               >
-                Оформить заказ
+                Рассчитать стоимость
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── MODAL ────────────────────────────────────────────────────────── */}
+        {showModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+            onClick={e => { if (e.target === e.currentTarget) { setShowModal(false); setSendState("idle") } }}
+          >
+            <div className="w-full max-w-md rounded-2xl border border-foreground/20 bg-[#0d0d1a] p-6 shadow-2xl">
+              <div className="flex items-center justify-between mb-5">
+                <h3 className="font-sans text-xl font-light text-foreground">Расчёт сборки</h3>
+                <button onClick={() => { setShowModal(false); setSendState("idle") }} className="text-foreground/40 hover:text-foreground/70 transition-colors">
+                  <Icon name="X" size={20} />
+                </button>
+              </div>
+
+              {/* Breakdown */}
+              <div className="mb-4 space-y-2 rounded-xl border border-foreground/10 bg-foreground/5 p-4 max-h-48 overflow-y-auto">
+                {breakdown.length > 1 ? breakdown.map((item, i) => (
+                  <div key={i} className="flex justify-between gap-2">
+                    <span className="font-mono text-xs text-foreground/60 truncate">{item.label}</span>
+                    <span className="font-mono text-xs text-foreground/80 shrink-0">{item.price.toLocaleString("ru")} ₽</span>
+                  </div>
+                )) : (
+                  <p className="font-mono text-xs text-foreground/40 text-center py-2">Выберите комплектующие</p>
+                )}
+              </div>
+
+              <div className="flex items-end justify-between mb-5 px-1">
+                <span className="font-mono text-xs text-foreground/50">Итого</span>
+                <div className="flex items-end gap-1">
+                  <span className="font-sans text-3xl font-light text-foreground">{total.toLocaleString("ru")}</span>
+                  <span className="mb-0.5 font-sans text-base text-foreground/60">₽</span>
+                </div>
+              </div>
+
+              {sendState === "done" ? (
+                <div className="flex flex-col items-center gap-2 py-4">
+                  <Icon name="CheckCircle" size={40} className="text-green-400" />
+                  <p className="font-sans text-base text-foreground">Конфигурация отправлена!</p>
+                  <p className="font-mono text-xs text-foreground/50 text-center">Мы свяжемся с вами в ближайшее время</p>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-3 flex flex-col gap-2">
+                    <input
+                      type="text"
+                      placeholder="Ваше имя"
+                      value={sendName}
+                      onChange={e => setSendName(e.target.value)}
+                      className="w-full rounded-lg border border-foreground/20 bg-foreground/5 px-3 py-2.5 font-sans text-sm text-foreground placeholder-foreground/30 focus:border-foreground/50 focus:outline-none"
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Телефон для связи"
+                      value={sendPhone}
+                      onChange={e => setSendPhone(e.target.value)}
+                      className="w-full rounded-lg border border-foreground/20 bg-foreground/5 px-3 py-2.5 font-sans text-sm text-foreground placeholder-foreground/30 focus:border-foreground/50 focus:outline-none"
+                    />
+                  </div>
+                  {sendState === "error" && (
+                    <p className="mb-2 font-mono text-xs text-red-400">Ошибка отправки. Попробуйте ещё раз.</p>
+                  )}
+                  <button
+                    onClick={sendToTelegram}
+                    disabled={sendState === "loading"}
+                    className="w-full rounded-xl bg-foreground px-6 py-3 font-sans text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:opacity-50"
+                  >
+                    {sendState === "loading" ? "Отправляем..." : "Отправить конфигурацию"}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
